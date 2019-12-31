@@ -1,0 +1,2 @@
+﻿
+##UHF READER CAPTURE
