@@ -27,7 +27,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace uhf_rfid_catch.helper
+namespace uhf_rfid_catch.Helpers
 {
     public class ConfigContext
     {
@@ -35,7 +35,7 @@ namespace uhf_rfid_catch.helper
         public ConfigContext()
         { }
 
-        public string resolve(String settingPath)
+        public string Resolve(String settingPath)
         {
             if(String.IsNullOrEmpty(checkConfig(settingPath)))
             {
