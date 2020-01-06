@@ -29,10 +29,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace uhf_rfid_catch.helper
 {
-    public class Settings
+    public class ConfigContext
     {
         private const String FILEPATH = "appsettings.json";
-        public Settings()
+        public ConfigContext()
         { }
 
         public string resolve(String settingPath)
