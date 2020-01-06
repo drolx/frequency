@@ -12,4 +12,21 @@
     <PackageReference Include="NLog.Config" Version="4.6.8" />
     <PackageReference Include="Autofac" Version="4.9.4" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="model\" />
+    <Folder Include="events\" />
+    <Folder Include="protocol\" />
+    <Folder Include="protocol\cards\" />
+    <Folder Include="protocol\readers\" />
+    <Folder Include="handler\" />
+    <Folder Include="helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
