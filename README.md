@@ -5,3 +5,8 @@ This is a UHF RFID Reader application for linux / IOT devices. It is able to ide
 ## Devices supported
 
 Support is available for the devices listed below with link of device details or purchase store.
+
+## Run command
+package.exe --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
+
+
