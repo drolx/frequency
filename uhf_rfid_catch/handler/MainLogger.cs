@@ -44,11 +44,27 @@ namespace uhf_rfid_catch.handler
         {
         }
 
-        public void Error(String returnText)
+        public void Trigger(String logType, String returnText)
         {
             try
             {
-                _logger.Error(returnText);
+                switch (logType) {
+                    case "Error" :
+                    Error(returnText);
+                    break;
+                    case "Info":
+                        Info(returnText);
+                        break;
+                    case "Warn":
+                        Warn(returnText);
+                        break;
+                    case "Debug":
+                        Debug(returnText);
+                        break;
+                    default:
+                        Error("Something bad happened");
+                        break;
+                }
             }
             catch (Exception ex)
             {
@@ -56,40 +72,24 @@ namespace uhf_rfid_catch.handler
             }
         }
 
-        public void Info(String returnText)
-        {
-            try
+            public void Error(String returnText)
             {
-                _logger.Info(returnText);
+                    _logger.Error(returnText);
             }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Something bad happened");
-            }
-        }
 
-        public void Warn(String returnText)
-        {
-            try
+            public void Info(String returnText)
+            {
+                    _logger.Info(returnText);
+            }
+
+            public void Warn(String returnText)
             {
                 _logger.Warn(returnText);
             }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Something bad happened");
-            }
-        }
 
-        public void Debug(String returnText)
-        {
-            try
+            public void Debug(String returnText)
             {
                 _logger.Debug(returnText);
             }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Something bad happened");
-            }
-        }
     }
 }
