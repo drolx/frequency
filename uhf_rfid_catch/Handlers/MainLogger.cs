@@ -26,7 +26,7 @@
 using System;
 using NLog;
 
-namespace uhf_rfid_catch.handler
+namespace uhf_rfid_catch.Handlers
 {
     public interface IMainLogger
     {
