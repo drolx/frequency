@@ -17,7 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="model\" />
-    <Folder Include="events\" />
     <Folder Include="protocol\" />
     <Folder Include="protocol\cards\" />
     <Folder Include="protocol\readers\" />
