@@ -1,5 +1,5 @@
 ﻿//
-// Reader.cs
+// Cards.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,11 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace uhf_rfid_catch.model
+namespace uhf_rfid_catch.Models
 {
-    public class Reader
+    public class Card
     {
-        public Reader()
+        public Card()
         {
         }
     }
