@@ -31,7 +31,12 @@ namespace uhf_rfid_catch.Helpers
 {
     public class ConfigContext
     {
+#if DEBUG
+        private const String FILEPATH = "appsettings.Development.json";
+#endif
+#if !DEBUG
         private const String FILEPATH = "appsettings.json";
+#endif
         public ConfigContext()
         { }
 
