@@ -9,10 +9,10 @@ namespace uhf_rfid_catch
 {
     class Program
     {
-          public static void CallToChildThread() {
+        private static void CallToChildThread() {
             while(true) {
-//                MainLogger mainLogger = new MainLogger();
-//                mainLogger.Trigger("Info", "Testing log class-files");
+                var mainLogger = new MainLogger();
+                mainLogger.Trigger("Info", "Testing log class-files");
 
 //                ConfigContext settings = new ConfigContext();
 //                String checkVal = settings.Resolve("testn1:testn2:testn3");
