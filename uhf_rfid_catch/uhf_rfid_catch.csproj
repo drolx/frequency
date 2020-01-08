@@ -16,6 +16,9 @@
     <PackageTags>RFID,UHF,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <Title>UHF RFID CATCH</Title>
+    <Description>This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,12 +26,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0" />
     <PackageReference Include="NLog" Version="4.6.8" />
     <PackageReference Include="Autofac" Version="4.9.4" />
-  </ItemGroup>
-  <ItemGroup>
-    <TrimmerRootAssembly Include="System.IO.FileSystem" />
-    <TrimmerRootAssembly Include="System.IO.File" />
-    <TrimmerRootAssembly Include="System.IO.Ports" />
-    <TrimmerRootAssembly Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
