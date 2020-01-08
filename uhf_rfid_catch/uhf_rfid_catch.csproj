@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PublishTrimmed>true</PublishTrimmed>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <Version>0.0.1</Version>
     <Company>Tolaram Group</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
@@ -16,8 +16,6 @@
     <PackageTags>RFID,UHF,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <!-- <PublishSingleFile>true</PublishSingleFile>
-    <RuntimeIdentifier>osx-x64</RuntimeIdentifier> -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,8 +46,16 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="uhf_rfid_catch.exe.nlog">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
+    <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)uhf_rfid_catch.exe.nlog" />
+    <Delete Files="$(TargetDir)NLog.config" />
+  </Target>
+  <Target Name="PostPublish" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
+    <Copy SourceFiles="$(PublishDir)NLog.config" DestinationFiles="$(PublishDir)uhf_rfid_catch.exe.nlog" />
+    <Delete Files="$(PublishDir)NLog.config" />
+    <Delete Files="$(PublishDir)uhf_rfid_catch.pdb" />
+    <Delete Files="$(PublishDir)appsettings.Development.json" />
+  </Target>
 </Project>
