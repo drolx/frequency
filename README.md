@@ -8,22 +8,22 @@ Support is available for the devices listed below with link of device details or
 
 ### `Build for Specific OS`
 
-`dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true --interactive`
+`dotnet publish -c Release -r linux-x64 /p:PublishSingleFile=true /p:PublishTrimmed=false --interactive`
 
-`dotnet publish -c Release -r win10-x64 /p:PublishSingleFile=true /p:PublishTrimmed=true --interactive`
+`dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:PublishTrimmed=false --interactive`
 
-`dotnet publish -c Release -r osx-x64 /p:PublishSi**ngleFile=true /p:PublishTrimmed=true --interactive`
+`dotnet publish -c Release -r osx-x64 /p:PublishSi**ngleFile=true /p:PublishTrimmed=false --interactive`
 
 #### For all major platform use
 
 `dotnet publish --interactive -c release -r $RUNTIME`
 
-#### Or Run
+### `For Configuration override on excecution run this:`
 
-`dotnet warp`
+uhf_rfid_catch.exe --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
 
-### `Run command`
+#### `Or run`
 
-package.exe --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
+./uhf_rfid_catch --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
 
 
