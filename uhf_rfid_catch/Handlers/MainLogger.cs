@@ -62,7 +62,7 @@ namespace uhf_rfid_catch.Handlers
                         Debug(returnText);
                         break;
                     default:
-                        Error("Something bad happened");
+                        Error("Something really bad happened");
                         break;
                 }
             }
