@@ -16,6 +16,9 @@
     <PackageTags>RFID,UHF,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <Title>UHF RFID CATCH</Title>
+    <Description>This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,12 +28,6 @@
     <PackageReference Include="Autofac" Version="4.9.4" />
   </ItemGroup>
   <ItemGroup>
-    <TrimmerRootAssembly Include="System.IO.FileSystem" />
-    <TrimmerRootAssembly Include="System.IO.File" />
-    <TrimmerRootAssembly Include="System.IO.Ports" />
-    <TrimmerRootAssembly Include="System.Security" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Protocols\" />
     <Folder Include="Protocols\Cards\" />
@@ -38,6 +35,7 @@
     <Folder Include="Handlers\" />
     <Folder Include="Helpers\" />
     <Folder Include="wwwroot\lib" />
+    <Folder Include="Handlers\ReaderConnections\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
