@@ -35,6 +35,7 @@
     <Folder Include="Handlers\" />
     <Folder Include="Helpers\" />
     <Folder Include="wwwroot\lib" />
+    <Folder Include="Handlers\ReaderConnections\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
