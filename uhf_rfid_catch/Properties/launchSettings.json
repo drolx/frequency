@@ -17,7 +17,6 @@
     },
     "uhf_rfid_catch": {
       "commandName": "Project",
-      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
