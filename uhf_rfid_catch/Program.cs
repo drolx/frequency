@@ -3,34 +3,27 @@ using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Helpers;
+using uhf_rfid_catch.Handlers.ReaderConnections;
 
 namespace uhf_rfid_catch
 {
     class Program
     {
-        private static void CallToChildThread() {
-            while(true) {
-                var mainLogger = new MainLogger();
-                mainLogger.Trigger("Info", "Testing log class-files");
-
-//                ConfigContext settings = new ConfigContext();
-//                String checkVal = settings.Resolve("testn1:testn2:testn3");
-//                Console.WriteLine(checkVal);
-
-                
-                Console.WriteLine("**** child thread *****");
-                Thread.Sleep(2500);
-            }
-         
-      }
-        static void Main(string[] args)
+        private static void CallreaderThread()
         {
-            ThreadStart childref = CallToChildThread;
-                Thread childThread = new Thread(childref);
-                childThread.Start();
+            ReaderConnection rdi = new ReaderConnection();
+            rdi.Run();
+        }
+        
+                static void Main(string[] args)
+        {
+            ThreadStart readerProcess = CallreaderThread;
+                var readerThread = new Thread(readerProcess);
+                readerThread.Name = "readerThread";
+                readerThread.Start();
                 
-            CreateHostBuilder(args).Build().Run();
+
+//            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
