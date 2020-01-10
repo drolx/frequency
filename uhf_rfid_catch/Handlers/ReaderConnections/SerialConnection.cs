@@ -34,16 +34,17 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         MainLogger _logger = new MainLogger();
-        private static readonly string SPORTNAME = SettingsContext.Resolve("ReaderSerialPortName");
-        private static readonly int SBAUDRATE = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
-        private static readonly int SDATABITS = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
+        public readonly string SPORTNAME = SettingsContext.Resolve("ReaderSerialPortName");
+        public readonly int SBAUDRATE = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
+        public readonly int SDATABITS = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
         private static readonly int SMAXRETRY = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
+        public byte[] _DecodedBytes;
 
         public SerialConnection()
         {
         }
 
-        private SerialPort BuildConnection(string knownPortName)
+        public SerialPort BuildConnection(string knownPortName)
         {
             var portName = knownPortName == "null" ? SuggestPort() : knownPortName;
 
@@ -53,7 +54,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return srp;
         }
 
-        private string SuggestPort()
+        public string SuggestPort()
         {
             var selectedPort = "";
 
@@ -69,26 +70,22 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return selectedPort;
         }
 
-        public byte ConnectionChannel()
+        public byte ConnectionChannel(SerialPort builtConnection)
         {
             int maxRetries = SMAXRETRY;
-            const int sleepTimeInMs = 2000;
-            byte responseData;
+            byte _recievedByte;
+            const int sleepTimeInMs = 5000;
             
-            if (!BuildConnection(SPORTNAME).IsOpen)
+            if (!builtConnection.IsOpen)
             {
                 _logger.Trigger("Error", $"Serial connection failed, retrying now.");
                 try
                 {
                     while (maxRetries > 0)
                     {
-                        var recoverConn = BuildConnection(SuggestPort());
-                        recoverConn.Open();
-                        if (recoverConn.BytesToRead > 0)
-                        {
-                            responseData = (byte)recoverConn.ReadByte();
-                            return responseData;
-                        }
+                        if (builtConnection.BytesToRead <= 0) continue;
+                        _recievedByte = (byte)builtConnection.ReadByte();
+                        return _recievedByte;
                     }
                 }
                 catch (Exception e)
@@ -99,13 +96,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                     Thread.Sleep(sleepTimeInMs);
                 }
             }
-                var workingConn = BuildConnection(SPORTNAME);
-                workingConn.Open();
-                
-//                if (workingConn.BytesToRead > 0)
-
-                responseData = (byte)workingConn.ReadByte();
-                return responseData;
+            _recievedByte = (byte)builtConnection.ReadByte();
+            return _recievedByte;
         }
 
         private string[] ListConnection()
@@ -121,15 +113,5 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                 Console.WriteLine(portName);
             }
         }
-
-//        private byte SendData(SerialPort serialConnection)
-//        {
-//            if (SerialConnection.BytesToRead > 0)
-//            {
-//                
-//            }
-//        }
-        
-        
     }
 }
