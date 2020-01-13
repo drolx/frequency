@@ -1,5 +1,5 @@
 ﻿//
-// KingJoinProtocol.cs
+// IReaderProtocol.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,19 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using NLog.Fluent;
-
-namespace uhf_rfid_catch.Protocols.Readers
+namespace uhf_rfid_catch.Protocols
 {
-    public class KingJoinProtocol : IReaderProtocol
+    public interface IReaderProtocol
     {
-        public KingJoinProtocol()
-        {
-            Console.WriteLine("HALLA!!!! from derived KingJoinProtocol clazz....");
-        }
-        public void Log()
-        {
-            Console.WriteLine("HALLA!!!! from derived KingJoinProtocol clazz....");
-        }
+        void Log();
     }
 }

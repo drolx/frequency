@@ -1,5 +1,5 @@
 ﻿//
-// KingJoinProtocol.cs
+// ChafonProtocol.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,19 +24,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using NLog.Fluent;
-
 namespace uhf_rfid_catch.Protocols.Readers
 {
-    public class KingJoinProtocol : IReaderProtocol
+    public class ChafonProtocol : IReaderProtocol
     {
-        public KingJoinProtocol()
+        public ChafonProtocol()
         {
-            Console.WriteLine("HALLA!!!! from derived KingJoinProtocol clazz....");
+            Console.WriteLine("HALLA!!!! from derived ChafonProtocol clazz....");
         }
+
         public void Log()
         {
-            Console.WriteLine("HALLA!!!! from derived KingJoinProtocol clazz....");
+            Console.WriteLine("HALLA!!!! from derived ChafonProtocol clazz....");
         }
     }
 }
