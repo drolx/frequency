@@ -24,12 +24,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using NLog.Fluent;
+
 namespace uhf_rfid_catch.Protocols.Readers
 {
     public class KingJoinProtocol
     {
         public KingJoinProtocol()
         {
+            Console.WriteLine("HALLA!!!! from derived clazz....");
+        }
+        public void Log()
+        {
+            Console.WriteLine("HALLA!!!! from derived clazz....");
         }
     }
 }
