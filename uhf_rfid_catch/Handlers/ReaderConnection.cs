@@ -67,7 +67,7 @@ namespace uhf_rfid_catch.Handlers
                     ///////
                     // Add other modes
                     Console.WriteLine("Test For other modes..");
-//                    BaseReaderProtocol test1 = new BaseReaderProtocol();
+                    BaseReaderProtocol test1 = new BaseReaderProtocol();
                     
                 }
             }

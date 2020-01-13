@@ -24,6 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using uhf_rfid_catch.Protocols;
+using uhf_rfid_catch.Protocols.Readers;
+
 namespace uhf_rfid_catch.Helpers
 {
     public class Initializer
@@ -32,18 +35,26 @@ namespace uhf_rfid_catch.Helpers
         {
         }
 
-        public object GetInstance(string FullyQualifiedName)
+        public IReaderProtocol GetInstance(string DeviceModel)
         {
-            Type type = Type.GetType(FullyQualifiedName);
-            if (type != null)
-                return Activator.CreateInstance(type);
-            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            IReaderProtocol SelectedModel;
+            switch (DeviceModel)
             {
-                type = asm.GetType(FullyQualifiedName);
-                if (type != null)
-                    return Activator.CreateInstance(type);
+                case "KingJoin":
+                    Console.WriteLine(DeviceModel);
+                    SelectedModel = new KingJoinProtocol();
+                    break;
+                case "Chafon":
+                    Console.WriteLine(DeviceModel);
+                    SelectedModel = new ChafonProtocol();
+                    break;
+                default:
+                    Console.WriteLine("");
+                    SelectedModel = new KingJoinProtocol();
+                    break;
             }
-            return null;
+
+            return SelectedModel;
         }
-    }
+}
 }

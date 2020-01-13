@@ -35,19 +35,19 @@ namespace uhf_rfid_catch.Protocols
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         
-        private readonly string ProtocolName = SettingsContext.Resolve("ReaderSerialPortName");
+        private readonly string ProtocolName = SettingsContext.Resolve("ReaderModel");
         private Initializer _LocalInstance;
 
         public BaseReaderProtocol()
         {
-            string FullClassName = $"uhf_rfid_catch.Protocols.Reader.{ProtocolName}Protocol";
-            var readerCheck = _LocalInstance.GetInstance(FullClassName);
+            var test1 = new Initializer();
+            var re = test1.GetInstance(ProtocolName);
+            re.Log();
         }
 
         public void Resolve()
         {
             
-
         }
 
     }
