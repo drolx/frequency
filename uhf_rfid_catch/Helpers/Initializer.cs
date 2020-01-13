@@ -1,5 +1,5 @@
-//
-// BaseProtocol.cs
+﻿//
+// Initializer.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -23,32 +23,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
 using System;
-using System.Diagnostics;
-using System.Reflection;
-using uhf_rfid_catch.Helpers;
-
-namespace uhf_rfid_catch.Protocols
+namespace uhf_rfid_catch.Helpers
 {
-    public class BaseReaderProtocol
+    public class Initializer
     {
-        private static readonly ConfigContext SettingsContext = new ConfigContext();
-        
-        private readonly string ProtocolName = SettingsContext.Resolve("ReaderSerialPortName");
-        private Initializer _LocalInstance;
-
-        public BaseReaderProtocol()
+        public Initializer()
         {
-            string FullClassName = $"uhf_rfid_catch.Protocols.Reader.{ProtocolName}Protocol";
-            var readerCheck = _LocalInstance.GetInstance(FullClassName);
         }
 
-        public void Resolve()
+        public object GetInstance(string FullyQualifiedName)
         {
-            
-
+            Type type = Type.GetType(FullyQualifiedName);
+            if (type != null)
+                return Activator.CreateInstance(type);
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = asm.GetType(FullyQualifiedName);
+                if (type != null)
+                    return Activator.CreateInstance(type);
+            }
+            return null;
         }
-
     }
 }
