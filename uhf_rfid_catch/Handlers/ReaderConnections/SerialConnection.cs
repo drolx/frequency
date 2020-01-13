@@ -34,11 +34,11 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         MainLogger _logger = new MainLogger();
-        public readonly string SPORTNAME = SettingsContext.Resolve("ReaderSerialPortName");
-        public readonly int SBAUDRATE = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
-        public readonly int SDATABITS = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
-        private static readonly int SMAXRETRY = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
-        public byte[] _DecodedBytes;
+        public readonly string Sportname = SettingsContext.Resolve("ReaderSerialPortName");
+        public readonly int Sbaudrate = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
+        public readonly int Sdatabits = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
+        private static readonly int Smaxretry = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
+        public byte[] DecodedBytes;
 
         public SerialConnection()
         {
@@ -50,7 +50,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
             var parity = Parity.None;
             var stopBits = StopBits.One;
-            var srp = new SerialPort(portName, SBAUDRATE, parity, SDATABITS, stopBits);
+            var srp = new SerialPort(portName, Sbaudrate, parity, Sdatabits, stopBits);
             return srp;
         }
 
@@ -72,8 +72,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
         public byte ConnectionChannel(SerialPort builtConnection)
         {
-            int maxRetries = SMAXRETRY;
-            byte _recievedByte;
+            int maxRetries = Smaxretry;
+            byte recievedByte;
             const int sleepTimeInMs = 5000;
             
             if (!builtConnection.IsOpen)
@@ -84,8 +84,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                     while (maxRetries > 0)
                     {
                         if (builtConnection.BytesToRead <= 0) continue;
-                        _recievedByte = (byte)builtConnection.ReadByte();
-                        return _recievedByte;
+                        recievedByte = (byte)builtConnection.ReadByte();
+                        return recievedByte;
                     }
                 }
                 catch (Exception e)
@@ -96,8 +96,43 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                     Thread.Sleep(sleepTimeInMs);
                 }
             }
-            _recievedByte = (byte)builtConnection.ReadByte();
-            return _recievedByte;
+            recievedByte = (byte)builtConnection.ReadByte();
+            return recievedByte;
+        }
+
+        public void AutoReadData(SerialPort builtConnection)
+        {
+            var localByteSize = 0;
+            var localMaxByteSize = 20;
+            while (true)
+            {
+                if (builtConnection.IsOpen)
+                {
+                    // Start decode part of the process.
+                    ////
+                    if (builtConnection.BytesToRead > 0)
+                    {
+                        var _returnedData = ConnectionChannel(builtConnection);
+//                        Console.WriteLine($"Got {localByteSize} --- {_returnedData}");
+                        if (localMaxByteSize - 1 == localByteSize)
+                        {
+                            Console.WriteLine(localByteSize);
+                            Console.WriteLine("Test---01");
+                        }
+                        ++localByteSize;
+                    }
+                    else
+                    {
+                        localByteSize = 0;
+                    }
+                }
+                else
+                {
+////                    RequestStop();
+                    _logger.Trigger("Error", $"Serial connection failed to open, retrying now.");
+                }
+                
+            }
         }
 
         private string[] ListConnection()

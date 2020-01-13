@@ -1,10 +1,10 @@
 ﻿//
-// Settings.cs
+// IReaderProtocol.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
 //
-// Copyright (c) 2020 MIT 
+// Copyright (c) 2020 MIT
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,40 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
-
-namespace uhf_rfid_catch.Helpers
+namespace uhf_rfid_catch.Protocols
 {
-    public class ConfigContext
+    public interface IReaderProtocol
     {
-#if DEBUG
-        private const String Filepath = "appsettings.Development.json";
-#endif
-#if !DEBUG
-        private const String FILEPATH = "appsettings.json";
-#endif
-        public ConfigContext()
-        { }
-
-        public string Resolve(String settingPath)
-        {
-            if(String.IsNullOrEmpty(CheckConfig(settingPath)))
-            {
-                return "null";
-            }
-            return CheckConfig(settingPath);
-        }
-
-        private string CheckConfig(String param)
-        {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath);
-
-            IConfiguration rootConfig = builder.Build();
-
-            return rootConfig[param];
-        }
+        void Log();
     }
 }

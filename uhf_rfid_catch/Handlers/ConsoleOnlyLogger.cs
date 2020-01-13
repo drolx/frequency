@@ -1,10 +1,10 @@
 ﻿//
-// Settings.cs
+// ConsoleOnlyLogger.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
 //
-// Copyright (c) 2020 MIT 
+// Copyright (c) 2020 MIT
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,40 +24,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using NLog;
 
-namespace uhf_rfid_catch.Helpers
+namespace uhf_rfid_catch.Handlers
 {
-    public class ConfigContext
+    public class ConsoleOnlyLogger
     {
-#if DEBUG
-        private const String Filepath = "appsettings.Development.json";
-#endif
-#if !DEBUG
-        private const String FILEPATH = "appsettings.json";
-#endif
-        public ConfigContext()
-        { }
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public string Resolve(String settingPath)
+        public ConsoleOnlyLogger()
         {
-            if(String.IsNullOrEmpty(CheckConfig(settingPath)))
-            {
-                return "null";
-            }
-            return CheckConfig(settingPath);
         }
 
-        private string CheckConfig(String param)
+        public static void Push()
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath);
+            var config = new NLog.Config.LoggingConfiguration();
 
-            IConfiguration rootConfig = builder.Build();
+            // Targets where to log to: File and Console
+            var logconsole = new NLog.Targets.ConsoleTarget("console");
 
-            return rootConfig[param];
+            // Rules for mapping loggers to targets
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);
+
+            // Apply config
+            NLog.LogManager.Configuration = config;
         }
     }
 }

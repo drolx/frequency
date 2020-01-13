@@ -1,10 +1,10 @@
 ﻿//
-// Settings.cs
+// Initializer.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
 //
-// Copyright (c) 2020 MIT 
+// Copyright (c) 2020 MIT
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,40 +24,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using uhf_rfid_catch.Protocols;
+using uhf_rfid_catch.Protocols.Readers;
 
 namespace uhf_rfid_catch.Helpers
 {
-    public class ConfigContext
+    public class Initializer
     {
-#if DEBUG
-        private const String Filepath = "appsettings.Development.json";
-#endif
-#if !DEBUG
-        private const String FILEPATH = "appsettings.json";
-#endif
-        public ConfigContext()
-        { }
-
-        public string Resolve(String settingPath)
+        public Initializer()
         {
-            if(String.IsNullOrEmpty(CheckConfig(settingPath)))
+        }
+
+        public IReaderProtocol GetInstance(string DeviceModel)
+        {
+            IReaderProtocol SelectedModel;
+            switch (DeviceModel)
             {
-                return "null";
+                case "KingJoin":
+                    Console.WriteLine(DeviceModel);
+                    SelectedModel = new KingJoinProtocol();
+                    break;
+                case "Chafon":
+                    Console.WriteLine(DeviceModel);
+                    SelectedModel = new ChafonProtocol();
+                    break;
+                default:
+                    Console.WriteLine("");
+                    SelectedModel = new KingJoinProtocol();
+                    break;
             }
-            return CheckConfig(settingPath);
+
+            return SelectedModel;
         }
-
-        private string CheckConfig(String param)
-        {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath);
-
-            IConfiguration rootConfig = builder.Build();
-
-            return rootConfig[param];
-        }
-    }
+}
 }
