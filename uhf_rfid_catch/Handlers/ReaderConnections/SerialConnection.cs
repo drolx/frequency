@@ -100,6 +100,41 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return recievedByte;
         }
 
+        public void AutoReadData(SerialPort builtConnection)
+        {
+            var localByteSize = 0;
+            var localMaxByteSize = 20;
+            while (true)
+            {
+                if (builtConnection.IsOpen)
+                {
+                    // Start decode part of the process.
+                    ////
+                    if (builtConnection.BytesToRead > 0)
+                    {
+                        var _returnedData = ConnectionChannel(builtConnection);
+//                        Console.WriteLine($"Got {localByteSize} --- {_returnedData}");
+                        if (localMaxByteSize - 1 == localByteSize)
+                        {
+                            Console.WriteLine(localByteSize);
+                            Console.WriteLine("Test---01");
+                        }
+                        ++localByteSize;
+                    }
+                    else
+                    {
+                        localByteSize = 0;
+                    }
+                }
+                else
+                {
+////                    RequestStop();
+                    _logger.Trigger("Error", $"Serial connection failed to open, retrying now.");
+                }
+                
+            }
+        }
+
         private string[] ListConnection()
         {
             return SerialPort.GetPortNames();

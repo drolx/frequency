@@ -58,41 +58,13 @@ namespace uhf_rfid_catch.Handlers
                 if (maxRetries > 0)
                 {
                     serialProfile.Open();
-//                    var finalHex = BitConverter.ToString(_decodedSerialBytes).Replace("-", string.Empty);
-                    var localByteSize = 0;
-                    var localMaxByteSize = 0;
-                    List<byte> fullBytes = new List<byte>();
-                    while (!shouldStop)
-                    {
-                        if (serialProfile.IsOpen)
-                        {
-                            // Start decode part of the process.
-                            ////
-                            if (serialProfile.BytesToRead > 0)
-                            {
-                                var returnedData = spry.ConnectionChannel(serialProfile);
-                                fullBytes.Add(returnedData);
-//                                Console.WriteLine($"Got {localByteSize} --- {_returnedData}");
-                                ++localByteSize;
-                                if (localMaxByteSize != 0)
-                                {
-                                    Console.WriteLine(localMaxByteSize);
-                                }
-                            }
-                            else
-                            {
-                                localMaxByteSize = localByteSize > 0 ? localByteSize :  localMaxByteSize;
-                                localByteSize = 0;
-                            }
-                            
-                        }
-                        else
-                        {
-////                    RequestStop();
-                            Console.WriteLine($"Hey..");
-                        }
-                
-                    }
+
+                    // Thread start for Auto scanning readers
+                    var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile));
+                    autoScanThread.Start();
+                    
+                    Console.WriteLine("Test For other modes");
+                    
                 }
             }
             catch (Exception e)
