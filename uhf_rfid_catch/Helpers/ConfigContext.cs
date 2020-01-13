@@ -32,7 +32,7 @@ namespace uhf_rfid_catch.Helpers
     public class ConfigContext
     {
 #if DEBUG
-        private const String FILEPATH = "appsettings.Development.json";
+        private const String Filepath = "appsettings.Development.json";
 #endif
 #if !DEBUG
         private const String FILEPATH = "appsettings.json";
@@ -42,18 +42,18 @@ namespace uhf_rfid_catch.Helpers
 
         public string Resolve(String settingPath)
         {
-            if(String.IsNullOrEmpty(checkConfig(settingPath)))
+            if(String.IsNullOrEmpty(CheckConfig(settingPath)))
             {
                 return "null";
             }
-            return checkConfig(settingPath);
+            return CheckConfig(settingPath);
         }
 
-        private string checkConfig(String param)
+        private string CheckConfig(String param)
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(FILEPATH);
+            .AddJsonFile(Filepath);
 
             IConfiguration rootConfig = builder.Build();
 

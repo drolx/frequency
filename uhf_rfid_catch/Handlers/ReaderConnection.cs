@@ -36,9 +36,9 @@ namespace uhf_rfid_catch.Handlers
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         MainLogger _logger = new MainLogger();
         private byte[] _decodedSerialBytes;
-        private int serialBytesLength = 0;
+        private int _serialBytesLength = 0;
         
-        private string hexProps { get; set; }
+        private string HexProps { get; set; }
 
         public ReaderConnection()
         {
@@ -46,9 +46,9 @@ namespace uhf_rfid_catch.Handlers
 
         public void SerialConnection()
         {
-            bool _shouldStop = false;
+            bool shouldStop = false;
             SerialConnection spry = new SerialConnection();
-            var SerialProfile = spry.BuildConnection(spry.SPORTNAME);
+            var serialProfile = spry.BuildConnection(spry.Sportname);
             // List devices
             spry.ShowPorts();
 //            SerialProfile.DataReceived += spry.portOnReceiveData;
@@ -57,21 +57,21 @@ namespace uhf_rfid_catch.Handlers
             {
                 if (maxRetries > 0)
                 {
-                    SerialProfile.Open();
+                    serialProfile.Open();
 //                    var finalHex = BitConverter.ToString(_decodedSerialBytes).Replace("-", string.Empty);
                     var localByteSize = 0;
                     var localMaxByteSize = 0;
                     List<byte> fullBytes = new List<byte>();
-                    while (!_shouldStop)
+                    while (!shouldStop)
                     {
-                        if (SerialProfile.IsOpen)
+                        if (serialProfile.IsOpen)
                         {
                             // Start decode part of the process.
                             ////
-                            if (SerialProfile.BytesToRead > 0)
+                            if (serialProfile.BytesToRead > 0)
                             {
-                                var _returnedData = spry.ConnectionChannel(SerialProfile);
-                                fullBytes.Add(_returnedData);
+                                var returnedData = spry.ConnectionChannel(serialProfile);
+                                fullBytes.Add(returnedData);
 //                                Console.WriteLine($"Got {localByteSize} --- {_returnedData}");
                                 ++localByteSize;
                                 if (localMaxByteSize != 0)
@@ -104,9 +104,9 @@ namespace uhf_rfid_catch.Handlers
             
             void RequestStop()
             {
-                SerialProfile.DtrEnable = true;
-                SerialProfile.RtsEnable = true;
-                SerialProfile.Open();
+                serialProfile.DtrEnable = true;
+                serialProfile.RtsEnable = true;
+                serialProfile.Open();
 //                _shouldStop = true;
             }
             
