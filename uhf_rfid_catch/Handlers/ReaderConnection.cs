@@ -29,16 +29,14 @@ using System.IO.Ports;
 using System.Threading;
 using uhf_rfid_catch.Handlers.ReaderConnections;
 using uhf_rfid_catch.Helpers;
+using uhf_rfid_catch.Protocols;
+
 namespace uhf_rfid_catch.Handlers
 {
     public class ReaderConnection
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         MainLogger _logger = new MainLogger();
-        private byte[] _decodedSerialBytes;
-        private int _serialBytesLength = 0;
-        
-        private string HexProps { get; set; }
 
         public ReaderConnection()
         {
@@ -46,9 +44,11 @@ namespace uhf_rfid_catch.Handlers
 
         public void SerialConnection()
         {
-            bool shouldStop = false;
-            SerialConnection spry = new SerialConnection();
+            var spry = new SerialConnection();
             var serialProfile = spry.BuildConnection(spry.Sportname);
+            serialProfile.DtrEnable = true;
+            serialProfile.RtsEnable = true;
+            
             // List devices
             spry.ShowPorts();
 //            SerialProfile.DataReceived += spry.portOnReceiveData;
@@ -59,27 +59,23 @@ namespace uhf_rfid_catch.Handlers
                 {
                     serialProfile.Open();
 
+                    ///////
                     // Thread start for Auto scanning readers
                     var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile));
                     autoScanThread.Start();
                     
-                    Console.WriteLine("Test For other modes");
+                    ///////
+                    // Add other modes
+                    Console.WriteLine("Test For other modes..");
+//                    BaseReaderProtocol test1 = new BaseReaderProtocol();
                     
                 }
             }
             catch (Exception e)
             {
-                _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now.");
+                _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now. errors => {e}");
                 maxRetries--;
                 Thread.Sleep(500);
-            }
-            
-            void RequestStop()
-            {
-                serialProfile.DtrEnable = true;
-                serialProfile.RtsEnable = true;
-                serialProfile.Open();
-//                _shouldStop = true;
             }
             
         }
