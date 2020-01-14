@@ -1,10 +1,10 @@
 ﻿//
-// Cards.cs
+// Scan.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
 //
-// Copyright (c) 2020 MIT 
+// Copyright (c) 2020 MIT
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,18 @@
 using System;
 namespace uhf_rfid_catch.Models
 {
-    public class Tag
+    public class Scan
     {
-        public Tag()
+        public Scan()
         {
         }
 
-        public int UniqueId;
-        public string CardType;
+        public Reader UniqueReaderId;
+        public Reader ReaderMode;
+        public Reader ReaderProtocol;
+        public Tag UniqueTagId;
+        public Tag CardType;
+        public  DateTime CapturedTime;
+
     }
 }

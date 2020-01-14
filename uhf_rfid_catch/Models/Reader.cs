@@ -31,5 +31,9 @@ namespace uhf_rfid_catch.Models
         public Reader()
         {
         }
+
+        public string ReaderId;
+        public string ReaderMode;
+        public string ReaderProtocol;
     }
 }
