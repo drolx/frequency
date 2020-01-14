@@ -1,5 +1,5 @@
 ﻿//
-// ChafonProtocol.cs
+// BaseProtocol.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -26,10 +26,18 @@
 using System;
 namespace uhf_rfid_catch.Protocols.Readers
 {
-    public class ChafonProtocol : BaseProtocol
+    public class BaseProtocol : IReaderProtocol
     {
-        public ChafonProtocol()
+        public BaseProtocol()
         {
         }
+
+        public int AutoReadLength { get; set; } = 20;
+
+        public void Log()
+        {
+            Console.WriteLine("***** Start decode/encode session *****");
+        }
+
     }
 }

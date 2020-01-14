@@ -28,18 +28,10 @@ using NLog.Fluent;
 
 namespace uhf_rfid_catch.Protocols.Readers
 {
-    public class KingJoinProtocol : IReaderProtocol
+    public class KingJoinProtocol : BaseProtocol
     {
         public KingJoinProtocol()
         {
-            Console.WriteLine("HALLA!!!! from derived KingJoinProtocol clazz....");
-        }
-        //Test props
-        public int AutoReadLength { get; set; } = 20;
-
-        public void Log()
-        {
-            Console.WriteLine("HALLA!!!! from derived KingJoinProtocol clazz....");
         }
     }
 }
