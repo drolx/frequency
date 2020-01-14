@@ -93,6 +93,7 @@ namespace uhf_rfid_catch.Handlers
                     ///////
                     // Thread start for Auto scanning readers
                     var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
+                    autoScanThread.Name = "Reader Auto Scanner";
                     autoScanThread.Start();
                 
                     ///////
