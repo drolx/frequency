@@ -40,8 +40,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         public readonly int Sdatabits = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
         public readonly int Smaxretry = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
         public readonly int Smaxtimeout = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionTimeout"));
-        public byte[] DecodedBytes;
-        public bool AutoRead = true;
+        public bool AutoRead = Convert.ToBoolean(SettingsContext.Resolve("ReaderAutoReadMode"));
 
         public SerialConnection()
         {
@@ -86,26 +85,45 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
             var localByteSize = 0;
             var localMaxByteSize = protoInfo.AutoReadLength;
+            byte[] decodedBytes = new byte[localMaxByteSize];
             while (AutoRead)
             {
                 if (builtConnection.IsOpen)
                 {
-                    // Start decode part of the process.
-                    ////
-                    if (builtConnection.BytesToRead > 0)
+                    if(protoInfo.DirectAutoRead)
                     {
-                        var _returnedData = ConnectionChannel(builtConnection);
-                        if (localMaxByteSize - 1 == localByteSize)
+                        // Start decode part of the process.
+                        ////
+                        if (builtConnection.BytesToRead > 0)
                         {
-                            Console.WriteLine(localByteSize);
-                            Console.WriteLine("Test---01");
+                            var _returnedData = ConnectionChannel(builtConnection);
+                            try
+                            {
+                                decodedBytes[localByteSize] = _returnedData;
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                                throw;
+                            }
+                            
+                            if (localMaxByteSize - 1 == localByteSize)
+                            {
+                                Console.WriteLine("Lst ray pos ->" + localByteSize);
+                                Console.WriteLine(BitConverter.ToString(decodedBytes).Replace("-", string.Empty));
+                            }
+                            ++localByteSize;
                         }
-                        ++localByteSize;
+                        else
+                        {
+                            localByteSize = 0;
+                        }
                     }
                     else
                     {
-                        localByteSize = 0;
+                        Console.WriteLine("Implement non auto read mode.");
                     }
+                    
                 }
                 else
                 {

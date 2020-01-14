@@ -29,6 +29,7 @@ namespace uhf_rfid_catch.Protocols
     public interface IReaderProtocol
     {
         void Log();
+        bool DirectAutoRead { get; set; }
         int AutoReadLength { get; set; }
         //int RequestedReadLength { get; set; }
         //int DefaultReadLength { get; set; }
