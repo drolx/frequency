@@ -34,7 +34,9 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
     public class SerialConnection
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
-        MainLogger _logger = new MainLogger();
+        private readonly MainLogger _logger = new MainLogger();
+        private readonly ConsoleOnlyLogger _consoleOnlyLogger = new ConsoleOnlyLogger();
+        
         public readonly string Sportname = SettingsContext.Resolve("ReaderSerialPortName");
         public readonly int Sbaudrate = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
         public readonly int Sdatabits = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
@@ -103,14 +105,12 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine(e);
-                                throw;
+                                _logger.Trigger("Error", e.ToString());
                             }
                             
                             if (localMaxByteSize - 1 == localByteSize)
                             {
-                                Console.WriteLine("Lst ray pos ->" + localByteSize);
-                                Console.WriteLine(BitConverter.ToString(decodedBytes).Replace("-", string.Empty));
+                                _consoleOnlyLogger.Push("Info", " Received HEX: " + BitConverter.ToString(decodedBytes));
                             }
                             ++localByteSize;
                         }
