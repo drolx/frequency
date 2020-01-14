@@ -30,7 +30,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Protocols\" />
-    <Folder Include="Protocols\Cards\" />
+    <Folder Include="Protocols\Tags\" />
     <Folder Include="Protocols\Readers\" />
     <Folder Include="Handlers\" />
     <Folder Include="Helpers\" />
