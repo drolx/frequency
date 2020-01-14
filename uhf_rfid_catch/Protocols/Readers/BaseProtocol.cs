@@ -31,10 +31,10 @@ namespace uhf_rfid_catch.Protocols.Readers
         public BaseProtocol()
         {
         }
+        // Set default byte length for auto stream mode..
+        public virtual int AutoReadLength { get; set; } = 20;
 
-        public int AutoReadLength { get; set; } = 20;
-
-        public void Log()
+        public virtual void Log()
         {
             Console.WriteLine("***** Start decode/encode session *****");
         }

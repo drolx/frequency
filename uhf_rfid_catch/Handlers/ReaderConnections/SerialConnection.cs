@@ -27,6 +27,7 @@ using System;
 using System.IO.Ports;
 using System.Threading;
 using uhf_rfid_catch.Helpers;
+using uhf_rfid_catch.Protocols;
 
 namespace uhf_rfid_catch.Handlers.ReaderConnections
 {
@@ -81,10 +82,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return receivedByte;
         }
 
-        public void AutoReadData(SerialPort builtConnection)
+        public void AutoReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
         {
             var localByteSize = 0;
-            var localMaxByteSize = 20;
+            var localMaxByteSize = protoInfo.AutoReadLength;
             while (AutoRead)
             {
                 if (builtConnection.IsOpen)

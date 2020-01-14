@@ -44,8 +44,10 @@ namespace uhf_rfid_catch.Handlers
 
         public void SerialConnection()
         {
-            var spry = new SerialConnection();
-            var serialProfile = spry.BuildConnection(spry.Sportname);
+            SerialConnection spry = new SerialConnection();
+            SerialPort serialProfile = spry.BuildConnection(spry.Sportname);
+            BaseReaderProtocol selectedProtocol = new BaseReaderProtocol();
+            IReaderProtocol _selectedProtocol = selectedProtocol.Resolve();
             
             // List devices
             spry.ShowPorts();
@@ -90,13 +92,13 @@ namespace uhf_rfid_catch.Handlers
                 {
                     ///////
                     // Thread start for Auto scanning readers
-                    var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile));
+                    var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
                     autoScanThread.Start();
                 
                     ///////
                     // Add other modes
                     Console.WriteLine("Test For other modes..");
-                    BaseReaderProtocol test1 = new BaseReaderProtocol();
+                    
                 }
             }
             

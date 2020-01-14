@@ -33,6 +33,7 @@ namespace uhf_rfid_catch.Protocols
 {
     public class BaseReaderProtocol
     {
+        private readonly IReaderProtocol _selectedProtocol;
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         
         private readonly string ProtocolName = SettingsContext.Resolve("ReaderModel");
@@ -40,15 +41,14 @@ namespace uhf_rfid_catch.Protocols
         public BaseReaderProtocol()
         {
             Initializer LocalInstance = new Initializer();
-            var re = LocalInstance.GetInstance(ProtocolName);
-            
-            Console.WriteLine($"Len test {re.AutoReadLength}");
-            re.Log();
+            IReaderProtocol selectedProtocol = LocalInstance.GetInstance(ProtocolName);
+            _selectedProtocol = selectedProtocol;
+            selectedProtocol.Log();
         }
 
-        public void Resolve()
+        public IReaderProtocol Resolve()
         {
-            
+            return _selectedProtocol;
         }
 
     }
