@@ -24,6 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using uhf_rfid_catch.Models;
+
 namespace uhf_rfid_catch.Protocols.Readers
 {
     public class BaseProtocol : IReaderProtocol
@@ -33,21 +35,26 @@ namespace uhf_rfid_catch.Protocols.Readers
         }
         // Set default byte length for auto stream mode..
         public virtual int AutoReadLength { get; set; } = 20;
+
         public virtual bool DirectAutoRead { get; set; } = true;
 
         public virtual string ProtocolDataType { get; set; } = "hex";
 
         public virtual byte[] ReceivedBytes { get; set; } = { };
 
-        public virtual void seeData()
+        public virtual string seeData()
         {
-            Console.WriteLine(BitConverter.ToString(ReceivedBytes));
+            return BitConverter.ToString(ReceivedBytes);
         }
 
         public virtual void Log()
         {
-            Console.WriteLine("***** Start decode/encode session *****");
+            Console.WriteLine($"***** Start decode/encode {ProtocolDataType} type session *****");
         }
 
+        public Scan DecodeData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
