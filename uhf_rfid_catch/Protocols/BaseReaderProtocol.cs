@@ -40,8 +40,10 @@ namespace uhf_rfid_catch.Protocols
 
         public BaseReaderProtocol()
         {
-            var test1 = new Initializer();
-            var re = test1.GetInstance(ProtocolName);
+            var LocalInstance = new Initializer();
+            var re = LocalInstance.GetInstance(ProtocolName);
+            
+            Console.WriteLine($"Len test {re.AutoReadLength}");
             re.Log();
         }
 

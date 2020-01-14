@@ -32,6 +32,8 @@ namespace uhf_rfid_catch.Protocols.Readers
         {
             Console.WriteLine("HALLA!!!! from derived ChafonProtocol clazz....");
         }
+        
+        public int AutoReadLength { get; set; } = 20;
 
         public void Log()
         {
