@@ -110,9 +110,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                             
                             if (localMaxByteSize - 1 == localByteSize)
                             {
-                                _consoleOnlyLogger.Push("Info", " Received HEX: " + BitConverter.ToString(decodedBytes));
                                 protoInfo.ReceivedBytes = decodedBytes;
-//                                protoInfo.seeData();
+                                _consoleOnlyLogger.Push("Info", " Received HEX: " + protoInfo.seeData().Replace("-", String.Empty));
                             }
                             ++localByteSize;
                         }
