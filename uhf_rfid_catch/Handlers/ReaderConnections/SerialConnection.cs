@@ -37,8 +37,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         public readonly string Sportname = SettingsContext.Resolve("ReaderSerialPortName");
         public readonly int Sbaudrate = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
         public readonly int Sdatabits = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
-        private static readonly int Smaxretry = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
+        public readonly int Smaxretry = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
+        public readonly int Smaxtimeout = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionTimeout"));
         public byte[] DecodedBytes;
+        public bool AutoRead = true;
 
         public SerialConnection()
         {
@@ -50,13 +52,16 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
             var parity = Parity.None;
             var stopBits = StopBits.One;
-            var srp = new SerialPort(portName, Sbaudrate, parity, Sdatabits, stopBits);
+            var srp = new SerialPort(portName, Sbaudrate, parity, Sdatabits, stopBits)
+            {
+                DtrEnable = true, RtsEnable = true
+            };
             return srp;
         }
 
         public string SuggestPort()
         {
-            var selectedPort = "";
+            var selectedPort = "/dev/tty.usb_serial";
 
             foreach (string portName in ListConnection())
             {
@@ -72,39 +77,15 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
         public byte ConnectionChannel(SerialPort builtConnection)
         {
-            int maxRetries = Smaxretry;
-            byte recievedByte;
-            const int sleepTimeInMs = 5000;
-            
-            if (!builtConnection.IsOpen)
-            {
-                _logger.Trigger("Error", $"Serial connection failed, retrying now.");
-                try
-                {
-                    while (maxRetries > 0)
-                    {
-                        if (builtConnection.BytesToRead <= 0) continue;
-                        recievedByte = (byte)builtConnection.ReadByte();
-                        return recievedByte;
-                    }
-                }
-                catch (Exception e)
-                {
-                    _logger.Trigger("Error", $"Serial connection failed again, {maxRetries} retry remaining.");
-                    maxRetries--;
-                    Console.WriteLine(e);
-                    Thread.Sleep(sleepTimeInMs);
-                }
-            }
-            recievedByte = (byte)builtConnection.ReadByte();
-            return recievedByte;
+            var receivedByte = (byte)builtConnection.ReadByte();
+            return receivedByte;
         }
 
         public void AutoReadData(SerialPort builtConnection)
         {
             var localByteSize = 0;
             var localMaxByteSize = 20;
-            while (true)
+            while (AutoRead)
             {
                 if (builtConnection.IsOpen)
                 {
@@ -113,7 +94,6 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                     if (builtConnection.BytesToRead > 0)
                     {
                         var _returnedData = ConnectionChannel(builtConnection);
-//                        Console.WriteLine($"Got {localByteSize} --- {_returnedData}");
                         if (localMaxByteSize - 1 == localByteSize)
                         {
                             Console.WriteLine(localByteSize);
