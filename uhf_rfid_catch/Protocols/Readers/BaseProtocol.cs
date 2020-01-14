@@ -1,5 +1,5 @@
 ﻿//
-// ChafonProtocol.cs
+// BaseProtocol.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,12 +24,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using uhf_rfid_catch.Models;
+
 namespace uhf_rfid_catch.Protocols.Readers
 {
-    public class ChafonProtocol : BaseProtocol
+    public class BaseProtocol : IReaderProtocol
     {
-        public ChafonProtocol()
+        public BaseProtocol()
         {
+        }
+        // Set default byte length for auto stream mode..
+        public virtual int AutoReadLength { get; set; } = 20;
+
+        public virtual bool DirectAutoRead { get; set; } = true;
+
+        public virtual string ProtocolDataType { get; set; } = "hex";
+
+        public virtual byte[] ReceivedBytes { get; set; } = { };
+
+        public virtual string seeData()
+        {
+            return BitConverter.ToString(ReceivedBytes);
+        }
+
+        public virtual void Log()
+        {
+            Console.WriteLine($"***** Start decode/encode {ProtocolDataType} type session *****");
+        }
+
+        public Scan DecodeData()
+        {
+            throw new NotImplementedException();
         }
     }
 }

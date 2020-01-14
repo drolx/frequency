@@ -26,10 +26,13 @@
 using System;
 namespace uhf_rfid_catch.Models
 {
-    public class Card
+    public class Tag
     {
-        public Card()
+        public Tag()
         {
         }
+
+        public int UniqueId;
+        public string CardType;
     }
 }

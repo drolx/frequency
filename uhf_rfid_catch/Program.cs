@@ -34,21 +34,26 @@ namespace uhf_rfid_catch
 {
     class Program
     {
-        private static void CallreaderThread()
+        private static void readerProcess()
         {
-            ReaderConnection rdi = new ReaderConnection();
-            rdi.Run();
+            ReaderConnection rdit = new ReaderConnection();
+            rdit.Run();
         }
         
                 static void Main(string[] args)
         {
-            ThreadStart readerProcess = CallreaderThread;
-                var readerThread = new Thread(readerProcess);
-                readerThread.Name = "readerThread";
-                readerThread.Start();
-                
+            //Reader process thread//
+            ////////////////////////
+            Thread readerThread = new Thread(() => readerProcess());
+            readerThread.Name = "UHF Reader Process";
+            readerThread.Start();
 
-//            CreateHostBuilder(args).Build().Run();
+
+            //Web view thread//
+            //////////////////
+            Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
+            webThread.Name = "Web Process";
+            webThread.Start();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

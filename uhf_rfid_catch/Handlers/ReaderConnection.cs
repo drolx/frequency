@@ -44,8 +44,10 @@ namespace uhf_rfid_catch.Handlers
 
         public void SerialConnection()
         {
-            var spry = new SerialConnection();
-            var serialProfile = spry.BuildConnection(spry.Sportname);
+            SerialConnection spry = new SerialConnection();
+            SerialPort serialProfile = spry.BuildConnection(spry.Sportname);
+            BaseReaderProtocol selectedProtocol = new BaseReaderProtocol();
+            IReaderProtocol _selectedProtocol = selectedProtocol.Resolve();
             
             // List devices
             spry.ShowPorts();
@@ -53,30 +55,36 @@ namespace uhf_rfid_catch.Handlers
 
             var maxRetries = spry.Smaxretry;
             var retryState = true;
+            var retryFailedCheck = true;
             
             while (retryState)
             {
-                if (maxRetries > 0 || spry.Smaxretry == 0)
-                {
-                }
-                else
-                {
-                    retryState = false;
-                }
                 try
                 {
+                    if (maxRetries > 0 || spry.Smaxretry == 0)
+                    {
+                        retryState = false;
+                        retryFailedCheck = true;
+                    }
+                    else
+                    {
+                        retryFailedCheck = false;
+                    }
                     serialProfile.Open();
+                    
                 }
                 catch (UnauthorizedAccessException unauthorizedAccessException)
                 {
                     _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now, {maxRetries} remaining. errors => {unauthorizedAccessException}");
                     maxRetries--;
+                    retryState = retryFailedCheck;
                     Thread.Sleep(spry.Smaxtimeout);
                 }
                 catch (Exception e)
                 {
                     _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now. errors => {e}");
                     maxRetries--;
+                    retryState = retryFailedCheck;
                     Thread.Sleep(spry.Smaxtimeout);
                 }
                 
@@ -84,13 +92,14 @@ namespace uhf_rfid_catch.Handlers
                 {
                     ///////
                     // Thread start for Auto scanning readers
-                    var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile));
+                    var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
+                    autoScanThread.Name = "Reader Auto Scanner";
                     autoScanThread.Start();
                 
                     ///////
                     // Add other modes
                     Console.WriteLine("Test For other modes..");
-                    BaseReaderProtocol test1 = new BaseReaderProtocol();
+                    
                 }
             }
             

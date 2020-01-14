@@ -24,33 +24,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Diagnostics;
-using System.Reflection;
 using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Protocols
 {
     public class BaseReaderProtocol
     {
+        private readonly IReaderProtocol _selectedProtocol;
         private static readonly ConfigContext SettingsContext = new ConfigContext();
         
         private readonly string ProtocolName = SettingsContext.Resolve("ReaderModel");
-        private Initializer _LocalInstance;
 
         public BaseReaderProtocol()
         {
-            var LocalInstance = new Initializer();
-            var re = LocalInstance.GetInstance(ProtocolName);
-            
-            Console.WriteLine($"Len test {re.AutoReadLength}");
-            re.Log();
+            Initializer LocalInstance = new Initializer();
+            IReaderProtocol selectedProtocol = LocalInstance.GetInstance(ProtocolName);
+            _selectedProtocol = selectedProtocol;
         }
 
-        public void Resolve()
+        public IReaderProtocol Resolve()
         {
-            
+            return _selectedProtocol;
         }
+        
+        
 
     }
 }

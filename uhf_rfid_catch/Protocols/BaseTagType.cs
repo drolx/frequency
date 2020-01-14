@@ -1,5 +1,5 @@
 ﻿//
-// ChafonProtocol.cs
+// BaseCardType.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,11 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace uhf_rfid_catch.Protocols.Readers
+namespace uhf_rfid_catch.Protocols
 {
-    public class ChafonProtocol : BaseProtocol
+    public class BaseTagType
     {
-        public ChafonProtocol()
+        public BaseTagType()
         {
         }
     }

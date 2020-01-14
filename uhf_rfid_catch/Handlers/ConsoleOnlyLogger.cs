@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Diagnostics;
 using NLog;
 
 namespace uhf_rfid_catch.Handlers
@@ -36,7 +37,7 @@ namespace uhf_rfid_catch.Handlers
         {
         }
 
-        public static void Push()
+        public void Push(String Type, String LogString)
         {
             var config = new NLog.Config.LoggingConfiguration();
 
@@ -48,6 +49,23 @@ namespace uhf_rfid_catch.Handlers
 
             // Apply config
             NLog.LogManager.Configuration = config;
+            
+            switch(Type)
+            {
+                case "Info":
+                Logger.Info(LogString);
+                break;
+                case "Error":
+                Logger.Error(LogString);
+                break;
+                case "Warn":
+                    Logger.Warn(LogString);
+                    break;
+                default:
+                    Logger.Debug(LogString);
+                    break;
+            }
+            
         }
     }
 }

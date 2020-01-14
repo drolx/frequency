@@ -24,13 +24,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using uhf_rfid_catch.Models;
+
 namespace uhf_rfid_catch.Protocols
 {
     public interface IReaderProtocol
     {
         void Log();
+        bool DirectAutoRead { get; set; }
         int AutoReadLength { get; set; }
+        // TYPES:
+        /// <summary>
+        ///  byte | binary | string | hex
+        /// </summary>
+        string ProtocolDataType { get; set; }
         //int RequestedReadLength { get; set; }
         //int DefaultReadLength { get; set; }
+
+        byte[] ReceivedBytes { get; set; }
+        
+        string seeData();
+        Scan DecodeData();
     }
 }

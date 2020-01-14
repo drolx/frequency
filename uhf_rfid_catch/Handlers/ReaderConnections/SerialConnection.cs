@@ -27,20 +27,22 @@ using System;
 using System.IO.Ports;
 using System.Threading;
 using uhf_rfid_catch.Helpers;
+using uhf_rfid_catch.Protocols;
 
 namespace uhf_rfid_catch.Handlers.ReaderConnections
 {
     public class SerialConnection
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
-        MainLogger _logger = new MainLogger();
+        private readonly MainLogger _logger = new MainLogger();
+        private readonly ConsoleOnlyLogger _consoleOnlyLogger = new ConsoleOnlyLogger();
+        
         public readonly string Sportname = SettingsContext.Resolve("ReaderSerialPortName");
         public readonly int Sbaudrate = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
         public readonly int Sdatabits = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
         public readonly int Smaxretry = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
         public readonly int Smaxtimeout = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionTimeout"));
-        public byte[] DecodedBytes;
-        public bool AutoRead = true;
+        public bool AutoRead = Convert.ToBoolean(SettingsContext.Resolve("ReaderAutoReadMode"));
 
         public SerialConnection()
         {
@@ -81,30 +83,48 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return receivedByte;
         }
 
-        public void AutoReadData(SerialPort builtConnection)
+        public void AutoReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
         {
             var localByteSize = 0;
-            var localMaxByteSize = 20;
+            var localMaxByteSize = protoInfo.AutoReadLength;
+            byte[] decodedBytes = new byte[localMaxByteSize];
             while (AutoRead)
             {
                 if (builtConnection.IsOpen)
                 {
-                    // Start decode part of the process.
-                    ////
-                    if (builtConnection.BytesToRead > 0)
+                    if(protoInfo.DirectAutoRead)
                     {
-                        var _returnedData = ConnectionChannel(builtConnection);
-                        if (localMaxByteSize - 1 == localByteSize)
+                        // Start decode part of the process.
+                        ////
+                        if (builtConnection.BytesToRead > 0)
                         {
-                            Console.WriteLine(localByteSize);
-                            Console.WriteLine("Test---01");
+                            var _returnedData = ConnectionChannel(builtConnection);
+                            try
+                            {
+                                decodedBytes[localByteSize] = _returnedData;
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.Trigger("Error", e.ToString());
+                            }
+                            
+                            if (localMaxByteSize - 1 == localByteSize)
+                            {
+                                protoInfo.ReceivedBytes = decodedBytes;
+                                _consoleOnlyLogger.Push("Info", " Received HEX: " + protoInfo.seeData().Replace("-", String.Empty));
+                            }
+                            ++localByteSize;
                         }
-                        ++localByteSize;
+                        else
+                        {
+                            localByteSize = 0;
+                        }
                     }
                     else
                     {
-                        localByteSize = 0;
+                        Console.WriteLine("Implement non auto read mode.");
                     }
+                    
                 }
                 else
                 {

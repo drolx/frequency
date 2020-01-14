@@ -1,5 +1,5 @@
 ﻿//
-// BaseCardType.cs
+// Scan.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,12 +24,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace uhf_rfid_catch.Protocols
+namespace uhf_rfid_catch.Models
 {
-    public class BaseCardType
+    public class Scan
     {
-        public BaseCardType()
+        public Scan()
         {
         }
+
+        public Reader UniqueReaderId;
+        public Reader ReaderMode;
+        public Reader ReaderProtocol;
+        public Tag UniqueTagId;
+        public Tag CardType;
+        public  DateTime CapturedTime;
+
     }
 }
