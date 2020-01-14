@@ -26,9 +26,9 @@
 using System;
 namespace uhf_rfid_catch.Protocols
 {
-    public class BaseCardType
+    public class BaseTagType
     {
-        public BaseCardType()
+        public BaseTagType()
         {
         }
     }
