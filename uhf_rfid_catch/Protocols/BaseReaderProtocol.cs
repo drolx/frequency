@@ -40,13 +40,14 @@ namespace uhf_rfid_catch.Protocols
             Initializer LocalInstance = new Initializer();
             IReaderProtocol selectedProtocol = LocalInstance.GetInstance(ProtocolName);
             _selectedProtocol = selectedProtocol;
-            selectedProtocol.Log();
         }
 
         public IReaderProtocol Resolve()
         {
             return _selectedProtocol;
         }
+        
+        
 
     }
 }

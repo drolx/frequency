@@ -31,7 +31,15 @@ namespace uhf_rfid_catch.Protocols
         void Log();
         bool DirectAutoRead { get; set; }
         int AutoReadLength { get; set; }
+        // TYPES:
+        /// <summary>
+        ///  byte | binary | string | hex
+        /// </summary>
+        string ProtocolDataType { get; set; }
+
+        byte[] ReceivedBytes { get; set; }
         //int RequestedReadLength { get; set; }
         //int DefaultReadLength { get; set; }
+        void seeData();
     }
 }

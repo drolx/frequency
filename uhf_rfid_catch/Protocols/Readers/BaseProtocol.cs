@@ -33,8 +33,16 @@ namespace uhf_rfid_catch.Protocols.Readers
         }
         // Set default byte length for auto stream mode..
         public virtual int AutoReadLength { get; set; } = 20;
-
         public virtual bool DirectAutoRead { get; set; } = true;
+
+        public virtual string ProtocolDataType { get; set; } = "hex";
+
+        public virtual byte[] ReceivedBytes { get; set; } = { };
+
+        public virtual void seeData()
+        {
+            Console.WriteLine(BitConverter.ToString(ReceivedBytes));
+        }
 
         public virtual void Log()
         {
