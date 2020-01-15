@@ -70,6 +70,13 @@ namespace uhf_rfid_catch.Handlers
                     {
                         retryFailedCheck = false;
                     }
+
+                    if (serialProfile.IsOpen && serialProfile != null)
+                    {
+                        serialProfile.Close();
+                        serialProfile.Dispose();
+                    }
+                    
                     serialProfile.Open();
                     
                 }
