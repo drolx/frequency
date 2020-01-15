@@ -25,11 +25,31 @@
 // THE SOFTWARE.
 using System;
 using Microsoft.EntityFrameworkCore;
+using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Data
 {
     public class CaptureContext : DbContext
     {
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Reader> Readers { get; set; }
+        public DbSet<Scan> Scans { get; set; }
+        public CaptureContext()
+        {
+        }
 
+        public CaptureContext(DbContextOptions<CaptureContext> options)
+            : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=app.db;cache=shared");
+            }
+        }
     }
+
 }
