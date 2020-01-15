@@ -35,7 +35,7 @@ namespace uhf_rfid_catch.Models
         }
 
         [Key, Required]
-        public int TagId { get; set; }
+        public string TagId { get; set; } = Guid.NewGuid().ToString();
         [Required]
         public string TagUniqueNo { get; set; }
         public string CardType { get; set; }
