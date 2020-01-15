@@ -24,6 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace uhf_rfid_catch.Models
 {
     public class Scan
@@ -32,12 +34,11 @@ namespace uhf_rfid_catch.Models
         {
         }
 
-        public Reader UniqueReaderId;
-        public Reader ReaderMode;
-        public Reader ReaderProtocol;
-        public Tag UniqueTagId;
-        public Tag CardType;
-        public  DateTime CapturedTime;
+        [Key]
+        public int ScanId { get; set; }
+        public DateTime ScanTime { get; set; }
+        public Reader Reader { get; set; }
+        public Tag Tag { get; set; }
 
     }
 }
