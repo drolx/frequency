@@ -56,7 +56,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             var stopBits = StopBits.One;
             var srp = new SerialPort(portName, Sbaudrate, parity, Sdatabits, stopBits)
             {
-                DtrEnable = true, RtsEnable = true
+                DtrEnable = true, RtsEnable = true, ReadTimeout = 500, WriteTimeout = 500
             };
             return srp;
         }
