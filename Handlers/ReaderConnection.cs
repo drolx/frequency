@@ -82,21 +82,29 @@ namespace uhf_rfid_catch.Handlers
                 }
                 catch (UnauthorizedAccessException unauthorizedAccessException)
                 {
-                    _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now, {maxRetries} remaining. errors => {unauthorizedAccessException}");
+                    var _exp = unauthorizedAccessException;
+                    _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now, {maxRetries} remaining.");
                     maxRetries--;
                     retryState = retryFailedCheck;
                     Thread.Sleep(spry.Smaxtimeout);
                 }
                 catch (Exception e)
                 {
-                    _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now. errors => {e}");
+                    var _exp = e;
+                    _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now.");
                     maxRetries--;
                     retryState = retryFailedCheck;
                     Thread.Sleep(spry.Smaxtimeout);
                 }
-                
-                if (serialProfile.IsOpen)
-                {
+
+#if DEBUG
+                    if (serialProfile.IsOpen || maxRetries == 0)
+                    {
+#endif
+#if !DEBUG
+                    if (serialProfile.IsOpen)
+                    {
+#endif
                     ///////
                     // Thread start for Auto scanning readers
                     var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
