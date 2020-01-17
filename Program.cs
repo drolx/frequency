@@ -39,8 +39,8 @@ namespace uhf_rfid_catch
             ReaderConnection rdit = new ReaderConnection();
             rdit.Run();
             
-            NetworkConnection ty = new NetworkConnection();
-            ty.Boot();
+            // NetworkConnection ty = new NetworkConnection();
+            // ty.Boot();
         }
         
                 static void Main(string[] args)
