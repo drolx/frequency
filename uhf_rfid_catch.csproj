@@ -44,14 +44,14 @@
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="setup.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-
+  
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
     <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)uhf_rfid_catch.exe.nlog" />
     <Delete Files="$(TargetDir)NLog.config" />
