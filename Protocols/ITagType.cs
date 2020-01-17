@@ -1,5 +1,5 @@
 ﻿//
-// Program.cs
+// ITagType.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,40 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Threading;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Handlers.ReaderConnections;
-
-namespace uhf_rfid_catch
+namespace uhf_rfid_catch.Protocols
 {
-    class Program
+    public interface ITagType
     {
-        private static void readerProcess()
-        {
-            ReaderConnection rdit = new ReaderConnection();
-            rdit.Run();
-        }
-        
-                static void Main(string[] args)
-        {
-            //Reader process thread//
-            ////////////////////////
-            Thread readerThread = new Thread(() => readerProcess());
-            readerThread.Name = "UHF Reader Process";
-            readerThread.Start();
-
-
-            //Web view thread//
-            //////////////////
-            Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
-            webThread.Name = "Web Process";
-            webThread.Start();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }

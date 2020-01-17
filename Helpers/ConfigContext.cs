@@ -1,5 +1,5 @@
 ﻿//
-// Event.cs
+// Settings.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,12 +24,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace uhf_rfid_catch.Models
+using System.IO;
+using Microsoft.Extensions.Configuration;
+
+namespace uhf_rfid_catch.Helpers
 {
-    public class Event
+    public class ConfigContext
     {
-        public Event()
+#if DEBUG
+        private const String Filepath = "appsettings.Development.json";
+#endif
+#if !DEBUG
+        private const String Filepath = "appsettings.json";
+#endif
+        public ConfigContext()
+        { }
+
+        public string Resolve(String settingPath)
         {
+            if(String.IsNullOrEmpty(CheckConfig(settingPath)))
+            {
+                return "null";
+            }
+            return CheckConfig(settingPath);
+        }
+
+        private string CheckConfig(String param)
+        {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(Filepath);
+
+            IConfiguration rootConfig = builder.Build();
+
+            return rootConfig[param];
         }
     }
 }

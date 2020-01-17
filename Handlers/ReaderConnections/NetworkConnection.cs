@@ -31,6 +31,11 @@ using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Handlers.ReaderConnections
 {
+    
+    // https://stackoverflow.com/questions/19387086/how-to-set-up-tcplistener-to-always-listen-and-accept-multiple-connections
+    // Multiple ports java sol => https://stackoverflow.com/questions/5079172/java-server-multiple-ports
+    // C# multiple solu => https://social.msdn.microsoft.com/Forums/vstudio/en-US/09828be4-6ac4-45ec-a116-508314dab793/listen-on-multiple-ports?forum=csharpgeneral
+    
     public class NetworkConnection
     {
         private static readonly ConfigContext SettingsContext = new ConfigContext();
@@ -39,15 +44,15 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
         }
 
-        public void Default()
+        public void Boot()
         {
             try
             {
-                IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+                IPAddress ipAddress = IPAddress.Parse("0.0.0.0");
 
                 Console.WriteLine("Starting TCP listener...");
 
-                TcpListener listener = new TcpListener(ipAddress, 500);
+                TcpListener listener = new TcpListener(ipAddress, 5007);
 
                 listener.Start();
 
@@ -62,7 +67,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         int size = client.Receive(data);
                         Console.WriteLine("Recieved data: ");
                         for (int i = 0; i < size; i++)
-                            Console.Write(Convert.ToChar(data[i]));
+                            Console.Write(Convert.ToChar(data[i]) + "---");
 
                         Console.WriteLine();
 

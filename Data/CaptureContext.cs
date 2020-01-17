@@ -1,10 +1,10 @@
 ﻿//
-// Settings.cs
+// CaptureContext.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
 //
-// Copyright (c) 2020 MIT 
+// Copyright (c) 2020 MIT
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,40 +24,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using uhf_rfid_catch.Models;
 
-namespace uhf_rfid_catch.Helpers
+namespace uhf_rfid_catch.Data
 {
-    public class ConfigContext
+    public class CaptureContext : DbContext
     {
-#if DEBUG
-        private const String Filepath = "appsettings.Development.json";
-#endif
-#if !DEBUG
-        private const String FILEPATH = "appsettings.json";
-#endif
-        public ConfigContext()
-        { }
-
-        public string Resolve(String settingPath)
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Reader> Readers { get; set; }
+        public DbSet<Scan> Scans { get; set; }
+        public CaptureContext()
         {
-            if(String.IsNullOrEmpty(CheckConfig(settingPath)))
-            {
-                return "null";
-            }
-            return CheckConfig(settingPath);
         }
 
-        private string CheckConfig(String param)
+        public CaptureContext(DbContextOptions<CaptureContext> options)
+            : base(options)
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath);
+        }
 
-            IConfiguration rootConfig = builder.Build();
-
-            return rootConfig[param];
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=app.db;cache=shared");
+            }
         }
     }
+
 }

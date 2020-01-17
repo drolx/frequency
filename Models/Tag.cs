@@ -1,5 +1,5 @@
 ﻿//
-// Reader.cs
+// Cards.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,16 +24,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace uhf_rfid_catch.Models
 {
-    public class Reader
+    public class Tag
     {
-        public Reader()
+        public Tag()
         {
         }
 
-        public string ReaderId;
-        public string ReaderMode;
-        public string ReaderProtocol;
+        [Key, Required]
+        public string TagId { get; set; } = Guid.NewGuid().ToString();
+        [Required]
+        public string TagUniqueNo { get; set; }
+        public string CardType { get; set; }
+        [Required]
+        public DateTime LastUpdated { get; set; }
+        public string LastMode { get; set; }
     }
 }
