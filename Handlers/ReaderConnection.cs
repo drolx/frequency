@@ -77,13 +77,24 @@ namespace uhf_rfid_catch.Handlers
                         serialProfile.Dispose();
                     }
                     
+                    _logger.Trigger("Info", $"Opening new serial connection...");
+                    
                     serialProfile.Open();
                     
                 }
                 catch (UnauthorizedAccessException unauthorizedAccessException)
                 {
                     var _exp = unauthorizedAccessException;
-                    _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now, {maxRetries} remaining.");
+                    string condiLog;
+                    if (spry.Smaxretry == 0)
+                    {
+                        condiLog = "retrying now.";
+                    }
+                    else
+                    {
+                        condiLog = $"retrying now, {maxRetries} remaining.";
+                    }
+                    _logger.Trigger("Error", $"Serial connection failed to open/read, {condiLog}");
                     maxRetries--;
                     retryState = retryFailedCheck;
                     Thread.Sleep(spry.Smaxtimeout);
@@ -91,14 +102,13 @@ namespace uhf_rfid_catch.Handlers
                 catch (Exception e)
                 {
                     var _exp = e;
-                    _logger.Trigger("Error", $"Serial connection failed to open/read, retrying now.");
+                    _logger.Trigger("Error", "Serial connection failed to open/read, retrying now.");
                     maxRetries--;
                     retryState = retryFailedCheck;
                     Thread.Sleep(spry.Smaxtimeout);
                 }
-
 #if DEBUG
-                    if (serialProfile.IsOpen || maxRetries == 0)
+                    if (serialProfile.IsOpen || maxRetries == 0 || spry.Smaxretry == 0)
                     {
 #endif
 #if !DEBUG

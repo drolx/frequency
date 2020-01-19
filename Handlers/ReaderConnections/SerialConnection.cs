@@ -135,13 +135,11 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                             protoInfo.ReceivedBytes =
                                 CheckSum.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
 
-                            _consoleOnlyLogger.Push("Info",
-                                " Received HEX: " + protoInfo.seeData().Replace("-", String.Empty));
-                            Thread.Sleep(5000);
+                            _consoleOnlyLogger.Push("Debug",
+                                " Received Fake HEX: " + protoInfo.seeData().Replace("-", String.Empty));
+                            Thread.Sleep(9000);
                         }
 #endif
-                        
-                        
                     }
                     else
                     {
