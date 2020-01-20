@@ -90,13 +90,19 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             byte[] decodedBytes = new byte[localMaxByteSize];
             while (AutoRead)
             {
-                if (builtConnection.IsOpen)
+#if DEBUG
+                if (true)
                 {
+#endif
+#if !DEBUG
+                    if (builtConnection.IsOpen)
+                    {
+#endif
                     if(protoInfo.DirectAutoRead)
                     {
                         // Start decode part of the process.
                         ////
-                        if (builtConnection.BytesToRead > 0)
+                        if (builtConnection.IsOpen && builtConnection.BytesToRead > 0)
                         {
                             var _returnedData = ConnectionChannel(builtConnection);
                             try
@@ -110,7 +116,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                             
                             if (localMaxByteSize - 1 == localByteSize)
                             {
-                                protoInfo.ReceivedBytes = decodedBytes;
+                                if (builtConnection.IsOpen)
+                                {
+                                    protoInfo.ReceivedBytes = decodedBytes;
+                                }
                                 _consoleOnlyLogger.Push("Info", " Received HEX: " + protoInfo.seeData().Replace("-", String.Empty));
                             }
                             ++localByteSize;
@@ -119,6 +128,18 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         {
                             localByteSize = 0;
                         }
+                        
+#if DEBUG
+                        if (!builtConnection.IsOpen)
+                        {
+                            protoInfo.ReceivedBytes =
+                                CheckSum.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
+
+                            _consoleOnlyLogger.Push("Debug",
+                                " Received Fake HEX: " + protoInfo.seeData().Replace("-", String.Empty));
+                            Thread.Sleep(9000);
+                        }
+#endif
                     }
                     else
                     {
