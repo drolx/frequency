@@ -53,7 +53,8 @@ namespace uhf_rfid_catch.Helpers
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath);
+            .AddJsonFile(Filepath)
+            .AddEnvironmentVariables();
 
             IConfiguration rootConfig = builder.Build();
 
