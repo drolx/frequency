@@ -28,8 +28,31 @@ namespace uhf_rfid_catch.Helpers
 {
     public class ConfigKey
     {
-        public ConfigKey()
-        {
-        }
+        private static readonly ConfigContext _settingsContext = new ConfigContext();
+
+        /****
+        **    Base configurations for the daemon.
+        **    
+        **/
+        
+        // Port for web view
+        public static readonly int WEB_PORT = Convert.ToInt32(_settingsContext.Resolve("WebPort"));
+        // Option to persist capture data for the daemon.
+        public static readonly bool PERSIST_DATA = Convert.ToBoolean(_settingsContext.Resolve("PersistData"));
+        // Data persist duration.
+        public static readonly int PERSIST_DURATION_DAYS = Convert.ToInt32(_settingsContext.Resolve("PersistDurationDays"));
+        // Option to allow all, or a list of host.
+        public static readonly string ALLOWED_HOSTS = _settingsContext.Resolve("AllowedHosts");
+        
+        
+        /****
+        **    Logging configurations for the daemon.
+        **    
+        **/
+        // Enable or disables logging.
+        public static readonly bool ENABLE_LOGGING = Convert.ToBoolean(_settingsContext.Resolve("Logging:Enable"));
+        // the Default log level for the daemon.
+        public static readonly string LOGGING_LEVEL = _settingsContext.Resolve("Logging:LogLevel:Default");
+        
     }
 }
