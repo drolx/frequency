@@ -39,11 +39,11 @@ namespace uhf_rfid_catch.Helpers
         **/
         
         // Port for web view
-        public readonly int WEB_PORT = _settingsContext.GetSection("WebPort").Get<int>();
+        public readonly int WEB_PORT = (int) _settingsContext.GetSection("WebPort").Get<decimal>();
         // Option to persist capture data for the daemon.
         public readonly bool PERSIST_DATA = _settingsContext.GetSection("PersistData").Get<bool>();
         // Data persist duration.
-        public readonly int PERSIST_DURATION_DAYS = _settingsContext.GetSection("PersistDurationDays").Get<int>();
+        public readonly int PERSIST_DURATION_DAYS = (int) _settingsContext.GetSection("PersistDurationDays").Get<decimal>();
         // Option to allow all, or a list of host.
         public readonly string ALLOWED_HOSTS = _settingsContext.GetSection("AllowedHosts").Get<string>();
         
@@ -64,17 +64,17 @@ namespace uhf_rfid_catch.Helpers
         **/
         
         // The Main store e.g MySql or PostgresSQl
-        public static readonly string DATABASE_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
+        public readonly string DATABASE_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
         
         /// <summary>
         /// Redis distributed caching configurations.
         /// </summary>
         // Redis hostname or IP address information.
-        public static readonly string REDIS_HOST = _settingsContext.GetSection("Database:Redis:Host").Get<string>();
+        public readonly string REDIS_HOST = _settingsContext.GetSection("Database:Redis:Host").Get<string>();
         // Redis host port
-        public static readonly int REDIS_PORT = _settingsContext.GetSection("Database:Redis:Port").Get<int>();
+        public readonly int REDIS_PORT = (int) _settingsContext.GetSection("Database:Redis:Port").Get<decimal>();
         // Redis instance type, either master or slave.
-        public static readonly string REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
+        public readonly string REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
         
         // In Memory SQLite caching options mostly for IOT mode.
         public static readonly string DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
@@ -86,13 +86,97 @@ namespace uhf_rfid_catch.Helpers
         
         // Option to enable or disable server mode.
         public readonly bool SERVER_ENABLE = _settingsContext.GetSection("ServerMode:Enable").Get<bool>();
+        // Option to allow option to save captured data to the store in server mode.
+        public readonly bool SERVER_STORE = _settingsContext.GetSection("ServerMode:Store").Get<bool>();
         // Get Configured protocols list.
         public readonly IEnumerable SERVER_PROTOCOLS = _settingsContext.GetList("ServerMode:Protocols");
         
+        /****
+        **    IOT mode configurations for the daemon.
+        **    
+        **/
         
+        // Option to enable or disable IOT remote functionality.
+        public readonly bool IOT_MODE_ENABLE = _settingsContext.GetSection("IOTMode:Enable").Get<bool>();
+        // Option for how many simultaneous HTTP push can happen at once.
+        public readonly int PUSH_PROCESS_COUNT = (int) _settingsContext.GetSection("IOTMode:PushProcessCount").Get<decimal>();
+        // The IOT mode unique identity for the daemon instance.
+        public readonly string IOT_UNIQUE_ID = _settingsContext.GetSection("IOTMode:UniqueId").Get<string>();
+        // IOT mode required protocol to decode.
+        public readonly string IOT_PROTOCOL = _settingsContext.GetSection("IOTMode:Protocol").Get<string>();
+        // Remote Host URI.
+        public readonly string IOT_REMOTE_HOST_URL = _settingsContext.GetSection("IOTMode:RemoteHostUrl").Get<string>();
+        // Remote Host HTTP call method.
+        public readonly string IOT_REMOTE_HOST_METHOD = _settingsContext.GetSection("IOTMode:RemoteHostMethod").Get<string>();
+        // Remote Host HTTP authentication username.
+        public readonly string IOT_REMOTE_HOST_USERNAME = _settingsContext.GetSection("IOTMode:RemoteHostUsername").Get<string>();
+        // Remote Host HTTP authentication password.
+        public readonly string IOT_REMOTE_HOST_PASSWORD = _settingsContext.GetSection("IOTMode:RemoteHostPassword").Get<string>();
+        // Option for minimum delay in seconds that allowed for an HTTP call.
+        public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:MinRemoteHostDelay").Get<decimal>());
+        // Option for how long a card is disallowed from generation a HTTP push after an entry.
+        public readonly int IOT_MIN_REPEAT_FREQ = (int) (1000 * _settingsContext.GetSection("IOTMode:MinRepeatFrequency").Get<decimal>());
+        // Options to enable or disable auto read mode.
+        public readonly bool IOT_AUTO_READ = _settingsContext.GetSection("IOTMode:AutoRead").Get<bool>();
+        // Options to enable or disable auto read mode.
+        public readonly bool IOT_NETWORK_CHECK = _settingsContext.GetSection("IOTMode:NetworkCheck").Get<bool>();
+        // Options to enable or disable auto read mode.
+        public readonly string IOT_NETWORK_CHECK_ADDRESS = _settingsContext.GetSection("IOTMode:NetworkCheckAddress").Get<string>();
+        // Options to configure maximum network connection timeout in seconds.
+        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) _settingsContext.GetSection("IOTMode:NetworkCheckAddress").Get<decimal>();
+
         
+        /****
+        **    IOT-Serial connection configurations for the daemon.
+        **    
+        **/
         
+        // Options to enable or disable serial connection for IOT mode.
+        public readonly bool IOT_SERIAL_ENABLE = _settingsContext.GetSection("IOTMode:Connections:Serial:Enable").Get<bool>();
         
+        // Options for getting serial connection port name.
+        public readonly string IOT_SERIAL_PORTNAME = _settingsContext.GetSection("IOTMode:Connections:Serial:PortName").Get<string>();
+        
+        // Options to get serial connection BaudRate.
+        public readonly int IOT_SERIAL_BAUDRATE = (int) _settingsContext.GetSection("IOTMode:Connections:Serial:BaudRate").Get<decimal>();
+        
+        // Options to get serial connection DataBits.
+        public readonly int IOT_SERIAL_DATABITS = (int) _settingsContext.GetSection("IOTMode:Connections:Serial:DataBits").Get<decimal>();
+        
+        // Options for number of times serial connection will be retried after a failed connection.
+        public readonly int IOT_SERIAL_CONN_RETRY = (int) _settingsContext.GetSection("IOTMode:Connections:Serial:ConnectionRetries").Get<decimal>();
+        
+        // Options to configure minimum serial connection timeout in seconds.
+        public readonly int IOT_SERIAL_CONN_TIMEOUT = (int) (1000 * _settingsContext.GetSection("IOTMode:Connections:Serial:ConnectionTimeout").Get<decimal>());
+
+
+
+        /****
+        **    IOT-network TCP/UDP connection configurations for the daemon.
+        **    
+        **/
+    
+        // Options to enable or disable network connection for IOT mode.
+        public readonly bool IOT_NETWORK_ENABLE = _settingsContext.GetSection("IOTMode:Connections:Network:Enable").Get<bool>();
+            
+        // Options for getting network connection protocol type UDP/TCP.
+        public readonly string IOT_NETWORK_TYPE = _settingsContext.GetSection("IOTMode:Connections:Network:Type").Get<string>();
+        
+        // Options for getting network connection address.
+        public readonly string IOT_NETWORK_ADDRESS = _settingsContext.GetSection("IOTMode:Connections:Network:Address").Get<string>();
+            
+        // Options to get network connection port.
+        public readonly int IOT_NETWORK_PORT = (int) _settingsContext.GetSection("IOTMode:Connections:Network:Port").Get<decimal>();
+
+    // Options for number of times network connection will be retried after a failed connection.
+        public readonly int IOT_NETWORK_CONN_RETRY = (int) _settingsContext.GetSection("IOTMode:Connections:Network:ConnectionRetries").Get<decimal>();
+            
+        // Options to configure minimum network connection timeout in seconds.
+        public readonly int IOT_NETWORK_CONN_TIMEOUT = (int) (1000 * _settingsContext.GetSection("IOTMode:Connections:Network:ConnectionTimeout").Get<decimal>());
+
+        
+    
+    
         // Usage of array type temp.
 //        ConfigKey nq1 = new ConfigKey();
 //        IEnumerable test1 = nq1.SERVER_PROTOCOLS;
