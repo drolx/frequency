@@ -39,13 +39,13 @@ namespace uhf_rfid_catch.Helpers
         **/
         
         // Port for web view
-        public readonly int WEB_PORT = (int) _settingsContext.GetSection("WebPort").Get<decimal>();
+        public readonly int BASE_WEB_PORT = (int) _settingsContext.GetSection("WebPort").Get<decimal>();
         // Option to persist capture data for the daemon.
-        public readonly bool PERSIST_DATA = _settingsContext.GetSection("PersistData").Get<bool>();
+        public readonly bool BASE_PERSIST_DATA = _settingsContext.GetSection("PersistData").Get<bool>();
         // Data persist duration.
-        public readonly int PERSIST_DURATION_DAYS = (int) _settingsContext.GetSection("PersistDurationDays").Get<decimal>();
+        public readonly int BASE_PERSIST_DURATION_DAYS = (int) _settingsContext.GetSection("PersistDurationDays").Get<decimal>();
         // Option to allow all, or a list of host.
-        public readonly string ALLOWED_HOSTS = _settingsContext.GetSection("AllowedHosts").Get<string>();
+        public readonly string BASE_ALLOWED_HOSTS = _settingsContext.GetSection("AllowedHosts").Get<string>();
         
         
         /****
@@ -64,20 +64,20 @@ namespace uhf_rfid_catch.Helpers
         **/
         
         // The Main store e.g MySql or PostgresSQl
-        public readonly string DATABASE_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
+        public readonly string DATA_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
         
         /// <summary>
         /// Redis distributed caching configurations.
         /// </summary>
         // Redis hostname or IP address information.
-        public readonly string REDIS_HOST = _settingsContext.GetSection("Database:Redis:Host").Get<string>();
+        public readonly string DATA_REDIS_HOST = _settingsContext.GetSection("Database:Redis:Host").Get<string>();
         // Redis host port
-        public readonly int REDIS_PORT = (int) _settingsContext.GetSection("Database:Redis:Port").Get<decimal>();
+        public readonly int DATA_REDIS_PORT = (int) _settingsContext.GetSection("Database:Redis:Port").Get<decimal>();
         // Redis instance type, either master or slave.
-        public readonly string REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
+        public readonly string DATA_REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
         
         // In Memory SQLite caching options mostly for IOT mode.
-        public static readonly string DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
+        public static readonly string DATA_DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
         
         /****
         **    Server mode configurations for the daemon.
