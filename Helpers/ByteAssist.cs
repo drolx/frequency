@@ -24,13 +24,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace uhf_rfid_catch.Helpers
 {
-    public class CheckSum
+    public class ByteAssist
     {
-        public CheckSum()
+        public ByteAssist()
         {
         }
         
@@ -41,6 +42,37 @@ namespace uhf_rfid_catch.Helpers
                 .ToArray();
         }
 
+        public static byte[] from(byte[] BytesArray, int StartFrom)
+        {
+            var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
+                .Where(k => k.Index >= StartFrom)
+                .Select(y => y.Value);
+            return TempFilter.ToArray();
+        }
+
+        public static byte[] to(byte[] BytesArray, int StopAt)
+        {
+            var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
+                .Where(k => k.Index >= 0 && k.Index < StopAt)
+                .Select(y => y.Value);
+            return TempFilter.ToArray();
+        }
         
+        public static byte[] between(byte[] BytesArray,int Start, int End)
+        {
+            var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
+                .Where(k => k.Index >= Start && k.Index <= End)
+                .Select(y => y.Value);
+            return TempFilter.ToArray();
+        }
+        
+        public static byte[] pick(byte[] BytesArray, int point)
+        {
+            var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
+                .Where(k => k.Index == point)
+                .Select(y => y.Value);
+            return TempFilter.ToArray();
+        }
+
     }
 }
