@@ -142,7 +142,6 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                 }
                 else
                 {
-////                    RequestStop();
                     _logger.Trigger("Error", $"Serial connection failed to open, retrying now.");
                 }
                 
