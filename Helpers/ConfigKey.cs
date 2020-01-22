@@ -47,7 +47,6 @@ namespace uhf_rfid_catch.Helpers
         // Option to allow all, or a list of host.
         public readonly string BASE_ALLOWED_HOSTS = _settingsContext.GetSection("AllowedHosts").Get<string>();
         
-        
         /****
         **    Logging configurations for the daemon.
         **    
@@ -123,8 +122,7 @@ namespace uhf_rfid_catch.Helpers
         // Options to enable or disable auto read mode.
         public readonly string IOT_NETWORK_CHECK_ADDRESS = _settingsContext.GetSection("IOTMode:NetworkCheckAddress").Get<string>();
         // Options to configure maximum network connection timeout in seconds.
-        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) _settingsContext.GetSection("IOTMode:NetworkCheckAddress").Get<decimal>();
-
+        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) _settingsContext.GetSection("IOTMode:NetworkCheckTimeout").Get<decimal>();
         
         /****
         **    IOT-Serial connection configurations for the daemon.
@@ -148,8 +146,6 @@ namespace uhf_rfid_catch.Helpers
         
         // Options to configure minimum serial connection timeout in seconds.
         public readonly int IOT_SERIAL_CONN_TIMEOUT = (int) (1000 * _settingsContext.GetSection("IOTMode:Connections:Serial:ConnectionTimeout").Get<decimal>());
-
-
 
         /****
         **    IOT-network TCP/UDP connection configurations for the daemon.
