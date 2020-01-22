@@ -29,17 +29,17 @@ using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Handlers
 {
-    public class DnsChecker
+    public class NetworkCheck
     {
         private static bool _finalStatus;
-        private static readonly ConfigContext SettingsContext = new ConfigContext();
+        private static readonly ConfigKey _config = new ConfigKey();
 
         readonly Ping _pingInit = new Ping();
         private readonly byte[] _buffer = new byte[32];
-        private readonly int _timeout = Convert.ToInt32(SettingsContext.Resolve("InternetCheckTimeout"));
+        private readonly int _timeout = _config.IOT_NETWORK_CHECK_TIMEOUT;
         readonly PingOptions _pingOptions = new PingOptions();
-        private readonly string _host = SettingsContext.Resolve("InternetCheckAddress");
-        public DnsChecker()
+        private readonly string _host = _config.IOT_NETWORK_CHECK_ADDRESS;
+        public NetworkCheck()
         {
             try
             {
@@ -54,7 +54,12 @@ namespace uhf_rfid_catch.Handlers
 
         public bool Status()
         {
-            return _finalStatus;
+            if (_config.IOT_NETWORK_CHECK)
+            {
+                return _finalStatus;
+            }
+
+            return true;
         }
     }
 }
