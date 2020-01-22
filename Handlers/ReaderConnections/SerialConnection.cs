@@ -33,16 +33,9 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 {
     public class SerialConnection
     {
-        private static readonly ConfigContext SettingsContext = new ConfigContext();
+        private static readonly ConfigKey _config = new ConfigKey();
         private readonly MainLogger _logger = new MainLogger();
         private readonly ConsoleOnlyLogger _consoleOnlyLogger = new ConsoleOnlyLogger();
-        
-        public readonly string Sportname = SettingsContext.Resolve("ReaderSerialPortName");
-        public readonly int Sbaudrate = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialBaudRate"));
-        public readonly int Sdatabits = Convert.ToInt32(SettingsContext.Resolve("ReaderSerialDataBits"));
-        public readonly int Smaxretry = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionRetries"));
-        public readonly int Smaxtimeout = Convert.ToInt32(SettingsContext.Resolve("ReaderConnectionTimeout"));
-        public bool AutoRead = Convert.ToBoolean(SettingsContext.Resolve("ReaderAutoReadMode"));
 
         public SerialConnection()
         {
@@ -54,7 +47,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
             var parity = Parity.None;
             var stopBits = StopBits.One;
-            var srp = new SerialPort(portName, Sbaudrate, parity, Sdatabits, stopBits)
+            var srp = new SerialPort(portName, _config.IOT_SERIAL_BAUDRATE, parity, _config.IOT_SERIAL_DATABITS, stopBits)
             {
                 DtrEnable = true, RtsEnable = true, ReadTimeout = 500, WriteTimeout = 500
             };
@@ -88,7 +81,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             var localByteSize = 0;
             var localMaxByteSize = protoInfo.AutoReadLength;
             byte[] decodedBytes = new byte[localMaxByteSize];
-            while (AutoRead)
+            while (_config.IOT_AUTO_READ)
             {
 #if DEBUG
                 if (true)
