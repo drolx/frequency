@@ -28,31 +28,34 @@ using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Protocols.Readers
 {
-    public class BaseProtocol : IReaderProtocol
+    public abstract class BaseProtocol : IReaderProtocol
     {
         public BaseProtocol()
         {
         }
-        // Set default byte length for auto stream mode..
-        public virtual int AutoReadLength { get; set; } = 20;
-
+        // TODO: Optimize data type identification.
+        // Set default byte length for auto stream mode.
+        public virtual int AutoReadLength { get; set; } = 1;
+        // Required if protocol doesn't have an auto detect mode.
+        public virtual byte[] CommandReadTag { get; set; }
+        // An extra option to specify if a protocol can auto read itself.
         public virtual bool DirectAutoRead { get; set; } = true;
-
+        // Specify data type before processing response, in case conversion is required.
         public virtual string ProtocolDataType { get; set; } = "hex";
-
+        // Received data converted to bytes
         public virtual byte[] ReceivedBytes { get; set; } = { };
-
-        public virtual string seeData()
-        {
-            return BitConverter.ToString(ReceivedBytes);
-        }
 
         public virtual void Log()
         {
             Console.WriteLine($"***** Start decode/encode {ProtocolDataType} type session *****");
         }
 
-        public Scan DecodeData()
+        public virtual Scan DecodeData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Decode()
         {
             throw new NotImplementedException();
         }
