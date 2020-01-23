@@ -41,15 +41,15 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
         }
 
-        public SerialPort BuildConnection(string knownPortName)
+        public SerialPort BuildConnection()
         {
-            var portName = knownPortName == "null" ? SuggestPort() : knownPortName;
+            var portName = _config.IOT_SERIAL_PORTNAME == "null" ? SuggestPort() : _config.IOT_SERIAL_PORTNAME;
 
             var parity = Parity.None;
             var stopBits = StopBits.One;
             var srp = new SerialPort(portName, _config.IOT_SERIAL_BAUDRATE, parity, _config.IOT_SERIAL_DATABITS, stopBits)
             {
-                DtrEnable = true, RtsEnable = true, ReadTimeout = 500, WriteTimeout = 500
+                DtrEnable = true, RtsEnable = true, ReadTimeout = 500, WriteTimeout = 500, Handshake = Handshake.None, DiscardNull = true
             };
             return srp;
         }
@@ -79,8 +79,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         public void AutoReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
         {
             var localByteSize = 0;
-            var localMaxByteSize = protoInfo.AutoReadLength;
-            byte[] decodedBytes = new byte[localMaxByteSize];
+            int localMaxSize = 0;
+            byte[] decodedBytes = new byte[protoInfo.AutoReadLength];
             while (_config.IOT_AUTO_READ)
             {
 #if DEBUG
@@ -97,6 +97,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         ////
                         if (builtConnection.IsOpen && builtConnection.BytesToRead > 0)
                         {
+//                            Console.WriteLine($"*******{protoInfo.AutoReadLength}*********{builtConnection.BytesToRead}********");
                             var _returnedData = ConnectionChannel(builtConnection);
                             try
                             {
@@ -107,18 +108,30 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                                 _logger.Trigger("Error", e.ToString());
                             }
                             
-                            if (localMaxByteSize - 1 == localByteSize)
+                            if (localMaxSize - 1 == localByteSize)
                             {
                                 if (builtConnection.IsOpen)
                                 {
                                     protoInfo.ReceivedBytes = decodedBytes;
+                                    _consoleOnlyLogger.Push("Info", " Received HEX: " + BitConverter.ToString(protoInfo.ReceivedBytes));
                                 }
-                                _consoleOnlyLogger.Push("Info", " Received HEX: " + protoInfo.seeData().Replace("-", String.Empty));
                             }
+                            
                             ++localByteSize;
                         }
                         else
                         {
+                            if (localByteSize != 0 && localByteSize > 2 )
+                            {
+                                localMaxSize = localByteSize > localMaxSize ? localByteSize : localMaxSize;
+                                if (localMaxSize == localByteSize)
+                                {
+//                                    Console.WriteLine(BitConverter.ToString(decodedBytes));
+                                    decodedBytes = new byte[protoInfo.AutoReadLength];
+                                }
+                                
+                            }
+                            
                             localByteSize = 0;
                         }
                         
@@ -129,7 +142,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                                 ByteAssist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
 
                             _consoleOnlyLogger.Push("Debug",
-                                " Received Fake HEX: " + protoInfo.seeData().Replace("-", String.Empty));
+                                " Received Fake HEX: " + BitConverter.ToString(protoInfo.ReceivedBytes));
                             Thread.Sleep(9000);
                         }
 #endif
@@ -137,6 +150,12 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                     else
                     {
                         Console.WriteLine("Implement non auto read mode.");
+                        // TODO: Manual serial port Read with a command.
+                        // Sample of reading every 5 seconds
+                        // After Executing write commands and getting response.
+                        
+                        // Then sleep for a while.
+                        Thread.Sleep(5000);
                     }
                     
                 }
@@ -161,5 +180,16 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                 Console.WriteLine(portName);
             }
         }
+        
+        public void DataReceivedHandler(
+            object sender,
+            SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort) sender;
+            byte[] buf = new byte[sp.BytesToRead];
+            sp.Read(buf, 0, buf.Length);
+            Console.WriteLine(BitConverter.ToString(buf));
+        }
+        
     }
 }
