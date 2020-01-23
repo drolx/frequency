@@ -35,7 +35,7 @@ namespace uhf_rfid_catch.Helpers
         {
         }
 
-        public IReaderProtocol GetInstance(string DeviceModel)
+        public static IReaderProtocol GetInstance(string DeviceModel)
         {
             IReaderProtocol SelectedModel;
             switch (DeviceModel)

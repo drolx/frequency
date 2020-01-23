@@ -24,6 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
@@ -37,8 +39,12 @@ namespace uhf_rfid_catch.Helpers
 #if !DEBUG
         private const String Filepath = "appsettings.json";
 #endif
-        public ConfigContext()
-        { }
+        
+        private static IConfigurationBuilder _builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(Filepath)
+            .AddEnvironmentVariables();
+        private static IConfiguration _configuration = _builder.Build();
 
         public string Resolve(String settingPath)
         {
@@ -49,15 +55,25 @@ namespace uhf_rfid_catch.Helpers
             return CheckConfig(settingPath);
         }
 
+        public IConfiguration GetSection(string requestedConf)
+        {
+            IConfigurationSection conf = _configuration.GetSection(requestedConf);
+            return conf;
+        }
+        public IEnumerable<IConfigurationSection> GetList(string requestedConf)
+        {
+            IConfigurationSection conf = _configuration.GetSection(requestedConf);
+            return conf.GetChildren();
+        }
+        
+        public IEnumerable<IConfigurationSection> GetList(IConfigurationSection requestedConf)
+        {
+            return requestedConf.GetChildren();
+        }
+
         private string CheckConfig(String param)
         {
-            var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath);
-
-            IConfiguration rootConfig = builder.Build();
-
-            return rootConfig[param];
+            return _configuration[param];
         }
     }
 }

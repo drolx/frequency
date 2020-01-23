@@ -1,5 +1,5 @@
-﻿//
-// BitUtil.cs
+//
+// DnsChecker.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,23 +24,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
+using System.Net.NetworkInformation;
+using uhf_rfid_catch.Helpers;
 
-namespace uhf_rfid_catch.Helpers
+namespace uhf_rfid_catch.Handlers
 {
-    public class CheckSum
+    public class NetworkCheck
     {
-        public CheckSum()
+        private static bool _finalStatus;
+        private static readonly ConfigKey _config = new ConfigKey();
+
+        readonly Ping _pingInit = new Ping();
+        private readonly byte[] _buffer = new byte[32];
+        private readonly int _timeout = _config.IOT_NETWORK_CHECK_TIMEOUT;
+        readonly PingOptions _pingOptions = new PingOptions();
+        private readonly string _host = _config.IOT_NETWORK_CHECK_ADDRESS;
+        public NetworkCheck()
         {
-        }
-        
-        public static byte[] HexToByteArray(string hex) {
-            return Enumerable.Range(0, hex.Length)
-                .Where(x => x % 2 == 0)
-                .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                .ToArray();
+            try
+            {
+                PingReply receivedPingReply = _pingInit.Send(_host, _timeout, _buffer, _pingOptions);
+                if (receivedPingReply != null) _finalStatus = receivedPingReply.Status == IPStatus.Success;
+            }
+            catch (Exception)
+            {
+                _finalStatus = false;
+            }
         }
 
-        
+        public bool Status()
+        {
+            if (_config.IOT_NETWORK_CHECK)
+            {
+                return _finalStatus;
+            }
+
+            return true;
+        }
     }
 }

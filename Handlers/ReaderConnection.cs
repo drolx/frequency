@@ -24,7 +24,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using uhf_rfid_catch.Handlers.ReaderConnections;
@@ -35,7 +34,7 @@ namespace uhf_rfid_catch.Handlers
 {
     public class ReaderConnection
     {
-        private static readonly ConfigContext SettingsContext = new ConfigContext();
+        private static readonly ConfigKey _config = new ConfigKey();
         MainLogger _logger = new MainLogger();
 
         public ReaderConnection()
@@ -45,23 +44,22 @@ namespace uhf_rfid_catch.Handlers
         public void SerialConnection()
         {
             SerialConnection spry = new SerialConnection();
-            SerialPort serialProfile = spry.BuildConnection(spry.Sportname);
+            SerialPort serialProfile = spry.BuildConnection();
             BaseReaderProtocol selectedProtocol = new BaseReaderProtocol();
             IReaderProtocol _selectedProtocol = selectedProtocol.Resolve();
-            
+
             // List devices
             spry.ShowPorts();
-//            SerialProfile.DataReceived += spry.portOnReceiveData;
-
-            var maxRetries = spry.Smaxretry;
+//            serialProfile.DataReceived += spry.DataReceivedHandler;
+            var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
             var retryState = true;
             var retryFailedCheck = true;
-            
+            // Failure handler start process
             while (retryState)
             {
                 try
                 {
-                    if (maxRetries > 0 || spry.Smaxretry == 0)
+                    if (maxRetries > 0 || _config.IOT_SERIAL_CONN_RETRY == 0)
                     {
                         retryState = false;
                         retryFailedCheck = true;
@@ -81,23 +79,19 @@ namespace uhf_rfid_catch.Handlers
                     
                     serialProfile.Open();
                     
+                    // Clear buffer to avoid out-of-bounds exceptions
+                    serialProfile.DiscardInBuffer();
+                    serialProfile.DiscardOutBuffer();
+                    
                 }
                 catch (UnauthorizedAccessException unauthorizedAccessException)
                 {
                     var _exp = unauthorizedAccessException;
-                    string condiLog;
-                    if (spry.Smaxretry == 0)
-                    {
-                        condiLog = "retrying now.";
-                    }
-                    else
-                    {
-                        condiLog = $"retrying now, {maxRetries} remaining.";
-                    }
-                    _logger.Trigger("Error", $"Serial connection failed to open/read, {condiLog}");
+                    var condLog = _config.IOT_SERIAL_CONN_RETRY == 0 ? "retrying now." : $"retrying now, {maxRetries} remaining.";
+                    _logger.Trigger("Error", $"Serial connection failed to open/read, {condLog}");
                     maxRetries--;
                     retryState = retryFailedCheck;
-                    Thread.Sleep(spry.Smaxtimeout);
+                    Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
                 }
                 catch (Exception e)
                 {
@@ -105,10 +99,10 @@ namespace uhf_rfid_catch.Handlers
                     _logger.Trigger("Error", "Serial connection failed to open/read, retrying now.");
                     maxRetries--;
                     retryState = retryFailedCheck;
-                    Thread.Sleep(spry.Smaxtimeout);
+                    Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
                 }
 #if DEBUG
-                    if (serialProfile.IsOpen || maxRetries == 0 || spry.Smaxretry == 0)
+                    if (serialProfile.IsOpen || maxRetries == 0 || _config.IOT_SERIAL_CONN_RETRY == 0)
                     {
 #endif
 #if !DEBUG
@@ -120,14 +114,14 @@ namespace uhf_rfid_catch.Handlers
                     var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
                     autoScanThread.Name = "Reader Auto Scanner";
                     autoScanThread.Start();
-                
+
                     ///////
                     // Add other modes
                     Console.WriteLine("Test For other modes..");
                     
                 }
             }
-            
+            // Failure handler end process
         }
 
         public void NetworkConnection()

@@ -31,14 +31,11 @@ namespace uhf_rfid_catch.Protocols
     public class BaseReaderProtocol
     {
         private readonly IReaderProtocol _selectedProtocol;
-        private static readonly ConfigContext SettingsContext = new ConfigContext();
-        
-        private readonly string ProtocolName = SettingsContext.Resolve("ReaderModel");
+        private static readonly ConfigKey _config = new ConfigKey();
 
         public BaseReaderProtocol()
         {
-            Initializer LocalInstance = new Initializer();
-            IReaderProtocol selectedProtocol = LocalInstance.GetInstance(ProtocolName);
+            IReaderProtocol selectedProtocol = Initializer.GetInstance(_config.IOT_PROTOCOL);
             _selectedProtocol = selectedProtocol;
         }
 

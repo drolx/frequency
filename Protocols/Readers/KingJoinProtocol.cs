@@ -30,10 +30,12 @@ namespace uhf_rfid_catch.Protocols.Readers
 {
     public class KingJoinProtocol : BaseProtocol
     {
+
         public KingJoinProtocol()
         {
+            AutoReadLength = 32;
         }
-
-//        public override int AutoReadLength { get; set; } = 15;
+        
+        
     }
 }
