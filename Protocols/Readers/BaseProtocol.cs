@@ -24,30 +24,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using uhf_rfid_catch.Handlers;
+using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Protocols.Readers
 {
     public abstract class BaseProtocol : IReaderProtocol
     {
+        public MainLogger _logger;
+        public ByteAssist _assist;
         public BaseProtocol()
         {
+            _logger = new MainLogger();
+            _assist = new ByteAssist();
         }
+        
+        // Default byte maps.
+        public const byte START_RESPONSE_BYTE = 0x00;
+        public const byte START_COMMAND_BYTE = 0x00;
+        
+        // Received data converted to bytes
+        public virtual byte[] ReceivedData { get; set; } = { };
+        
         // TODO: Optimize data type identification.
         // Set default byte length for auto stream mode.
-        public virtual int AutoReadLength { get; set; } = 1;
+        public virtual int DataLength { get; set; } = 1;
+        
         // Required if protocol doesn't have an auto detect mode.
-        public virtual byte[] CommandReadTag { get; set; }
+        public virtual byte[] RequestRead { get; set; }
+        
         // An extra option to specify if a protocol can auto read itself.
-        public virtual bool DirectAutoRead { get; set; } = true;
+        public virtual bool AutoRead { get; set; } = true;
+        
         // Specify data type before processing response, in case conversion is required.
-        public virtual string ProtocolDataType { get; set; } = "hex";
-        // Received data converted to bytes
-        public virtual byte[] ReceivedBytes { get; set; } = { };
+        public virtual string DataType { get; set; } = "hex";
 
         public virtual void Log()
         {
-            Console.WriteLine($"***** Start decode/encode {ProtocolDataType} type session *****");
+            _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
         }
 
         public virtual Scan DecodeData()

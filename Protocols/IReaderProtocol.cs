@@ -30,20 +30,20 @@ namespace uhf_rfid_catch.Protocols
 {
     public interface IReaderProtocol
     {
-        void Log();
-        bool DirectAutoRead { get; set; }
-        int AutoReadLength { get; set; }
-        byte[] CommandReadTag { get; set; }
+        
+        byte[] ReceivedData { get; set; }
+        int DataLength { get; set; }
+        bool AutoRead { get; set; }
+        byte[] RequestRead { get; set; }
+        
         // TYPES:
         /// <summary>
         ///  byte | binary | string | hex
         /// </summary>
-        string ProtocolDataType { get; set; }
-        //int RequestedReadLength { get; set; }
-        //int DefaultReadLength { get; set; }
-
-        byte[] ReceivedBytes { get; set; }
+        string DataType { get; set; }
         
+        void Log();
+
         Scan DecodeData();
 
         void Decode();
