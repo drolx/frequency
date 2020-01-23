@@ -44,18 +44,17 @@ namespace uhf_rfid_catch.Handlers
         public void SerialConnection()
         {
             SerialConnection spry = new SerialConnection();
-            SerialPort serialProfile = spry.BuildConnection(_config.IOT_SERIAL_PORTNAME);
+            SerialPort serialProfile = spry.BuildConnection();
             BaseReaderProtocol selectedProtocol = new BaseReaderProtocol();
             IReaderProtocol _selectedProtocol = selectedProtocol.Resolve();
-            
+
             // List devices
             spry.ShowPorts();
-//            SerialProfile.DataReceived += spry.portOnReceiveData;
-
+//            serialProfile.DataReceived += spry.DataReceivedHandler;
             var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
             var retryState = true;
             var retryFailedCheck = true;
-            
+            // Failure handler start process
             while (retryState)
             {
                 try
@@ -79,6 +78,10 @@ namespace uhf_rfid_catch.Handlers
                     _logger.Trigger("Info", $"Opening new serial connection...");
                     
                     serialProfile.Open();
+                    
+                    // Clear buffer to avoid out-of-bounds exceptions
+                    serialProfile.DiscardInBuffer();
+                    serialProfile.DiscardOutBuffer();
                     
                 }
                 catch (UnauthorizedAccessException unauthorizedAccessException)
@@ -111,14 +114,14 @@ namespace uhf_rfid_catch.Handlers
                     var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
                     autoScanThread.Name = "Reader Auto Scanner";
                     autoScanThread.Start();
-                
+
                     ///////
                     // Add other modes
                     Console.WriteLine("Test For other modes..");
                     
                 }
             }
-            
+            // Failure handler end process
         }
 
         public void NetworkConnection()
