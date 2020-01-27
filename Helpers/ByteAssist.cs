@@ -35,14 +35,14 @@ namespace uhf_rfid_catch.Helpers
         {
         }
         
-        public static byte[] HexToByteArray(string hex) {
+        public byte[] HexToByteArray(string hex) {
             return Enumerable.Range(0, hex.Length)
                 .Where(x => x % 2 == 0)
                 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                 .ToArray();
         }
 
-        public static byte[] from(byte[] BytesArray, int StartFrom)
+        public byte[] from(byte[] BytesArray, int StartFrom)
         {
             var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
                 .Where(k => k.Index >= StartFrom)
@@ -50,7 +50,7 @@ namespace uhf_rfid_catch.Helpers
             return TempFilter.ToArray();
         }
 
-        public static byte[] to(byte[] BytesArray, int StopAt)
+        public byte[] to(byte[] BytesArray, int StopAt)
         {
             var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
                 .Where(k => k.Index >= 0 && k.Index < StopAt)
@@ -58,7 +58,7 @@ namespace uhf_rfid_catch.Helpers
             return TempFilter.ToArray();
         }
         
-        public static byte[] between(byte[] BytesArray,int Start, int End)
+        public byte[] between(byte[] BytesArray,int Start, int End)
         {
             var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
                 .Where(k => k.Index >= Start && k.Index <= End)
@@ -66,12 +66,12 @@ namespace uhf_rfid_catch.Helpers
             return TempFilter.ToArray();
         }
         
-        public static byte[] pick(byte[] BytesArray, int point)
+        public byte pick(byte[] BytesArray, int point)
         {
             var TempFilter = BytesArray.Select((v, i) => new {Index = i, Value = v})
                 .Where(k => k.Index == point)
                 .Select(y => y.Value);
-            return TempFilter.ToArray();
+            return TempFilter.ToArray()[0];
         }
 
     }

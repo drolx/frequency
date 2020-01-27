@@ -35,12 +35,14 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
     {
         private readonly ConfigKey _config;
         private readonly MainLogger _logger;
+        private readonly ByteAssist _assist;
 //        private readonly ConsoleOnlyLogger _consoleOnlyLogger = new ConsoleOnlyLogger();
 
         public SerialConnection()
         {
             _config = new ConfigKey();
             _logger = new MainLogger();
+            _assist = new ByteAssist();
         }
 
         public SerialPort BuildConnection()
@@ -141,7 +143,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         if (!builtConnection.IsOpen)
                         {
                             protoInfo.ReceivedData =
-                                ByteAssist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
+                                _assist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
                             protoInfo.Log();
 
 //                            _consoleOnlyLogger.Push("Debug"," Received Fake HEX: " + BitConverter.ToString(protoInfo.ReceivedData));
