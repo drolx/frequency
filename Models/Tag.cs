@@ -24,23 +24,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Models
 {
     public class Tag
     {
+        private static ConfigKey _config;
         public Tag()
         {
+            _config = new ConfigKey();
         }
 
         [Key, Required]
-        public string TagId { get; set; } = Guid.NewGuid().ToString();
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
-        public string TagUniqueNo { get; set; }
-        public string CardType { get; set; }
-        [Required]
-        public DateTime LastUpdated { get; set; }
+        public string UniqueId { get; set; }
+        public string Type { get; set; }
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
         public string LastMode { get; set; }
     }
 }
