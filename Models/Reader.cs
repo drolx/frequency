@@ -42,7 +42,7 @@ namespace uhf_rfid_catch.Models
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string UniqueId { get; set; }
-        [Required]
+
         public string Mode { get; set; }
 
         public string Protocol { get; set; }

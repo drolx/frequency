@@ -34,7 +34,7 @@ namespace uhf_rfid_catch.Models
         {
         }
 
-        [Key]
+        [Key, Required]
         public Guid Id { get; set; } = Guid.NewGuid();
         public Guid ReaderId { get; set; }
         public Guid TagId { get; set; }
