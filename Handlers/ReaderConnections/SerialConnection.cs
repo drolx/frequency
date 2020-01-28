@@ -26,6 +26,7 @@
 using System;
 using System.IO.Ports;
 using System.Threading;
+using System.Threading.Tasks;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Protocols;
 
@@ -101,7 +102,6 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         ////
                         if (builtConnection.IsOpen && builtConnection.BytesToRead > 0)
                         {
-//                            Console.WriteLine($"*******{protoInfo.AutoReadLength}*********{builtConnection.BytesToRead}********");
                             var _returnedData = ConnectionChannel(builtConnection);
                             try
                             {
@@ -118,7 +118,6 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                                 {
                                     protoInfo.ReceivedData = decodedBytes;
                                     protoInfo.Log();
-//                                    _consoleOnlyLogger.Push("Info", " Received HEX: " + BitConverter.ToString(protoInfo.ReceivedData));
                                 }
                             }
                             
@@ -144,10 +143,12 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         {
                             protoInfo.ReceivedData =
                                 _assist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
-                            protoInfo.Log();
-
-//                            _consoleOnlyLogger.Push("Debug"," Received Fake HEX: " + BitConverter.ToString(protoInfo.ReceivedData));
-                            Thread.Sleep(9000);
+                            
+                            // Logging and persisting task
+                            var persistScan = new Task(protoInfo.Log);
+                            persistScan.Start();
+                            
+                            Thread.Sleep(10000);
                         }
 #endif
                     }
@@ -162,10 +163,6 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                         Thread.Sleep(5000);
                     }
                     
-                }
-                else
-                {
-                    _logger.Trigger("Error", $"Serial connection failed to open, retrying now.");
                 }
                 
             }
