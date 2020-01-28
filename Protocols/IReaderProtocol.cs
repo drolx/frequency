@@ -33,6 +33,8 @@ namespace uhf_rfid_catch.Protocols
         
         byte[] ReceivedData { get; set; }
         int DataLength { get; set; }
+        
+        int TagDataLength { get; set; }
         bool AutoRead { get; set; }
         byte[] RequestRead { get; set; }
         
@@ -46,6 +48,6 @@ namespace uhf_rfid_catch.Protocols
 
         Scan DecodeData();
 
-        void Decode();
+        bool Persist(Scan data);
     }
 }
