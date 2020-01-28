@@ -51,6 +51,8 @@ namespace uhf_rfid_catch.Handlers
             // List devices
             spry.ShowPorts();
 //            serialProfile.DataReceived += spry.DataReceivedHandler;
+
+            _logger.Trigger("Info", $"Opening new serial connection...");
             var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
             var retryState = true;
             var retryFailedCheck = true;
@@ -74,8 +76,6 @@ namespace uhf_rfid_catch.Handlers
                         serialProfile.Close();
                         serialProfile.Dispose();
                     }
-                    
-                    _logger.Trigger("Info", $"Opening new serial connection...");
                     
                     serialProfile.Open();
                     

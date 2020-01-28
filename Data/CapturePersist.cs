@@ -1,10 +1,10 @@
 ﻿//
-// Reader.cs
+// CapturePersist.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
 //
-// Copyright (c) 2020 MIT 
+// Copyright (c) 2020 MIT
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,28 +24,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using uhf_rfid_catch.Helpers;
+using uhf_rfid_catch.Models;
 
-namespace uhf_rfid_catch.Models
+namespace uhf_rfid_catch.Data
 {
-    public class Reader
+    public class CapturePersist
     {
         private static ConfigKey _config;
-        public Reader()
+        private static SessionUtil _session;
+
+        public CapturePersist()
         {
             _config = new ConfigKey();
+            _session = new SessionUtil();
         }
 
-        [Key, Required]
-        public Guid Id { get; set; } = Guid.NewGuid();
-        [Required]
-        public string UniqueId { get; set; }
+        public void OldestData()
+        {
 
-        public string Mode { get; set; }
+        }
 
-        public string Protocol { get; set; }
-        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public void OldestDelete()
+        {
+
+        }
+
+        public void Save(Scan scn)
+        {
+            using (CaptureContext _context = new CaptureContext())
+            {
+                _context.Database.EnsureCreated();
+                _context.Add(scn);
+                _context.SaveChanges();
+
+            }
+        }
     }
 }

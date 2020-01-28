@@ -24,6 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Threading.Tasks;
+using uhf_rfid_catch.Data;
 using uhf_rfid_catch.Handlers;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
@@ -32,12 +34,20 @@ namespace uhf_rfid_catch.Protocols.Readers
 {
     public abstract class BaseProtocol : IReaderProtocol
     {
-        public MainLogger _logger;
-        public ByteAssist _assist;
+        public readonly MainLogger _logger;
+        public readonly ByteAssist _assist;
+        public readonly ConfigKey _config;
+        public readonly SessionUtil _session;
+        public readonly CaptureContext _context;
+        public readonly CapturePersist _persist;
         public BaseProtocol()
         {
             _logger = new MainLogger();
             _assist = new ByteAssist();
+            _config = new ConfigKey();
+            _session = new SessionUtil();
+            _context = new CaptureContext();
+            _persist = new CapturePersist();
         }
         
         // Default byte maps.
@@ -51,6 +61,9 @@ namespace uhf_rfid_catch.Protocols.Readers
         // Set default byte length for auto stream mode.
         public virtual int DataLength { get; set; } = 1;
         
+        // Length of custom information from the reader.
+        public int TagDataLength { get; set; }
+
         // Required if protocol doesn't have an auto detect mode.
         public virtual byte[] RequestRead { get; set; }
         
@@ -62,7 +75,25 @@ namespace uhf_rfid_catch.Protocols.Readers
 
         public virtual void Log()
         {
-            _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
+            var decData = DecodeData();
+            if (Persist(decData))
+            {
+                _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
+                if (decData != null)
+                {
+                    _logger.Info($"Reader Id: {decData.Reader.UniqueId} | " +
+                                 $"Tag Type: {decData.Tag.Type} | " +
+                                 $"Read Mode: {decData.Reader.Mode} | " +
+                                 $"Tag Id: {decData.Tag.UniqueId} ");
+                }
+            }
+            else
+            {
+                _logger.Error("Issues persisting data.");
+            }
+            
+            
+           
         }
 
         public virtual Scan DecodeData()
@@ -70,9 +101,21 @@ namespace uhf_rfid_catch.Protocols.Readers
             throw new NotImplementedException();
         }
 
-        public virtual void Decode()
+        public virtual bool Persist(Scan data)
         {
-            throw new NotImplementedException();
+            bool tryWork = true;
+            try
+            {
+                var saveData = new Task(() => _persist.Save(data));
+                saveData.Start();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                tryWork = false;
+            }
+
+            return tryWork;
         }
     }
 }

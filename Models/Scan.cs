@@ -34,9 +34,12 @@ namespace uhf_rfid_catch.Models
         {
         }
 
-        [Key]
-        public string ScanId { get; set; } = Guid.NewGuid().ToString();
-        public DateTime ScanTime { get; set; }
+        [Key, Required]
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid ReaderId { get; set; }
+        public Guid TagId { get; set; }
+
+        public DateTime CaptureTime { get; set; } = DateTime.Now;
         public Reader Reader { get; set; }
         public Tag Tag { get; set; }
 

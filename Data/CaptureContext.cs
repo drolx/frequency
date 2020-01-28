@@ -50,6 +50,14 @@ namespace uhf_rfid_catch.Data
                 optionsBuilder.UseSqlite("Data Source=app.db;cache=shared");
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Reader>().HasIndex(e => new {e.UniqueId}).IsUnique();
+            modelBuilder.Entity<Tag>().HasIndex(e => new {e.UniqueId}).IsUnique();
+            
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
 }
