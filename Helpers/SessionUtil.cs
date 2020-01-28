@@ -24,17 +24,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Numerics;
+
 namespace uhf_rfid_catch.Helpers
 {
     public class SessionUtil
     {
+        private static ConfigKey _config;
+        private static ByteAssist _assist;
+        
         public SessionUtil()
         {
+            _config = new ConfigKey();
+            _assist = new ByteAssist();
         }
 
-        public static string GetUniqueID()
+        public string GetTagID(byte[] tempBytes)
         {
-            return null;
+            var tempHex = BitConverter.ToString(tempBytes).Replace("-", String.Empty);
+            return BigInteger.Parse(tempHex, System.Globalization.NumberStyles.HexNumber).ToString();
+        }
+
+        public string GetMode()
+        {
+            if (_config.IOT_MODE_ENABLE)
+            {
+                return "IOT";
+            }
+            return "SERVER";
         }
     }
 }
