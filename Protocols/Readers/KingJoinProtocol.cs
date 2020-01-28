@@ -24,13 +24,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Linq;
+using System.Numerics;
 using NLog.Fluent;
+using uhf_rfid_catch.Data;
+using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Protocols.Readers
 {
     public class KingJoinProtocol : BaseProtocol
     {
+//        private ByteAssist _assist;
+        private string _tagData;
+        private string _tagType;
+        
 
         public KingJoinProtocol()
         {
@@ -61,7 +69,105 @@ namespace uhf_rfid_catch.Protocols.Readers
 
         public override Scan DecodeData()
         {
-            return base.DecodeData();
+            bool _continue = START_RESPONSE_BYTE == _assist.pick( ReceivedData, 0);
+            
+            if (_continue
+            && _assist.pick(ReceivedData, 3) == CID1_EPC_SINGLE
+            && _assist.pick(ReceivedData,4) == CID2_GET)
+            {
+                // EPC (Gen 2) Single tag identity.
+                TagDataLength = Convert.ToInt32(_assist.pick(ReceivedData,5));
+                _tagType = "EPC";
+                
+                _tagData = _session.GetTagID(_assist.between(ReceivedData,10, 5 + TagDataLength));
+            }
+            else if (_continue
+                     && _assist.pick(ReceivedData, 3) == CID1_EPC_MULTI
+                     && _assist.pick(ReceivedData, 5) == CID2_GET)
+            {
+                // EPC (Gen 2) Multi tag identity.
+                
+                _continue = false;
+            }
+            else if (_continue
+                     && _assist.pick(ReceivedData, 3) == CID1_EPC_MEM
+                     && _assist.pick(ReceivedData, 4) == CID2_GET)
+            {
+                // EPC (Gen 2) Memory bank read.
+                TagDataLength = Convert.ToInt32(_assist.pick(ReceivedData,6));
+                _tagType = "EPC";
+                
+                _tagData = _session.GetTagID(_assist.between(ReceivedData,10, 5 + TagDataLength));
+                
+                
+                _continue = false;
+            }
+            else if (_continue
+                     && _assist.pick(ReceivedData, 3) == ISO_SINGLE
+                     && _assist.pick(ReceivedData, 4) == CID2_GET)
+            {
+                // ISO 18000-6B Single tag read.
+                TagDataLength = Convert.ToInt32(_assist.pick(ReceivedData,6));
+                _tagType = "ISO";
+                
+                _tagData = _session.GetTagID(_assist.between(ReceivedData,10, 5 + TagDataLength));
+            }
+            else if (_continue
+                     && _assist.pick(ReceivedData, 3) == ISO_MEM
+                     && _assist.pick(ReceivedData, 4) == CID2_GET)
+            {
+                // ISO 18000-6B Memory bank read.
+                TagDataLength = Convert.ToInt32(_assist.pick(ReceivedData,6));
+                _tagType = "ISO";
+                
+                _tagData = _session.GetTagID(_assist.between(ReceivedData,10, 5 + TagDataLength));
+                _continue = false;
+            }
+            else
+            {
+                _continue = false;
+            }
+            
+            
+            var scn = new Scan
+            {
+                CaptureTime = DateTime.Now
+            };
+            
+            _context.Database.EnsureCreated();
+            
+            Reader readerid;
+            if ((readerid = _context.Readers.FirstOrDefault(e => e.UniqueId == _config.IOT_UNIQUE_ID)) != null)
+            {
+                // Get already entered Unique Id for Reader.
+                scn.ReaderId = readerid.Id;
+            }
+            else
+            {
+                // Enter new Reader details.
+                // TODO: Make protocol and mode detection more dynamic.
+                scn.Reader = new Reader { UniqueId = _config.IOT_UNIQUE_ID, Mode = _session.GetMode(), Protocol = _config.IOT_PROTOCOL };
+            }
+
+            Tag tagid;
+            if ((tagid = _context.Tags.FirstOrDefault(e => e.UniqueId == _tagData)) != null)
+            {
+                // Get already entered Unique Id for Tag.
+                scn.TagId = tagid.Id;
+            }
+            else
+            {
+                // Enter new Tag details.
+                scn.Tag = new Tag
+                {
+                    UniqueId = _tagData,
+                    Type = _tagType,
+                    LastMode = "Unknown"
+                };
+            }
+            
+            return scn;
         }
+        
     }
 }
