@@ -31,5 +31,10 @@ namespace uhf_rfid_catch.Handlers
         public FilterHandler()
         {
         }
+
+        public bool EarlyFilter()
+        {
+            return true;
+        }
     }
 }
