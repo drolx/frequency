@@ -41,15 +41,12 @@ namespace uhf_rfid_catch.Helpers
             switch (DeviceModel)
             {
                 case "KingJoin":
-                    Console.WriteLine(DeviceModel);
                     SelectedModel = new KingJoinProtocol();
                     break;
                 case "Chafon":
-                    Console.WriteLine(DeviceModel);
                     SelectedModel = new ChafonProtocol();
                     break;
                 default:
-                    Console.WriteLine("");
                     SelectedModel = new KingJoinProtocol();
                     break;
             }
