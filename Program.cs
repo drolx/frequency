@@ -27,11 +27,13 @@ using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using uhf_rfid_catch.Handlers;
+using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch
 {
     class Program
     {
+        private static readonly ConfigKey _config = new ConfigKey();
         private static void readerProcess()
         {
             ReaderConnection _readerProcess = new ReaderConnection();
@@ -48,9 +50,13 @@ namespace uhf_rfid_catch
 
 
             // Web view thread//
-            Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
-            webThread.Name = "Web Process";
-            webThread.Start();
+            if (_config.BASE_WEB_ENABLE)
+            {
+                Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
+                webThread.Name = "Web Process";
+                webThread.Start();
+            }
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
