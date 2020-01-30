@@ -132,7 +132,7 @@ namespace uhf_rfid_catch.Helpers
         public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:MinRemoteHostDelay").Get<decimal>());
 
         // Option for how long a card is disallowed from generation a HTTP push after an entry.
-        public readonly int IOT_MIN_REPEAT_FREQ = (int) (1000 * _settingsContext.GetSection("IOTMode:MinRepeatFrequency").Get<decimal>());
+        public readonly int IOT_MIN_REPEAT_FREQ = (int) (_settingsContext.GetSection("IOTMode:MinRepeatFrequency").Get<decimal>());
 
         // Options to enable or disable auto read mode.
         public readonly bool IOT_AUTO_READ = _settingsContext.GetSection("IOTMode:AutoRead").Get<bool>();
