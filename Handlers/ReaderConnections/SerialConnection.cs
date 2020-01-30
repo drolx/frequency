@@ -37,7 +37,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         private readonly ConfigKey _config;
         private readonly MainLogger _logger;
         private readonly ByteAssist _assist;
-//        private readonly ConsoleOnlyLogger _consoleOnlyLogger = new ConsoleOnlyLogger();
+//        private readonly ConsoleOnlyLogger _consolelog = new ConsoleOnlyLogger();
 
         public SerialConnection()
         {
@@ -48,7 +48,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
         public SerialPort BuildConnection()
         {
-            var portName = _config.IOT_SERIAL_PORTNAME == "null" ? SuggestPort() : _config.IOT_SERIAL_PORTNAME;
+            var Suggetsted = SuggestPort();
+            var portName = _config.IOT_SERIAL_PORTNAME == "null" ? Suggetsted : _config.IOT_SERIAL_PORTNAME;
 
             var parity = Parity.None;
             var stopBits = StopBits.One;
@@ -62,8 +63,9 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         public string SuggestPort()
         {
             var selectedPort = "/dev/tty.usb_serial";
+            var ListConnections = ListConnection();
 
-            foreach (string portName in ListConnection())
+            foreach (string portName in ListConnections)
             {
                 if(portName.Contains("serial")
                    || portName.Contains("uart")
@@ -178,9 +180,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         }
         public void ShowPorts()
         {
-            string startLine = $"---- {ListConnection().Length} Serial ports available ----";
+            var ListConnections = ListConnection();
+            string startLine = $"---- {ListConnections.Length} Serial ports available ----";
             Console.WriteLine(startLine);
-            foreach (string portName in ListConnection())
+            foreach (string portName in ListConnections)
             {
                 Console.WriteLine(portName);
             }
