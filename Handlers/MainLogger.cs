@@ -63,6 +63,17 @@ namespace uhf_rfid_catch.Handlers
                 Console.WriteLine("No Log configuration found..");
             }
             _logger = NLog.Web.NLogBuilder.ConfigureNLog(LogFilePath).GetCurrentClassLogger();
+            
+            var config = new NLog.Config.LoggingConfiguration();
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget("file") { FileName = "testinfo.log" };
+            var logconsole = new NLog.Targets.ConsoleTarget("console");
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+            // Apply config           
+            NLog.LogManager.Configuration = config;
+            
         }
 
         public void Trigger(String logType, String returnText)
