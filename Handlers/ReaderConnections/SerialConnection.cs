@@ -65,7 +65,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
             foreach (string portName in ListConnection())
             {
-                if(portName.Contains("serial") || portName.Contains("uart"))
+                if(portName.Contains("serial")
+                   || portName.Contains("uart")
+                   || portName.Contains("ttyUSB")
+                   || portName.Contains("COM"))
                 {
                     selectedPort = portName;
                     break;
@@ -117,7 +120,8 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                                 if (builtConnection.IsOpen)
                                 {
                                     protoInfo.ReceivedData = decodedBytes;
-                                    protoInfo.Log();
+                                    var persistScan = new Task(protoInfo.Log);
+                                    persistScan.Start();
                                 }
                             }
                             

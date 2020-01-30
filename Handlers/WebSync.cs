@@ -1,5 +1,5 @@
 ﻿//
-// FilterHandler.cs
+// WebSync.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,45 +24,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
-using uhf_rfid_catch.Data;
-using uhf_rfid_catch.Helpers;
-using uhf_rfid_catch.Models;
-
 namespace uhf_rfid_catch.Handlers
 {
-    public class FilterHandler
+    public class WebSync
     {
-        private static ConfigKey _config;
-        private static MainLogger _logger;
-        public FilterHandler()
+        public WebSync()
         {
-            _config = new ConfigKey();
-            _logger = new MainLogger();
-        }
-
-        public bool EarlyFilter(CaptureContext _context, Scan scan)
-        {
-            var checkedUpdate = _context.Tags
-                .FirstOrDefault(e => e.Id == scan.TagId);
-
-            var diffInSeconds = 0.0;
-            
-            if (checkedUpdate != null)
-            {
-                diffInSeconds = DateTime.Now.Subtract(checkedUpdate.LastUpdated).TotalSeconds;
-            }
-
-            var checkFilter = checkedUpdate == null || diffInSeconds >= _config.IOT_MIN_REPEAT_FREQ;
-
-            if (!checkFilter)
-            {
-                _logger.Trigger("Info", "Filtered By Time.");
-                return checkFilter;
-            }
-           
-            return checkFilter;
-
         }
     }
 }

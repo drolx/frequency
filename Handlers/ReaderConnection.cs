@@ -78,6 +78,11 @@ namespace uhf_rfid_catch.Handlers
                     }
                     
                     serialProfile.Open();
+
+                    if (serialProfile.IsOpen)
+                    {
+                        _logger.Trigger("Info", $"Serial connection opened successfully...");
+                    }
                     
                     // Clear buffer to avoid out-of-bounds exceptions
                     serialProfile.DiscardInBuffer();
@@ -117,7 +122,7 @@ namespace uhf_rfid_catch.Handlers
 
                     ///////
                     // Add other modes
-                    Console.WriteLine("Test For other modes..");
+                    Console.WriteLine("Start other process..");
                     
                 }
             }
