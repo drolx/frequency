@@ -39,6 +39,9 @@ namespace uhf_rfid_catch.Helpers
         **/
         
         // Port for web view
+        public readonly bool BASE_WEB_ENABLE = _settingsContext.GetSection("WebEnable").Get<bool>();
+        
+        // Port for web view
         public readonly int BASE_WEB_PORT = (int) _settingsContext.GetSection("WebPort").Get<decimal>();
 
         // Option to persist capture data for the daemon.
