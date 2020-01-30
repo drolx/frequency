@@ -83,9 +83,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             if (Persist(decData))
             {
                 _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
-#if !DEBUG
-           Console.WriteLine($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}")     
-#endif
+                
                 var getFullScan = _request.GetScanById(_context, decData.Id);
                 try
                 {
