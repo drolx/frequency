@@ -24,7 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using uhf_rfid_catch.Data;
 using uhf_rfid_catch.Handlers;
 using uhf_rfid_catch.Helpers;
@@ -40,6 +42,7 @@ namespace uhf_rfid_catch.Protocols.Readers
         public readonly SessionUtil _session;
         public readonly CaptureContext _context;
         public readonly CapturePersist _persist;
+        public readonly PersistRequest _request;
         public BaseProtocol()
         {
             _logger = new MainLogger();
@@ -48,6 +51,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             _session = new SessionUtil();
             _context = new CaptureContext();
             _persist = new CapturePersist();
+            _request = new PersistRequest();
         }
         
         // Default byte maps.
@@ -79,12 +83,22 @@ namespace uhf_rfid_catch.Protocols.Readers
             if (Persist(decData))
             {
                 _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
-                if (decData != null)
+#if !DEBUG
+           Console.WriteLine($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}")     
+#endif
+                var getFullScan = _request.GetScanById(_context, decData.Id);
+                try
                 {
-                    _logger.Info($"Reader Id: {decData.Reader.UniqueId} | " +
-                                 $"Tag Type: {decData.Tag.Type} | " +
-                                 $"Read Mode: {decData.Reader.Mode} | " +
-                                 $"Tag Id: {decData.Tag.UniqueId} ");
+                    var logVal = $"Reader Id: {getFullScan.Reader.UniqueId} | " +
+                                 $"Tag Type: {getFullScan.Tag.Type} | " +
+                                 $"Read Mode: {getFullScan.Reader.Mode} | " +
+                                 $"Tag Id: {getFullScan.Tag.UniqueId}";
+                        
+                    _logger.Info(logVal);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e.ToString());
                 }
             }
             else
@@ -106,8 +120,9 @@ namespace uhf_rfid_catch.Protocols.Readers
             bool tryWork = true;
             try
             {
-                var saveData = new Task(() => _persist.Save(data));
-                saveData.Start();
+//                var saveData = new Task(() => _persist.Save(data));
+//                saveData.Start();
+                _persist.Save(data);
             }
             catch (Exception e)
             {
