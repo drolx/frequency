@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using uhf_rfid_catch.Handlers;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
@@ -34,16 +35,15 @@ namespace uhf_rfid_catch.Data
     {
         private static ConfigKey _config;
         private static SessionUtil _session;
+        private static PersistRequest _persist;
+        private static FilterHandler _filter;
 
         public CapturePersist()
         {
             _config = new ConfigKey();
             _session = new SessionUtil();
-        }
-
-        public void OldestData()
-        {
-
+            _persist = new PersistRequest();
+            _filter = new FilterHandler();
         }
 
         public void OldestDelete()
@@ -56,9 +56,31 @@ namespace uhf_rfid_catch.Data
             using (CaptureContext _context = new CaptureContext())
             {
                 _context.Database.EnsureCreated();
-                _context.Add(scn);
-                _context.SaveChanges();
 
+                if (_filter.EarlyFilter(_context, scn))
+                {
+                    
+                    _context.Add(scn);
+                    
+                    var tagUpdate = _context.Tags
+                        .FirstOrDefault(e => e.Id == scn.TagId);
+                    
+                    if (scn.Tag.LastUpdated != null && tagUpdate != null)
+                    {
+                        tagUpdate.LastUpdated = DateTime.Now;
+                    }
+                    
+                }
+
+                if (scn.Reader == null)
+                {
+                    var readerUpdate = _context.Readers
+                        .FirstOrDefault(e => e.Id == scn.ReaderId);
+                    readerUpdate.LastUpdated = DateTime.Now;
+                }
+                
+                _context.SaveChanges();
+                
             }
         }
     }
