@@ -26,6 +26,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using Microsoft.EntityFrameworkCore;
 using NLog.Fluent;
 using uhf_rfid_catch.Data;
 using uhf_rfid_catch.Helpers;
@@ -133,11 +134,13 @@ namespace uhf_rfid_catch.Protocols.Readers
             {
                 CaptureTime = DateTime.Now
             };
-            
+
             _context.Database.EnsureCreated();
-            
+
             Reader readerid;
-            if ((readerid = _context.Readers.FirstOrDefault(e => e.UniqueId == _config.IOT_UNIQUE_ID)) != null)
+            if ((readerid = _context.Readers
+                .AsNoTracking()
+                .FirstOrDefault(e => e.UniqueId == _config.IOT_UNIQUE_ID)) != null)
             {
                 // Get already entered Unique Id for Reader.
                 scn.ReaderId = readerid.Id;
@@ -146,11 +149,17 @@ namespace uhf_rfid_catch.Protocols.Readers
             {
                 // Enter new Reader details.
                 // TODO: Make protocol and mode detection more dynamic.
-                scn.Reader = new Reader { UniqueId = _config.IOT_UNIQUE_ID, Mode = _session.GetMode(), Protocol = _config.IOT_PROTOCOL };
+                scn.Reader = new Reader
+                { UniqueId = _config.IOT_UNIQUE_ID,
+                    Mode = _session.GetMode(),
+                    Protocol = _config.IOT_PROTOCOL
+                };
             }
 
             Tag tagid;
-            if ((tagid = _context.Tags.FirstOrDefault(e => e.UniqueId == _tagData)) != null)
+            if ((tagid = _context.Tags
+                .AsNoTracking()
+                .FirstOrDefault(e => e.UniqueId == _tagData)) != null)
             {
                 // Get already entered Unique Id for Tag.
                 scn.TagId = tagid.Id;

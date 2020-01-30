@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Data
@@ -47,12 +48,27 @@ namespace uhf_rfid_catch.Data
             _context.Database.EnsureCreated();
 
             Scan ScanData = _context.Scans
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == getbyid);
             ScanData.Reader = _context.Readers
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == ScanData.ReaderId);
             ScanData.Tag = _context.Tags
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == ScanData.TagId);
             return ScanData;
         }
+
+        public Scan GetReaderById(Guid getbyid)
+        {
+            return null;
+        }
+
+
+        public Scan GetTagById(Guid getbyid)
+        {
+            return null;
+        }
+
     }
 }
