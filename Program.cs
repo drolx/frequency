@@ -23,12 +23,10 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
 using System.Threading;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Handlers.ReaderConnections;
 
 namespace uhf_rfid_catch
 {
@@ -36,24 +34,20 @@ namespace uhf_rfid_catch
     {
         private static void readerProcess()
         {
-            ReaderConnection rdit = new ReaderConnection();
-            rdit.Run();
+            ReaderConnection _readerProcess = new ReaderConnection();
+            _readerProcess.Run();
             
-            // NetworkConnection ty = new NetworkConnection();
-            // ty.Boot();
         }
         
                 static void Main(string[] args)
         {
-            //Reader process thread//
-            ////////////////////////
+            // Reader process thread//
             Thread readerThread = new Thread(() => readerProcess());
             readerThread.Name = "UHF Reader Process";
             readerThread.Start();
 
 
-            //Web view thread//
-            //////////////////
+            // Web view thread//
             Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
             webThread.Name = "Web Process";
             webThread.Start();
