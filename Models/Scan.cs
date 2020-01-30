@@ -42,6 +42,6 @@ namespace uhf_rfid_catch.Models
         public DateTime CaptureTime { get; set; } = DateTime.Now;
         public Reader Reader { get; set; }
         public Tag Tag { get; set; }
-
+        
     }
 }
