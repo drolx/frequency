@@ -33,7 +33,7 @@ using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch
 {
-    class Program
+    internal static class Program
     {
         private static readonly ConfigKey _config = new ConfigKey();
         private static void readerProcess()
@@ -46,28 +46,26 @@ namespace uhf_rfid_catch
                 static void Main(string[] args)
         {
             // Reader process thread//
-            Thread readerThread = new Thread(() => readerProcess());
-            readerThread.Name = "UHF Reader Process";
+            var readerThread = new Thread(readerProcess) {Name = "UHF Reader Process"};
             readerThread.Start();
 
 
             // Web view thread//
             if (_config.BASE_WEB_ENABLE)
             {
-                Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
-                webThread.Name = "Web Process";
+                var webThread = new Thread(() => CreateHostBuilder(args).Build().Run()) {Name = "Web Process"};
                 webThread.Start();
             }
             
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+                private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .UseNLog();  // NLog: Setup NLog for Dependency injection
                 }
