@@ -40,12 +40,19 @@ namespace uhf_rfid_catch.Handlers
         private readonly ConfigKey _config;
         private readonly MainLogger _logger;
         private readonly SerialConnection _serial;
-
+        private readonly WebSync _webSync;
+        
+#if DEBUG
+        private bool DevMode = true;
+#else
+        private bool DevMode = false;
+#endif
         public ReaderConnection()
         {
             _config = new ConfigKey();
             _logger = new MainLogger();
             _serial = new SerialConnection();
+            _webSync = new WebSync();
         }
 
         public void SerialConnection()
@@ -124,14 +131,11 @@ namespace uhf_rfid_catch.Handlers
                         serialProfile.Close();
                         serialProfile.Dispose();
                     }
-
-//                    serialProfile.NewLine = "\r\n";
                     serialProfile.Open();
-//                    serialProfile.DataReceived += DataReceivedHandler;
 
                     if (serialProfile.IsOpen)
                     {
-                        Console.ReadKey();
+//                        Console.ReadKey();
                         _logger.Trigger("Info", $"Serial connection opened successfully...");
                     }
                     
@@ -157,24 +161,33 @@ namespace uhf_rfid_catch.Handlers
                     retryState = retryFailedCheck;
                     Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
                 }
-#if DEBUG
-                    if (serialProfile.IsOpen || maxRetries == 0 || _config.IOT_SERIAL_CONN_RETRY == 0)
-                    {
-#endif
-#if !DEBUG
-                    if (serialProfile.IsOpen)
-                    {
-#endif
-                    ///////
-                    // Thread start for Auto scanning readers
-//                    var autoScanThread = new Thread(() => _serial.AutoReadData(serialProfile, _selectedProtocol));
-//                    autoScanThread.Name = "Reader Auto Scanner";
-//                    autoScanThread.Start();
 
-                    ///////
-                    // Add other modes
-                    Console.WriteLine("Start other process..");
+                if (DevMode || serialProfile.IsOpen)
+                {
+                    // Timed Thread start for Timer based scanning.
                     
+                    if (DevMode)
+                    {
+                        // Development test for hard-coded Hex values.
+                        
+                        var devTest = new System.Timers.Timer {Interval = 15000, AutoReset = true, Enabled = true};
+                        devTest.Elapsed += OnDevTest;
+                    
+                        void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
+                            var devTask = new Task(() => _serial.AutoReadData(serialProfile, _selectedProtocol));
+//                            devTask.Start();
+                        }
+                    }
+
+                    // Thread maintenance Timer.
+                    var sectCheck = new System.Timers.Timer {Interval = 15000, AutoReset = true, Enabled = true};
+                    sectCheck.Elapsed += OnTimedEvent;
+                    
+                    void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
+                        var ThreadLife = new Task(() => _logger.Trigger("Info", "Keep Thread Alive.."));
+                        ThreadLife.Start();
+                    }
+
                 }
             }
             // Failure handler end process
@@ -185,10 +198,19 @@ namespace uhf_rfid_catch.Handlers
 
         }
 
+        // Main Reader method for bootstrapping everything from the main thread.
         public void Run()
         {
             SerialConnection();
-
+            
+            // Cloud sync timed thread sub process.
+            var webSyncTimer = new System.Timers.Timer {Interval = 10000, AutoReset = true, Enabled = true};
+            webSyncTimer.Elapsed += OnWebSyncEvent;
+                    
+            void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
+                var syncTask = new Task(_webSync.Sync);
+                syncTask.Start();
+            }
         }
         
     }
