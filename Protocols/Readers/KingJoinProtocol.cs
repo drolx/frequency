@@ -36,14 +36,9 @@ namespace uhf_rfid_catch.Protocols.Readers
 {
     public class KingJoinProtocol : BaseProtocol
     {
-//        private ByteAssist _assist;
-        private string _tagData;
-        private string _tagType;
-        
-
         public KingJoinProtocol()
         {
-            DataLength = 32;
+            DataLength = 20;
         }
         
         public new const byte START_RESPONSE_BYTE = 0xCC;
@@ -128,54 +123,26 @@ namespace uhf_rfid_catch.Protocols.Readers
             {
                 _continue = false;
             }
+
+            _Scan = new Scan();
             
-            
-            var scn = new Scan
-            {
-                CaptureTime = DateTime.Now
+            _Reader = new Reader
+            { UniqueId = _config.IOT_UNIQUE_ID,
+                Mode = _session.GetMode(),
+                Protocol = _config.IOT_PROTOCOL
             };
-
-            _context.Database.EnsureCreated();
-
-            Reader readerid;
-            if ((readerid = _context.Readers
-                .AsNoTracking()
-                .FirstOrDefault(e => e.UniqueId == _config.IOT_UNIQUE_ID)) != null)
+            _Tag = new Tag
             {
-                // Get already entered Unique Id for Reader.
-                scn.ReaderId = readerid.Id;
-            }
-            else
-            {
-                // Enter new Reader details.
-                // TODO: Make protocol and mode detection more dynamic.
-                scn.Reader = new Reader
-                { UniqueId = _config.IOT_UNIQUE_ID,
-                    Mode = _session.GetMode(),
-                    Protocol = _config.IOT_PROTOCOL
-                };
-            }
-
-            Tag tagid;
-            if ((tagid = _context.Tags
-                .AsNoTracking()
-                .FirstOrDefault(e => e.UniqueId == _tagData)) != null)
-            {
-                // Get already entered Unique Id for Tag.
-                scn.TagId = tagid.Id;
-            }
-            else
-            {
-                // Enter new Tag details.
-                scn.Tag = new Tag
-                {
-                    UniqueId = _tagData,
-                    Type = _tagType,
-                    LastMode = "Unknown"
-                };
-            }
+                UniqueId = _tagData,
+                Type = _tagType,
+                LastMode = "Unknown"
+            };
             
-            return scn;
+            _context.Database.EnsureCreated();
+            _Scan = _request.ResolveReader(_context, _Scan, _Reader);
+            _Scan = _request.ResolveTag(_context, _Scan, _Tag, _tagData);
+            
+            return _Scan;
         }
         
     }
