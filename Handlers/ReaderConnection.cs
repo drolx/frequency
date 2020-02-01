@@ -24,8 +24,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
+using System.Threading.Tasks;
 using uhf_rfid_catch.Handlers.ReaderConnections;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Protocols;
@@ -34,25 +37,70 @@ namespace uhf_rfid_catch.Handlers
 {
     public class ReaderConnection
     {
-        private static readonly ConfigKey _config = new ConfigKey();
-        MainLogger _logger = new MainLogger();
+        private readonly ConfigKey _config;
+        private readonly MainLogger _logger;
+        private readonly SerialConnection _serial;
 
         public ReaderConnection()
         {
+            _config = new ConfigKey();
+            _logger = new MainLogger();
+            _serial = new SerialConnection();
         }
 
         public void SerialConnection()
         {
-            SerialConnection spry = new SerialConnection();
-            SerialPort serialProfile = spry.BuildConnection();
-            BaseReaderProtocol selectedProtocol = new BaseReaderProtocol();
-            IReaderProtocol _selectedProtocol = selectedProtocol.Resolve();
+            SerialPort serialProfile = _serial.BuildConnection();
+            IReaderProtocol _selectedProtocol = new BaseReaderProtocol().Resolve();
+            
+            int DataLength = _selectedProtocol.DataLength;
+            List<byte> byteList = new List<byte>();
+        
+            void DataReceivedHandler(
+                object sender,
+                SerialDataReceivedEventArgs e)
+            {
+                SerialPort port = (SerialPort)sender;
+                var internalBytes = new byte[port.BytesToRead];
+                port.Read(internalBytes, 0, internalBytes.Length);
+                byteList.AddRange(internalBytes);
+                if (byteList.Count <= DataLength)
+                {
+                    var tsk = new Task(HandleserialList);
+                    tsk.Start();
+                }
+                else
+                {
+                    if (byteList.Count > DataLength + 3)
+                    {
+                        byteList.Clear();
+                    }
+                    else
+                    {
+                        byteList.RemoveRange(0, byteList.Count - DataLength);
+                    }
+                }
+                
+            }
 
+            void HandleserialList()
+            {
+                var newRange = byteList.GetRange(0, DataLength);
+                byteList.RemoveRange(0, DataLength);
+                
+                // Start log process.
+                _selectedProtocol.ReceivedData = newRange.ToArray();
+                var logTask = new Task(_selectedProtocol.Log);
+                logTask.Start();
+                
+            }
+            
             // List devices
-            spry.ShowPorts();
-//            serialProfile.DataReceived += spry.DataReceivedHandler;
+            _serial.ShowPorts();
+            serialProfile.DataReceived += DataReceivedHandler;
 
             _logger.Trigger("Info", $"Opening new serial connection...");
+            
             var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
             var retryState = true;
             var retryFailedCheck = true;
@@ -76,11 +124,14 @@ namespace uhf_rfid_catch.Handlers
                         serialProfile.Close();
                         serialProfile.Dispose();
                     }
-                    
+
+//                    serialProfile.NewLine = "\r\n";
                     serialProfile.Open();
+//                    serialProfile.DataReceived += DataReceivedHandler;
 
                     if (serialProfile.IsOpen)
                     {
+                        Console.ReadKey();
                         _logger.Trigger("Info", $"Serial connection opened successfully...");
                     }
                     
@@ -116,9 +167,9 @@ namespace uhf_rfid_catch.Handlers
 #endif
                     ///////
                     // Thread start for Auto scanning readers
-                    var autoScanThread = new Thread(() => spry.AutoReadData(serialProfile, _selectedProtocol));
-                    autoScanThread.Name = "Reader Auto Scanner";
-                    autoScanThread.Start();
+//                    var autoScanThread = new Thread(() => _serial.AutoReadData(serialProfile, _selectedProtocol));
+//                    autoScanThread.Name = "Reader Auto Scanner";
+//                    autoScanThread.Start();
 
                     ///////
                     // Add other modes
