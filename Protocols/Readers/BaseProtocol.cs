@@ -43,6 +43,18 @@ namespace uhf_rfid_catch.Protocols.Readers
         public readonly CaptureContext _context;
         public readonly CapturePersist _persist;
         public readonly PersistRequest _request;
+        
+        
+        // Data object declaration.
+
+        protected Reader _Reader;
+        protected Tag _Tag;
+        protected  Scan _Scan;
+        
+        
+        protected string _tagData;
+        protected string _tagType;
+        
         public BaseProtocol()
         {
             _logger = new MainLogger();
@@ -83,9 +95,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             if (Persist(decData))
             {
                 _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
-#if !DEBUG
-           Console.WriteLine($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}")     
-#endif
+                
                 var getFullScan = _request.GetScanById(_context, decData.Id);
                 try
                 {

@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using uhf_rfid_catch.Handlers;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
@@ -55,6 +56,7 @@ namespace uhf_rfid_catch.Data
         {
             using (CaptureContext _context = new CaptureContext())
             {
+                //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 _context.Database.EnsureCreated();
 
                 if (_filter.EarlyFilter(_context, scn))
@@ -63,6 +65,7 @@ namespace uhf_rfid_catch.Data
                     _context.Add(scn);
                     
                     var tagUpdate = _context.Tags
+                        //.AsNoTracking()
                         .FirstOrDefault(e => e.Id == scn.TagId);
                     
                     if (scn.Tag.LastUpdated != null && tagUpdate != null)
@@ -75,6 +78,7 @@ namespace uhf_rfid_catch.Data
                 if (scn.Reader == null)
                 {
                     var readerUpdate = _context.Readers
+                        //.AsNoTracking()
                         .FirstOrDefault(e => e.Id == scn.ReaderId);
                     readerUpdate.LastUpdated = DateTime.Now;
                 }

@@ -23,44 +23,50 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
 using System.Threading;
+using NLog.Web;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Handlers.ReaderConnections;
+using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch
 {
-    class Program
+    internal static class Program
     {
+        private static readonly ConfigKey _config = new ConfigKey();
         private static void readerProcess()
         {
-            ReaderConnection rdit = new ReaderConnection();
-            rdit.Run();
+            ReaderConnection _readerProcess = new ReaderConnection();
+            _readerProcess.Run();
             
-            // NetworkConnection ty = new NetworkConnection();
-            // ty.Boot();
         }
         
                 static void Main(string[] args)
         {
-            //Reader process thread//
-            ////////////////////////
-            Thread readerThread = new Thread(() => readerProcess());
-            readerThread.Name = "UHF Reader Process";
+            // Reader process thread//
+            var readerThread = new Thread(readerProcess) {Name = "UHF Reader Process"};
             readerThread.Start();
 
 
-            //Web view thread//
-            //////////////////
-            Thread webThread = new Thread(() => CreateHostBuilder(args).Build().Run());
-            webThread.Name = "Web Process";
-            webThread.Start();
+            // Web view thread//
+            if (_config.BASE_WEB_ENABLE)
+            {
+                var webThread = new Thread(() => CreateHostBuilder(args).Build().Run()) {Name = "Web Process"};
+                webThread.Start();
+            }
+            
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+                private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-    }
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
+                .UseNLog();  // NLog: Setup NLog for Dependency injection
+                }
 }

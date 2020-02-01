@@ -25,15 +25,18 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Data
 {
     public class PersistRequest
     {
-
+        public readonly ConfigKey _config;
         public PersistRequest()
         {
+            _config = new ConfigKey();
         }
         
         public void OldestData()
@@ -47,12 +50,55 @@ namespace uhf_rfid_catch.Data
             _context.Database.EnsureCreated();
 
             Scan ScanData = _context.Scans
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == getbyid);
             ScanData.Reader = _context.Readers
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == ScanData.ReaderId);
             ScanData.Tag = _context.Tags
+                .AsNoTracking()
                 .FirstOrDefault(e => e.Id == ScanData.TagId);
             return ScanData;
         }
+
+        public Scan ResolveReader(CaptureContext _context, Scan _Scan, Reader _Reader)
+        {
+            Reader readerid;
+            if ((readerid = _context.Readers
+                    .AsNoTracking()
+                    .FirstOrDefault(e => e.UniqueId == _config.IOT_UNIQUE_ID)) != null)
+            {
+                // Get already entered Unique Id for Reader.
+                _Scan.ReaderId = readerid.Id;
+            }
+            else
+            {
+                // Enter new Reader details.
+                // TODO: Make protocol and mode detection more dynamic.
+                _Scan.Reader = _Reader;
+            }
+
+            return _Scan;
+        }
+
+        public Scan ResolveTag(CaptureContext _context, Scan _Scan, Tag _Tag, string _tagData)
+        {
+            Tag tagid;
+            if ((tagid = _context.Tags
+                    .AsNoTracking()
+                    .FirstOrDefault(e => e.UniqueId == _tagData)) != null)
+            {
+                // Get already entered Unique Id for Tag.
+                _Scan.TagId = tagid.Id;
+            }
+            else
+            {
+                // Enter new Tag details.
+                _Scan.Tag = _Tag;
+            }
+
+            return _Scan;
+        }
+
     }
 }
