@@ -408,3 +408,4 @@ ASALocalRun/
 # Project restriction
 
 app.db*
+mono_crash.*
