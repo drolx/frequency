@@ -136,10 +136,9 @@ namespace uhf_rfid_catch.Helpers
         public readonly string IOT_REMOTE_HOST_USERNAME = _settingsContext.GetSection("IOTMode:Remote:Username").Get<string>();
 
         // Remote Host HTTP authentication password.
-        public readonly string IOT_REMOTE_HOST_PASSWORD = _settingsContext.GetSection("IOTMode:RemoteHostPassword").Get<string>();
+        public readonly string IOT_REMOTE_HOST_PASSWORD = _settingsContext.GetSection("IOTMode:Remote:Password").Get<string>();
 
         // Option for minimum delay in seconds that allowed for an HTTP call.
-        public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:MinRemoteHostDelay").Get<decimal>());
         public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:MinHostDelay").Get<decimal>());
         
         // Others
