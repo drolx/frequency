@@ -34,11 +34,11 @@ namespace uhf_rfid_catch.Handlers
     public class FilterHandler
     {
         private static ConfigKey _config;
-        private static MainLogger _logger;
+        private readonly ConsoleLogger _consolelog;
         public FilterHandler()
         {
             _config = new ConfigKey();
-            _logger = new MainLogger();
+            _consolelog = new ConsoleLogger();
         }
 
         public bool EarlyFilter(CaptureContext _context, Scan scan)
@@ -57,7 +57,7 @@ namespace uhf_rfid_catch.Handlers
 
             if (!checkFilter)
             {
-                _logger.Trigger("Info", "Filtered By Time.");
+                _consolelog.Trigger("Info", "Filtered By Time..");
                 return checkFilter;
             }
            
