@@ -28,15 +28,17 @@ namespace uhf_rfid_catch.Handlers
 {
     public class WebSync
     {
-        private MainLogger _logger;
+        private readonly MainLogger _logger;
+        private readonly ConsoleLogger _consolelog;
         public WebSync()
         {
             _logger = new MainLogger();
+            _consolelog = new ConsoleLogger();
         }
 
         public void Sync()
         {
-            _logger.Trigger("Info", "*****   Tried cloud push...   *****");
+            _consolelog.Trigger("Info", "*****   Tried cloud push...   *****");
         }
     }
 }
