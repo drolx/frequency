@@ -119,20 +119,30 @@ namespace uhf_rfid_catch.Helpers
         // IOT mode required protocol to decode.
         public readonly string IOT_PROTOCOL = _settingsContext.GetSection("IOTMode:Protocol").Get<string>();
 
+        /****
+        **    IOT Remote configurations for the daemon.
+        **    
+        **/
+        
         // Remote Host URI.
-        public readonly string IOT_REMOTE_HOST_URL = _settingsContext.GetSection("IOTMode:RemoteHostUrl").Get<string>();
+        public readonly bool IOT_REMOTE_HOST_ENABLE = _settingsContext.GetSection("IOTMode:Remote:Enable").Get<bool>();
+        // Remote Host URI.
+        public readonly string IOT_REMOTE_HOST_URL = _settingsContext.GetSection("IOTMode:Remote:HostUrl").Get<string>();
 
         // Remote Host HTTP call method.
-        public readonly string IOT_REMOTE_HOST_METHOD = _settingsContext.GetSection("IOTMode:RemoteHostMethod").Get<string>();
+        public readonly string IOT_REMOTE_HOST_METHOD = _settingsContext.GetSection("IOTMode:Remote:Method").Get<string>();
 
         // Remote Host HTTP authentication username.
-        public readonly string IOT_REMOTE_HOST_USERNAME = _settingsContext.GetSection("IOTMode:RemoteHostUsername").Get<string>();
+        public readonly string IOT_REMOTE_HOST_USERNAME = _settingsContext.GetSection("IOTMode:Remote:Username").Get<string>();
 
         // Remote Host HTTP authentication password.
         public readonly string IOT_REMOTE_HOST_PASSWORD = _settingsContext.GetSection("IOTMode:RemoteHostPassword").Get<string>();
 
         // Option for minimum delay in seconds that allowed for an HTTP call.
         public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:MinRemoteHostDelay").Get<decimal>());
+        public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:MinHostDelay").Get<decimal>());
+        
+        // Others
 
         // Option for how long a card is disallowed from generation a HTTP push after an entry.
         public readonly int IOT_MIN_REPEAT_FREQ = (int) (_settingsContext.GetSection("IOTMode:MinRepeatFrequency").Get<decimal>());
