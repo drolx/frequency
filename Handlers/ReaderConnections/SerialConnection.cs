@@ -38,6 +38,11 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         private readonly MainLogger _logger;
         private readonly ByteAssist _assist;
 //        private readonly ConsoleOnlyLogger _consolelog = new ConsoleOnlyLogger();
+#if DEBUG
+        private bool DevMode = true;
+#else
+        private bool DevMode = false;
+#endif
 
         public SerialConnection()
         {
@@ -86,91 +91,26 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return receivedByte;
         }
 
-        public void AutoReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
+        public void ManuallyReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
         {
             var localByteSize = 0;
-            int localMaxSize = 0;
-            byte[] decodedBytes = new byte[protoInfo.DataLength];
-            while (_config.IOT_AUTO_READ)
+            var localMaxSize = 0;
+            
+            if (DevMode && !builtConnection.IsOpen)
             {
-#if DEBUG
-                if (true)
-                {
-#endif
-#if !DEBUG
-                    if (builtConnection.IsOpen)
-                    {
-#endif
-                    if(protoInfo.AutoRead)
-                    {
-                        // Start decode part of the process.
-                        ////
-                        if (builtConnection.IsOpen && builtConnection.BytesToRead > 0)
-                        {
-                            var _returnedData = ConnectionChannel(builtConnection);
-                            try
-                            {
-                                decodedBytes[localByteSize] = _returnedData;
-                            }
-                            catch (Exception e)
-                            {
-                                _logger.Trigger("Error", e.ToString());
-                            }
-                            
-                            if (localMaxSize - 1 == localByteSize)
-                            {
-                                if (builtConnection.IsOpen)
-                                {
-                                    protoInfo.ReceivedData = decodedBytes;
-                                    var persistScan = new Task(protoInfo.Log);
-                                    persistScan.Start();
-                                }
-                            }
-                            
-                            ++localByteSize;
-                        }
-                        else
-                        {
-                            if (localByteSize != 0 && localByteSize > 2 )
-                            {
-                                localMaxSize = localByteSize > localMaxSize ? localByteSize : localMaxSize;
-                                if (localMaxSize == localByteSize)
-                                {
-                                    decodedBytes = new byte[protoInfo.DataLength];
-                                }
-                                
-                            }
-                            
-                            localByteSize = 0;
-                        }
-                        
-#if DEBUG
-                        if (!builtConnection.IsOpen)
-                        {
-                            protoInfo.ReceivedData =
-                                _assist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
-                            
-                            // Logging and persisting task
-                            var persistScan = new Task(protoInfo.Log);
-                            persistScan.Start();
-                            
-                            Thread.Sleep(10000);
-                        }
-#endif
-                    }
-                    else
-                    {
-                        Console.WriteLine("Implement non auto read mode.");
-                        // TODO: Manual serial port Read with a command.
-                        // Sample of reading every 5 seconds
-                        // After Executing write commands and getting response.
-                        
-                        // Then sleep for a while.
-                        Thread.Sleep(5000);
-                    }
+                // Start decode part of the process.
+                    protoInfo.ReceivedData =
+                        _assist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
                     
-                }
-                
+                // Logging and persisting task
+                Task.Factory.StartNew(protoInfo.Log);
+            }
+            else
+            {
+                Console.WriteLine("Implement non auto read mode.");
+                // TODO: Manual serial port Read with a command.
+                // Sample of reading every 5 seconds
+                // After Executing write commands and getting response.
             }
         }
 

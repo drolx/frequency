@@ -41,6 +41,7 @@ namespace uhf_rfid_catch.Handlers
         private readonly MainLogger _logger;
         private readonly SerialConnection _serial;
         private readonly WebSync _webSync;
+        private readonly SerialPort serialProfile;
         
 #if DEBUG
         private bool DevMode = true;
@@ -53,13 +54,21 @@ namespace uhf_rfid_catch.Handlers
             _logger = new MainLogger();
             _serial = new SerialConnection();
             _webSync = new WebSync();
+            serialProfile = _serial.BuildConnection();
         }
 
         public void SerialConnection()
         {
-            SerialPort serialProfile = _serial.BuildConnection();
             IReaderProtocol _selectedProtocol = new BaseReaderProtocol().Resolve();
+
+            // Thread maintenance Timer.
+            var sectCheck = new System.Timers.Timer {Interval = 30000, AutoReset = true, Enabled = true};
+            sectCheck.Elapsed += OnTimedEvent;
+            void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
+                Task.Factory.StartNew(() => _logger.Trigger("Info", "Keep Thread Alive.."));
+            }
             
+            // Data received handler method.
             int DataLength = _selectedProtocol.DataLength;
             List<byte> byteList = new List<byte>();
         
@@ -69,34 +78,101 @@ namespace uhf_rfid_catch.Handlers
             {
                 SerialPort port = (SerialPort)sender;
                 var internalBytes = new byte[port.BytesToRead];
-                port.Read(internalBytes, 0, internalBytes.Length);
-                byteList.AddRange(internalBytes);
-                if (byteList.Count <= DataLength)
+
+                if(port.IsOpen)
                 {
-                    var tsk = new Task(HandleserialList);
-                    tsk.Start();
-                }
-                else
-                {
-                    if (byteList.Count > DataLength + 3)
+                    port.Read(internalBytes, 0, internalBytes.Length);
+                    byteList.AddRange(internalBytes);
+                    if (byteList.Count <= DataLength)
                     {
-                        byteList.Clear();
+                        var tsk = new Task(HandleSerialList);
+                        tsk.Start();
                     }
                     else
                     {
-                        byteList.RemoveRange(0, byteList.Count - DataLength);
+                        if (byteList.Count > DataLength + 3)
+                        {
+                            byteList.Clear();
+                        }
+                        else
+                        {
+                            byteList.RemoveRange(0, byteList.Count - DataLength);
+                        }
                     }
+                }
+                else
+                {
+                    serialOpen();
                 }
                 
             }
 
-            void HandleserialList()
+            // Connection state handler.
+            void serialOpen()
+            {
+                var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
+                var retryState = true;
+                var retryFailedCheck = true;
+                // Failure handler start process
+                while (retryState)
+                {
+                    try
+                    {
+                        if (maxRetries > 0 || _config.IOT_SERIAL_CONN_RETRY == 0)
+                        {
+                            retryState = false;
+                            retryFailedCheck = true;
+                        }
+                        else
+                        {
+                            retryFailedCheck = false;
+                        }
+
+                        if (serialProfile.IsOpen && serialProfile != null)
+                        {
+                            serialProfile.Close();
+                            serialProfile.Dispose();
+                        }
+                        serialProfile.Open();
+
+                        if (serialProfile.IsOpen)
+                        {
+                            _logger.Trigger("Info", $"Serial connection opened successfully...");
+                        }
+
+                        // Clear buffer to avoid out-of-bounds exceptions
+                        serialProfile.DiscardInBuffer();
+                        serialProfile.DiscardOutBuffer();
+
+                    }
+                    catch (UnauthorizedAccessException unauthorizedAccessException)
+                    {
+                        var _exp = unauthorizedAccessException;
+                        var condLog = _config.IOT_SERIAL_CONN_RETRY == 0 ? "retrying now." : $"retrying now, {maxRetries} remaining.";
+                        _logger.Trigger("Error", $"Serial connection failed to open/read, {condLog}");
+                        maxRetries--;
+                        retryState = retryFailedCheck;
+                        Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
+                    }
+                    catch (Exception e)
+                    {
+                        var _exp = e;
+                        _logger.Trigger("Error", "Serial connection failed to open/read, retrying now.");
+                        maxRetries--;
+                        retryState = retryFailedCheck;
+                        Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
+                    }
+
+                }
+            }
+
+            void HandleSerialList()
             {
                 var newRange = byteList.GetRange(0, DataLength);
                 byteList.RemoveRange(0, DataLength);
                 // Start log process.
                 _selectedProtocol.ReceivedData = newRange.ToArray();
-                Task.Factory.StartNew(_selectedProtocol.Log);
+                Task.Factory.StartNew(_selectedProtocol.Log).Dispose();
             }
             
             // List devices
@@ -104,87 +180,24 @@ namespace uhf_rfid_catch.Handlers
             serialProfile.DataReceived += DataReceivedHandler;
 
             _logger.Trigger("Info", $"Opening new serial connection...");
-            
-            var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
-            var retryState = true;
-            var retryFailedCheck = true;
-            // Failure handler start process
-            while (retryState)
+
+            // Start Serial connection.
+            serialOpen();
+
+
+            // Development test for hard-coded Hex values.
+            if (DevMode && !serialProfile.IsOpen)
             {
-                try
-                {
-                    if (maxRetries > 0 || _config.IOT_SERIAL_CONN_RETRY == 0)
-                    {
-                        retryState = false;
-                        retryFailedCheck = true;
-                    }
-                    else
-                    {
-                        retryFailedCheck = false;
-                    }
-
-                    if (serialProfile.IsOpen && serialProfile != null)
-                    {
-                        serialProfile.Close();
-                        serialProfile.Dispose();
-                    }
-                    serialProfile.Open();
-
-                    if (serialProfile.IsOpen)
-                    {
-//                        Console.ReadKey();
-                        _logger.Trigger("Info", $"Serial connection opened successfully...");
-                    }
-                    
-                    // Clear buffer to avoid out-of-bounds exceptions
-                    serialProfile.DiscardInBuffer();
-                    serialProfile.DiscardOutBuffer();
-                    
-                }
-                catch (UnauthorizedAccessException unauthorizedAccessException)
-                {
-                    var _exp = unauthorizedAccessException;
-                    var condLog = _config.IOT_SERIAL_CONN_RETRY == 0 ? "retrying now." : $"retrying now, {maxRetries} remaining.";
-                    _logger.Trigger("Error", $"Serial connection failed to open/read, {condLog}");
-                    maxRetries--;
-                    retryState = retryFailedCheck;
-                    Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
-                }
-                catch (Exception e)
-                {
-                    var _exp = e;
-                    _logger.Trigger("Error", "Serial connection failed to open/read, retrying now.");
-                    maxRetries--;
-                    retryState = retryFailedCheck;
-                    Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
-                }
-
-                if (DevMode || serialProfile.IsOpen)
-                {
-                    // Timed Thread start for Timer based scanning.
-                    
-                    if (DevMode)
-                    {
-                        // Development test for hard-coded Hex values.
-                        var devTest = new System.Timers.Timer {Interval = 10000, AutoReset = true, Enabled = true};
-                        devTest.Elapsed += OnDevTest;
-                    
-                        void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
-//                            Task.Factory.StartNew(() => _serial.AutoReadData(serialProfile, _selectedProtocol));
-                        }
-                    }
-
-                    // Thread maintenance Timer.
-                    var sectCheck = new System.Timers.Timer {Interval = 15000, AutoReset = true, Enabled = true};
-                    sectCheck.Elapsed += OnTimedEvent;
-                    
-                    void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                        Task.Factory.StartNew(() => _logger.Trigger("Info", "Keep Thread Alive.."));
-                    }
-
+                var devTest = new System.Timers.Timer {Interval = 10000, AutoReset = true, Enabled = true};
+                devTest.Enabled = true;
+                devTest.Elapsed += OnDevTest;
+                
+                void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
+                    var devTask = new Task(() => _serial.ManuallyReadData(serialProfile, _selectedProtocol)); // Console.WriteLine("Test =====> " + DateTime.Now));
+                    devTask.Start();
+                    devTask.Dispose();
                 }
             }
-            // Failure handler end process
         }
 
         public void NetworkConnection()
@@ -198,12 +211,13 @@ namespace uhf_rfid_catch.Handlers
             SerialConnection();
             
             // Cloud sync timed thread sub process.
-            var webSyncTimer = new System.Timers.Timer {Interval = 10000, AutoReset = true, Enabled = true};
+            var webSyncTimer = new System.Timers.Timer {Interval = 15000, AutoReset = true, Enabled = true};
             webSyncTimer.Elapsed += OnWebSyncEvent;
                     
             void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
                 var syncTask = new Task(_webSync.Sync);
                 syncTask.Start();
+                syncTask.Dispose();
             }
         }
         
