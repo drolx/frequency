@@ -124,13 +124,16 @@ namespace uhf_rfid_catch.Helpers
         **    
         **/
         
-        // Remote Host URI.
+        // Option to enable or disable Remote Forwarding.
         public readonly bool IOT_REMOTE_HOST_ENABLE = _settingsContext.GetSection("IOTMode:Remote:Enable").Get<bool>();
         // Remote Host URI.
         public readonly string IOT_REMOTE_HOST_URL = _settingsContext.GetSection("IOTMode:Remote:HostUrl").Get<string>();
 
         // Remote Host HTTP call method.
         public readonly string IOT_REMOTE_HOST_METHOD = _settingsContext.GetSection("IOTMode:Remote:Method").Get<string>();
+        
+        // Option to enable or disable Remote Host HTTP authentication.
+        public readonly bool IOT_REMOTE_HOST_AUTH = _settingsContext.GetSection("IOTMode:Remote:Auth").Get<bool>();
 
         // Remote Host HTTP authentication username.
         public readonly string IOT_REMOTE_HOST_USERNAME = _settingsContext.GetSection("IOTMode:Remote:Username").Get<string>();
@@ -140,6 +143,9 @@ namespace uhf_rfid_catch.Helpers
 
         // Option for minimum delay in seconds that allowed for an HTTP call.
         public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:MinHostDelay").Get<decimal>());
+        
+        // Option for minimum sync frequency in seconds that allowed for push to server.
+        public readonly int IOT_MIN_REMOTE_FREQ = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:Frequency").Get<decimal>());
         
         // Others
 
