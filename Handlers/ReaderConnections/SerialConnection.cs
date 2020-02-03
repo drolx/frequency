@@ -53,8 +53,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
         public SerialPort BuildConnection()
         {
-            var Suggetsted = SuggestPort();
-            var portName = _config.IOT_SERIAL_PORTNAME == "null" ? Suggetsted : _config.IOT_SERIAL_PORTNAME;
+            var portName = _config.IOT_SERIAL_PORTNAME == "null" ? SuggestPort() : _config.IOT_SERIAL_PORTNAME;
 
             var parity = Parity.None;
             var stopBits = StopBits.One;
@@ -69,7 +68,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
             var selectedPort = "/dev/tty.usb_serial";
             var ListConnections = ListConnection();
-
+            _logger.Trigger("Warn", "Incorrect port specified, Suggesting port...");
             foreach (string portName in ListConnections)
             {
                 if(portName.Contains("serial")
@@ -85,18 +84,12 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             return selectedPort;
         }
 
-        public byte ConnectionChannel(SerialPort builtConnection)
-        {
-            var receivedByte = (byte)builtConnection.ReadByte();
-            return receivedByte;
-        }
-
         public void ManuallyReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
         {
             var localByteSize = 0;
             var localMaxSize = 0;
             
-            if (DevMode && !builtConnection.IsOpen)
+            if (DevMode && !builtConnection.IsOpen && protoInfo.AutoRead)
             {
                 // Start decode part of the process.
                     protoInfo.ReceivedData =
@@ -105,7 +98,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                 // Logging and persisting task
                 Task.Factory.StartNew(protoInfo.Log);
             }
-            else
+            else if (!protoInfo.AutoRead && builtConnection.IsOpen)
             {
                 Console.WriteLine("Implement non auto read mode.");
                 // TODO: Manual serial port Read with a command.
@@ -122,21 +115,11 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
             var ListConnections = ListConnection();
             string startLine = $"---- {ListConnections.Length} Serial ports available ----";
-            Console.WriteLine(startLine);
+            _logger.Info(startLine);
             foreach (string portName in ListConnections)
             {
-                Console.WriteLine(portName);
+                _logger.Info(portName);
             }
-        }
-        
-        public void DataReceivedHandler(
-            object sender,
-            SerialDataReceivedEventArgs e)
-        {
-            SerialPort sp = (SerialPort) sender;
-            byte[] buf = new byte[sp.BytesToRead];
-            sp.Read(buf, 0, buf.Length);
-            Console.WriteLine(BitConverter.ToString(buf));
         }
         
     }

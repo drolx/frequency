@@ -25,7 +25,6 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,7 +40,7 @@ namespace uhf_rfid_catch.Handlers
         private readonly MainLogger _logger;
         private readonly SerialConnection _serial;
         private readonly WebSync _webSync;
-        private readonly SerialPort serialProfile;
+        private SerialPort serialProfile;
         
 #if DEBUG
         private bool DevMode = true;
@@ -62,7 +61,7 @@ namespace uhf_rfid_catch.Handlers
             IReaderProtocol _selectedProtocol = new BaseReaderProtocol().Resolve();
 
             // Thread maintenance Timer.
-            var sectCheck = new System.Timers.Timer {Interval = 30000, AutoReset = true, Enabled = true};
+            var sectCheck = new System.Timers.Timer {Interval = 35000, AutoReset = true, Enabled = true};
             sectCheck.Elapsed += OnTimedEvent;
             void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
                 Task.Factory.StartNew(() => _logger.Trigger("Info", "Keep Thread Alive.."));
@@ -81,28 +80,31 @@ namespace uhf_rfid_catch.Handlers
 
                 if(port.IsOpen)
                 {
-                    port.Read(internalBytes, 0, internalBytes.Length);
-                    byteList.AddRange(internalBytes);
-                    if (byteList.Count <= DataLength)
+                    try
                     {
-                        var tsk = new Task(HandleSerialList);
-                        tsk.Start();
-                    }
-                    else
-                    {
-                        if (byteList.Count > DataLength + 3)
+                        port.Read(internalBytes, 0, internalBytes.Length);
+                        byteList.AddRange(internalBytes);
+                        if (byteList.Count <= DataLength)
                         {
-                            byteList.Clear();
+                            var tsk = new Task(HandleSerialList);
+                            tsk.Start();
                         }
                         else
                         {
-                            byteList.RemoveRange(0, byteList.Count - DataLength);
+                            if (byteList.Count > DataLength + 3)
+                            {
+                                byteList.Clear();
+                            }
+                            else
+                            {
+                                byteList.RemoveRange(0, byteList.Count - DataLength);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    serialOpen();
+                    catch (Exception exception)
+                    {
+                        _logger.Trigger("Error", exception.ToString());
+                    }
                 }
                 
             }
@@ -179,23 +181,26 @@ namespace uhf_rfid_catch.Handlers
             _serial.ShowPorts();
             serialProfile.DataReceived += DataReceivedHandler;
 
-            _logger.Trigger("Info", $"Opening new serial connection...");
+            _logger.Trigger("Info", "Opening new serial connection...");
 
             // Start Serial connection.
             serialOpen();
-
-
+            
             // Development test for hard-coded Hex values.
-            if (DevMode && !serialProfile.IsOpen)
+            if (DevMode && !serialProfile.IsOpen || !_selectedProtocol.AutoRead)
             {
-                var devTest = new System.Timers.Timer {Interval = 10000, AutoReset = true, Enabled = true};
+                var TimerLimit = 1500;
+                if (DevMode)
+                {
+                    TimerLimit = 12000;
+                }
+                var devTest = new System.Timers.Timer {Interval = TimerLimit, AutoReset = true, Enabled = true};
                 devTest.Enabled = true;
                 devTest.Elapsed += OnDevTest;
                 
                 void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
                     var devTask = new Task(() => _serial.ManuallyReadData(serialProfile, _selectedProtocol)); // Console.WriteLine("Test =====> " + DateTime.Now));
                     devTask.Start();
-                    devTask.Dispose();
                 }
             }
         }
@@ -211,7 +216,7 @@ namespace uhf_rfid_catch.Handlers
             SerialConnection();
             
             // Cloud sync timed thread sub process.
-            var webSyncTimer = new System.Timers.Timer {Interval = 15000, AutoReset = true, Enabled = true};
+            var webSyncTimer = new System.Timers.Timer {Interval = 11000, AutoReset = true, Enabled = true};
             webSyncTimer.Elapsed += OnWebSyncEvent;
                     
             void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
