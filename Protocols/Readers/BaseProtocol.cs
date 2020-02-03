@@ -44,14 +44,11 @@ namespace uhf_rfid_catch.Protocols.Readers
         public readonly CapturePersist _persist;
         public readonly PersistRequest _request;
         
-        
         // Data object declaration.
-
         protected Reader _Reader;
         protected Tag _Tag;
         protected  Scan _Scan;
-        
-        
+
         protected string _tagData;
         protected string _tagType;
         
@@ -95,7 +92,6 @@ namespace uhf_rfid_catch.Protocols.Readers
             if (Persist(decData))
             {
                 _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData)}");
-                
                 var getFullScan = _request.GetScanById(_context, decData.Id);
                 try
                 {
@@ -116,8 +112,6 @@ namespace uhf_rfid_catch.Protocols.Readers
                 _logger.Error("Issues persisting data.");
             }
             
-            
-           
         }
 
         public virtual Scan DecodeData()
@@ -130,13 +124,11 @@ namespace uhf_rfid_catch.Protocols.Readers
             bool tryWork = true;
             try
             {
-//                var saveData = new Task(() => _persist.Save(data));
-//                saveData.Start();
                 _persist.Save(data);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.Trigger("Error", e.ToString());
                 tryWork = false;
             }
 
