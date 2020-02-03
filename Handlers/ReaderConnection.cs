@@ -64,7 +64,7 @@ namespace uhf_rfid_catch.Handlers
             var sectCheck = new System.Timers.Timer {Interval = 35000, AutoReset = true, Enabled = true};
             sectCheck.Elapsed += OnTimedEvent;
             void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                Task.Factory.StartNew(() => _logger.Trigger("Info", "Keep Thread Alive.."));
+                Task.Factory.StartNew(() => _logger.Trigger("Info", "*****   Keep Thread Alive   *****"));
             }
             
             // Data received handler method.
@@ -139,7 +139,7 @@ namespace uhf_rfid_catch.Handlers
 
                         if (serialProfile.IsOpen)
                         {
-                            _logger.Trigger("Info", $"Serial connection opened successfully...");
+                            _logger.Trigger("Info", "Serial connection opened successfully..");
                         }
 
                         // Clear buffer to avoid out-of-bounds exceptions
@@ -199,7 +199,7 @@ namespace uhf_rfid_catch.Handlers
                 devTest.Elapsed += OnDevTest;
                 
                 void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
-                    var devTask = new Task(() => _serial.ManuallyReadData(serialProfile, _selectedProtocol)); // Console.WriteLine("Test =====> " + DateTime.Now));
+                    var devTask = new Task(() => _serial.ManuallyReadData(serialProfile, _selectedProtocol));
                     devTask.Start();
                 }
             }
@@ -216,14 +216,17 @@ namespace uhf_rfid_catch.Handlers
             SerialConnection();
             
             // Cloud sync timed thread sub process.
-            var webSyncTimer = new System.Timers.Timer {Interval = 11000, AutoReset = true, Enabled = true};
-            webSyncTimer.Elapsed += OnWebSyncEvent;
+            if (_config.IOT_MODE_ENABLE && _config.IOT_REMOTE_HOST_ENABLE)
+            {
+                var webSyncTimer = new System.Timers.Timer {Interval = 11000, AutoReset = true, Enabled = true};
+                webSyncTimer.Elapsed += OnWebSyncEvent;
                     
-            void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                var syncTask = new Task(_webSync.Sync);
-                syncTask.Start();
-                syncTask.Dispose();
+                void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
+                    var syncTask = new Task(_webSync.Sync);
+                    syncTask.Start();
+                }
             }
+            
         }
         
     }
