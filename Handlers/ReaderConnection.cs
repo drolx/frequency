@@ -94,12 +94,9 @@ namespace uhf_rfid_catch.Handlers
             {
                 var newRange = byteList.GetRange(0, DataLength);
                 byteList.RemoveRange(0, DataLength);
-                
                 // Start log process.
                 _selectedProtocol.ReceivedData = newRange.ToArray();
-                var logTask = new Task(_selectedProtocol.Log);
-                logTask.Start();
-                
+                Task.Factory.StartNew(_selectedProtocol.Log);
             }
             
             // List devices
@@ -169,13 +166,11 @@ namespace uhf_rfid_catch.Handlers
                     if (DevMode)
                     {
                         // Development test for hard-coded Hex values.
-                        
-                        var devTest = new System.Timers.Timer {Interval = 15000, AutoReset = true, Enabled = true};
+                        var devTest = new System.Timers.Timer {Interval = 10000, AutoReset = true, Enabled = true};
                         devTest.Elapsed += OnDevTest;
                     
                         void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
-                            var devTask = new Task(() => _serial.AutoReadData(serialProfile, _selectedProtocol));
-//                            devTask.Start();
+//                            Task.Factory.StartNew(() => _serial.AutoReadData(serialProfile, _selectedProtocol));
                         }
                     }
 
@@ -184,8 +179,7 @@ namespace uhf_rfid_catch.Handlers
                     sectCheck.Elapsed += OnTimedEvent;
                     
                     void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                        var ThreadLife = new Task(() => _logger.Trigger("Info", "Keep Thread Alive.."));
-                        ThreadLife.Start();
+                        Task.Factory.StartNew(() => _logger.Trigger("Info", "Keep Thread Alive.."));
                     }
 
                 }
