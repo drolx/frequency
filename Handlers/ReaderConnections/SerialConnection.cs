@@ -37,7 +37,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         private readonly ConfigKey _config;
         private readonly MainLogger _logger;
         private readonly ByteAssist _assist;
-//        private readonly ConsoleOnlyLogger _consolelog = new ConsoleOnlyLogger();
+        private readonly ConsoleLogger _consolelog;
 #if DEBUG
         private bool DevMode = true;
 #else
@@ -49,6 +49,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
             _config = new ConfigKey();
             _logger = new MainLogger();
             _assist = new ByteAssist();
+            _consolelog = new ConsoleLogger();
         }
 
         public SerialPort BuildConnection()
@@ -86,13 +87,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
 
         public void ManuallyReadData(SerialPort builtConnection, IReaderProtocol protoInfo)
         {
-            var localByteSize = 0;
-            var localMaxSize = 0;
-            
             if (DevMode && !builtConnection.IsOpen && protoInfo.AutoRead)
             {
                 // Start decode part of the process.
-                    protoInfo.ReceivedData =
+                    protoInfo.ReceivedData = 
                         _assist.HexToByteArray("CCFFFF10320D01E2000016370402410910C2E9AC");
                     
                 // Logging and persisting task
