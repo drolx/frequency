@@ -1,5 +1,5 @@
 ﻿//
-// ConsoleOnlyLogger.cs
+// ConsoleLogger.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -25,44 +25,50 @@
 // THE SOFTWARE.
 using System;
 using System.Diagnostics;
+using System.IO;
 using NLog;
 
 namespace uhf_rfid_catch.Handlers
 {
-    public class ConsoleOnlyLogger
+    public class ConsoleLogger
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger _logger;
 
-        public ConsoleOnlyLogger()
+        public ConsoleLogger()
         {
+            string LogFilePath;
+            if (File.Exists("NLog.config"))
+            {
+                LogFilePath = "NLog.config";
+            }
+            else if (File.Exists("uhf_rfid_catch.exe.nlog"))
+            {
+                LogFilePath = "uhf_rfid_catch.exe.nlog";
+            }
+            else
+            {
+                LogFilePath = "";
+                Console.WriteLine("No Log configuration found..");
+            }
+
+            _logger = NLog.Web.NLogBuilder.ConfigureNLog(LogFilePath).GetLogger("ConsoleOnly");
         }
 
-        public void Push(String Type, String LogString)
+        public void Trigger(string Type, string LogString)
         {
-            var config = new NLog.Config.LoggingConfiguration();
-
-            // Targets where to log to: File and Console
-            var logconsole = new NLog.Targets.ConsoleTarget("console");
-
-            // Rules for mapping loggers to targets
-            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);
-
-            // Apply config
-            NLog.LogManager.Configuration = config;
-            
             switch(Type)
             {
                 case "Info":
-                Logger.Info(LogString);
+                    _logger.Info(LogString);
                 break;
                 case "Error":
-                Logger.Error(LogString);
+                    _logger.Error(LogString);
                 break;
                 case "Warn":
-                    Logger.Warn(LogString);
+                    _logger.Warn(LogString);
                     break;
                 default:
-                    Logger.Debug(LogString);
+                    _logger.Debug(LogString);
                     break;
             }
             
