@@ -36,7 +36,7 @@ namespace uhf_rfid_catch.Handlers
 
         public void Sync()
         {
-            _logger.Trigger("Info", "Tried cloud push...");
+            _logger.Trigger("Info", "*****   Tried cloud push...   *****");
         }
     }
 }

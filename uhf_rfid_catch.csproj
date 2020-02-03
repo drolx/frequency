@@ -29,6 +29,7 @@
     <PackageReference Include="Autofac" Version="5.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="Tiny.RestClient" Version="1.7.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
