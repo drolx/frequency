@@ -76,7 +76,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                     childSocketThread.Start();
                 }
 
-                listener.Stop();
+                // listener.Stop();
             }
             catch (Exception e)
             {
