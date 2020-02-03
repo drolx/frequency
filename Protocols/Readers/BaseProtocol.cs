@@ -43,6 +43,7 @@ namespace uhf_rfid_catch.Protocols.Readers
         public readonly CaptureContext _context;
         public readonly CapturePersist _persist;
         public readonly PersistRequest _request;
+        public readonly ConsoleLogger _consolelog;
         
         // Data object declaration.
         protected Reader _Reader;
@@ -55,6 +56,7 @@ namespace uhf_rfid_catch.Protocols.Readers
         public BaseProtocol()
         {
             _logger = new MainLogger();
+            _consolelog = new ConsoleLogger();
             _assist = new ByteAssist();
             _config = new ConfigKey();
             _session = new SessionUtil();
@@ -91,7 +93,8 @@ namespace uhf_rfid_catch.Protocols.Readers
             var decData = DecodeData();
             if (Persist(decData))
             {
-                _logger.Info($"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty)}");
+                _consolelog.Trigger("Info",
+                    $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty)}");
                 var getFullScan = _request.GetScanById(_context, decData.Id);
                 try
                 {
@@ -100,16 +103,16 @@ namespace uhf_rfid_catch.Protocols.Readers
                                  $"Read Mode: {getFullScan.Reader.Mode} | " +
                                  $"Tag Id: {getFullScan.Tag.UniqueId}";
                         
-                    _logger.Info(logVal);
+                    _logger.Trigger("Info", logVal);
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e.ToString());
+                    _logger.Trigger("Error",e.ToString());
                 }
             }
             else
             {
-                _logger.Error("Issues persisting data.");
+                _logger.Trigger("Fatal","Issues persisting data.");
             }
             
         }
