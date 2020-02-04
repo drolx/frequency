@@ -16,12 +16,11 @@
     },
     "uhf_rfid_catch": {
       "commandName": "Project",
-      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000",
-      "sslPort": 0
+      "sslPort": 0,
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }
