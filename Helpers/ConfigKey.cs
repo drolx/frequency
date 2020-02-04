@@ -69,6 +69,9 @@ namespace uhf_rfid_catch.Helpers
         **    
         **/
         
+        // The Selected type of database to connect.
+        public readonly string DATA_STORE_TYPE = _settingsContext.GetSection("Database:Type").Get<string>();
+        
         // The Main store e.g MySql or PostgresSQl
         public readonly string DATA_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
         
@@ -86,7 +89,7 @@ namespace uhf_rfid_catch.Helpers
         public readonly string DATA_REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
         
         // In Memory SQLite caching options mostly for IOT mode.
-        public static readonly string DATA_DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
+        public readonly string DATA_DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
         
         /****
         **    Server mode configurations for the daemon.
@@ -162,7 +165,7 @@ namespace uhf_rfid_catch.Helpers
         public readonly string IOT_NETWORK_CHECK_ADDRESS = _settingsContext.GetSection("IOTMode:NetworkCheckAddress").Get<string>();
 
         // Options to configure maximum network connection timeout in seconds.
-        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) _settingsContext.GetSection("IOTMode:NetworkCheckTimeout").Get<decimal>();
+        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) (1000 * _settingsContext.GetSection("IOTMode:NetworkCheckTimeout").Get<decimal>());
         
         /****
         **    IOT-Serial connection configurations for the daemon.
