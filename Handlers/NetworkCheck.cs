@@ -39,7 +39,10 @@ namespace uhf_rfid_catch.Handlers
         private readonly int _timeout = _config.IOT_NETWORK_CHECK_TIMEOUT;
         readonly PingOptions _pingOptions = new PingOptions();
         private readonly string _host = _config.IOT_NETWORK_CHECK_ADDRESS;
+
         public NetworkCheck()
+        { }
+        private bool  NetworkSee()
         {
             try
             {
@@ -50,16 +53,12 @@ namespace uhf_rfid_catch.Handlers
             {
                 _finalStatus = false;
             }
+            return _finalStatus;
         }
 
         public bool Status()
         {
-            if (_config.IOT_NETWORK_CHECK)
-            {
-                return _finalStatus;
-            }
-
-            return true;
+            return !_config.IOT_NETWORK_CHECK || NetworkSee();
         }
     }
 }
