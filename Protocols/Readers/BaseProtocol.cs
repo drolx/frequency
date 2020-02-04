@@ -61,6 +61,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             _config = new ConfigKey();
             _session = new SessionUtil();
             _context = new CaptureContext();
+            _context.PushStore = true;
             _persist = new CapturePersist();
             _request = new PersistRequest();
         }
@@ -127,7 +128,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             bool tryWork = true;
             try
             {
-                _persist.Save(data);
+                _persist.Save(_context, data);
             }
             catch (Exception e)
             {

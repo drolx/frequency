@@ -52,10 +52,10 @@ namespace uhf_rfid_catch.Data
 
         }
 
-        public void Save(Scan scn)
+        public void Save(CaptureContext _context, Scan scn)
         {
-            using (CaptureContext _context = new CaptureContext())
-            {
+//            using (CaptureContext _context = new CaptureContext())
+//            {
                 //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 _context.Database.EnsureCreated();
 
@@ -74,18 +74,19 @@ namespace uhf_rfid_catch.Data
                     }
                     
                 }
+                
+                var readerUpdate = _context.Readers
+                    .FirstOrDefault(e => e.Id == scn.ReaderId);
+                
 
-                if (scn.Reader == null)
+                if (scn.Reader == null && readerUpdate != null)
                 {
-                    var readerUpdate = _context.Readers
-                        //.AsNoTracking()
-                        .FirstOrDefault(e => e.Id == scn.ReaderId);
                     readerUpdate.LastUpdated = DateTime.Now;
                 }
                 
                 _context.SaveChanges();
                 
-            }
+//            }
         }
     }
 }
