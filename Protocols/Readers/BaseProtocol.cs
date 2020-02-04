@@ -131,7 +131,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             }
             catch (Exception e)
             {
-                _logger.Trigger("Error", e.ToString());
+                _logger.Trigger("Fatal", e.ToString());
                 tryWork = false;
             }
 
