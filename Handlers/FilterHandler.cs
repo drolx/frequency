@@ -25,6 +25,8 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using uhf_rfid_catch.Data;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
@@ -41,19 +43,23 @@ namespace uhf_rfid_catch.Handlers
             _consolelog = new ConsoleLogger();
         }
 
-        public bool EarlyFilter(CaptureContext _context, Scan scan)
+        public async Task<bool> EarlyFilter(CaptureContext _context, Scan scan)
         {
-            var checkedUpdate = _context.Tags
-                .FirstOrDefault(e => e.Id == scan.TagId);
-
-            var diffInSeconds = 0.0;
-            
-            if (checkedUpdate != null)
+            var checkedUpdate = Task.Run(() =>
             {
-                diffInSeconds = DateTime.Now.Subtract(checkedUpdate.LastUpdated).TotalSeconds;
+                return _context.Tags
+                    .FirstOrDefaultAsync(e => e.Id == scan.TagId);
+            });
+            
+            await Task.WhenAll(checkedUpdate);
+            
+            var diffInSeconds = 0.0;
+            if (checkedUpdate.Result != null)
+            {
+                diffInSeconds = DateTime.Now.Subtract(checkedUpdate.Result.LastUpdated).TotalSeconds;
             }
 
-            var checkFilter = checkedUpdate == null || diffInSeconds >= _config.IOT_MIN_REPEAT_FREQ;
+            var checkFilter = checkedUpdate.Result == null || diffInSeconds >= _config.IOT_MIN_REPEAT_FREQ;
 
             if (!checkFilter)
             {

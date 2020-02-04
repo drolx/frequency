@@ -25,7 +25,9 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using uhf_rfid_catch.Handlers;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
@@ -34,17 +36,13 @@ namespace uhf_rfid_catch.Data
 {
     public class CapturePersist
     {
-        private static ConfigKey _config;
-        private static SessionUtil _session;
-        private static PersistRequest _persist;
         private static FilterHandler _filter;
+        private readonly MainLogger _logger;
 
         public CapturePersist()
         {
-            _config = new ConfigKey();
-            _session = new SessionUtil();
-            _persist = new PersistRequest();
             _filter = new FilterHandler();
+            _logger = new MainLogger();
         }
 
         public void OldestDelete()
@@ -52,41 +50,55 @@ namespace uhf_rfid_catch.Data
 
         }
 
-        public void Save(CaptureContext _context, Scan scn)
+        public async Task<bool> Save(CaptureContext _context, Scan scn)
         {
-//            using (CaptureContext _context = new CaptureContext())
-//            {
-                //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 _context.Database.EnsureCreated();
 
-                if (_filter.EarlyFilter(_context, scn))
+                if (await _filter.EarlyFilter(_context, scn))
                 {
                     
                     _context.Add(scn);
                     
-                    var tagUpdate = _context.Tags
-                        //.AsNoTracking()
-                        .FirstOrDefault(e => e.Id == scn.TagId);
-                    
-                    if (scn.Tag.LastUpdated != null && tagUpdate != null)
+                    var tagUpdate = Task.Run(() =>
                     {
-                        tagUpdate.LastUpdated = DateTime.Now;
+                        return _context.Tags
+                            .FirstOrDefaultAsync(e => e.Id == scn.TagId);
+                    });
+                    
+                    await Task.WhenAll(tagUpdate);
+                    
+                    if (scn.Tag != null && tagUpdate.Result != null)
+                    {
+                        tagUpdate.Result.LastUpdated = DateTime.Now;
                     }
                     
                 }
-                
-                var readerUpdate = _context.Readers
-                    .FirstOrDefault(e => e.Id == scn.ReaderId);
-                
 
-                if (scn.Reader == null && readerUpdate != null)
+                var readerUpdate = Task.Run(() =>
                 {
-                    readerUpdate.LastUpdated = DateTime.Now;
+                    return _context.Readers
+                        .FirstOrDefaultAsync(e => e.Id == scn.ReaderId);
+                });
+
+                await Task.WhenAll(readerUpdate);
+                
+                if (scn.Reader == null && readerUpdate.Result != null)
+                {
+                    readerUpdate.Result.LastUpdated = DateTime.Now;
                 }
-                
-                _context.SaveChanges();
-                
-//            }
+
+                var returnBool = true;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    returnBool = false;
+                    _logger.Trigger("Fatal", e.ToString());
+                }
+                return  returnBool;
+
         }
     }
 }

@@ -89,13 +89,13 @@ namespace uhf_rfid_catch.Protocols.Readers
         // Specify data type before processing response, in case conversion is required.
         public virtual string DataType { get; set; } = "hex";
 
-        public virtual void Log()
+        public virtual async Task Log()
         {
             var decData = DecodeData();
-            if (Persist(decData))
+            if (await Persist(decData))
             {
                 _consolelog.Trigger("Info",
-                    $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty)}");
+                    $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
                 var getFullScan = _request.GetScanById(_context, decData.Id);
                 try
                 {
@@ -123,20 +123,10 @@ namespace uhf_rfid_catch.Protocols.Readers
             throw new NotImplementedException();
         }
 
-        public virtual bool Persist(Scan data)
+        public virtual async Task<bool> Persist(Scan data)
         {
-            bool tryWork = true;
-            try
-            {
-                _persist.Save(_context, data);
-            }
-            catch (Exception e)
-            {
-                _logger.Trigger("Fatal", e.ToString());
-                tryWork = false;
-            }
-
-            return tryWork;
+            bool returnBool = await _persist.Save(_context, data);
+            return returnBool;
         }
     }
 }

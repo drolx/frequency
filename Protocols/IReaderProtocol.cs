@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Threading.Tasks;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Protocols
@@ -44,10 +45,10 @@ namespace uhf_rfid_catch.Protocols
         /// </summary>
         string DataType { get; set; }
         
-        void Log();
+        Task Log();
 
         Scan DecodeData();
 
-        bool Persist(Scan data);
+        Task<bool> Persist(Scan data);
     }
 }

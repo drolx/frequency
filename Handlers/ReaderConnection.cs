@@ -176,7 +176,7 @@ namespace uhf_rfid_catch.Handlers
                 byteList.RemoveRange(0, DataLength);
                 // Start log process.
                 _selectedProtocol.ReceivedData = newRange.ToArray();
-                Task.Factory.StartNew(_selectedProtocol.Log).Dispose();
+                Task.Factory.StartNew(() => _selectedProtocol.Log());
             }
             
             // List devices
