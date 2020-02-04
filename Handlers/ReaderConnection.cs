@@ -194,15 +194,16 @@ namespace uhf_rfid_catch.Handlers
                 var TimerLimit = 1500;
                 if (DevMode)
                 {
+                    _logger.Trigger("Debug", "Switching byte simulation mode..");
                     TimerLimit = 12000;
                 }
                 var devTest = new System.Timers.Timer {Interval = TimerLimit, AutoReset = true, Enabled = true};
                 devTest.Enabled = true;
                 devTest.Elapsed += OnDevTest;
                 
-                void OnDevTest(Object source, System.Timers.ElapsedEventArgs e) {
-                    var devTask = new Task(() => _serial.ManuallyReadData(_serialProfile, _selectedProtocol));
-                    devTask.Start();
+                void OnDevTest(Object source, System.Timers.ElapsedEventArgs e)
+                {
+                    Task.Factory.StartNew(() => _serial.ManuallyReadData(_serialProfile, _selectedProtocol));
                 }
             }
         }
