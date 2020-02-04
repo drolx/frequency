@@ -1,5 +1,5 @@
 ﻿//
-// WebSync.cs
+// ConsoleLogger.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,21 +24,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Diagnostics;
+using System.IO;
+using NLog;
+
 namespace uhf_rfid_catch.Handlers
 {
-    public class WebSync
+    public class ConsoleLogger
     {
-        private readonly MainLogger _logger;
-        private readonly ConsoleLogger _consolelog;
-        public WebSync()
+        private static Logger _logger;
+
+        public ConsoleLogger()
         {
-            _logger = new MainLogger();
-            _consolelog = new ConsoleLogger();
+            string LogFilePath;
+            if (File.Exists("NLog.config"))
+            {
+                LogFilePath = "NLog.config";
+            }
+            else if (File.Exists("uhf_rfid_catch.exe.nlog"))
+            {
+                LogFilePath = "uhf_rfid_catch.exe.nlog";
+            }
+            else
+            {
+                LogFilePath = "";
+                Console.WriteLine("No Log configuration found..");
+            }
+
+            _logger = NLog.Web.NLogBuilder.ConfigureNLog(LogFilePath).GetLogger("ConsoleOnly");
         }
 
-        public void Sync()
+        public void Trigger(string Type, string LogString)
         {
-            _consolelog.Trigger("Info", "*****   Tried cloud push...   *****");
+            switch(Type)
+            {
+                case "Info":
+                    _logger.Info(LogString);
+                break;
+                case "Error":
+                    _logger.Error(LogString);
+                break;
+                case "Warn":
+                    _logger.Warn(LogString);
+                    break;
+                default:
+                    _logger.Debug(LogString);
+                    break;
+            }
+            
         }
     }
 }

@@ -24,18 +24,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using uhf_rfid_catch.Handlers;
+using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Data
 {
     public class CaptureContext : DbContext
     {
+        private readonly ConfigKey _config;
+        private readonly NetworkCheck _network;
+        
+        // Override cached IOT Sqlite data push to cloud.
+        public bool PushStore { get; set; } = false;
+        
+        // Transition between active store.
+        public string HotSwap { get; set; } = "None";
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Reader> Readers { get; set; }
         public DbSet<Scan> Scans { get; set; }
         public CaptureContext()
         {
+            _config = new ConfigKey();
+            _network = new NetworkCheck();
         }
 
         public CaptureContext(DbContextOptions<CaptureContext> options)
@@ -47,7 +60,44 @@ namespace uhf_rfid_catch.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=app.db;cache=shared");
+                if (_config.IOT_MODE_ENABLE)
+                {
+                    if (PushStore && _network.Status())
+                    {
+                        if (HotSwap == "Store")
+                        {
+                            HotSwap = "Stream";
+                        }
+                        Console.WriteLine("Network Stats ======>  IOT Store Bypass");
+                        optionsBuilder.UseSqlite(_config.DATA_STORE);
+                    }
+                    else if (!_network.Status())
+                    {
+                        Console.WriteLine("Network Stats ======>  IOT Store");
+                        optionsBuilder.UseSqlite(_config.DATA_STORE);
+                    }
+                    else if (_network.Status())
+                    {
+                        Console.WriteLine("Network Stats ======>  IOT Memory");
+                        var connection = new SqliteConnection(_config.DATA_DATABASE_INMEMORY);
+                        connection.Open();
+                        optionsBuilder.UseSqlite(connection);
+                    }
+                    
+                    
+                }
+                else
+                {
+                    switch (_config.DATA_STORE_TYPE)
+                    {
+                        case "Sqlite":
+                            optionsBuilder.UseSqlite(_config.DATA_STORE); 
+                            break;
+                        case "Mysql":
+                            break;
+                    }
+                }
+                
             }
         }
 

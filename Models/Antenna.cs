@@ -1,5 +1,5 @@
 ﻿//
-// ConsoleOnlyLogger.cs
+// Antenna.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,48 +24,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Diagnostics;
-using NLog;
-
-namespace uhf_rfid_catch.Handlers
+namespace uhf_rfid_catch.Models
 {
-    public class ConsoleOnlyLogger
+    public class Antenna
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-        public ConsoleOnlyLogger()
+        public Antenna()
         {
-        }
-
-        public void Push(String Type, String LogString)
-        {
-            var config = new NLog.Config.LoggingConfiguration();
-
-            // Targets where to log to: File and Console
-            var logconsole = new NLog.Targets.ConsoleTarget("console");
-
-            // Rules for mapping loggers to targets
-            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logconsole);
-
-            // Apply config
-            NLog.LogManager.Configuration = config;
-            
-            switch(Type)
-            {
-                case "Info":
-                Logger.Info(LogString);
-                break;
-                case "Error":
-                Logger.Error(LogString);
-                break;
-                case "Warn":
-                    Logger.Warn(LogString);
-                    break;
-                default:
-                    Logger.Debug(LogString);
-                    break;
-            }
-            
         }
     }
 }

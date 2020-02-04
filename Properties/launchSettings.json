@@ -4,7 +4,7 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:64888",
-      "sslPort": 44398
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -16,10 +16,10 @@
     },
     "uhf_rfid_catch": {
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "sslPort": 0,
       "applicationUrl": "http://localhost:5000"
     }
   }

@@ -69,6 +69,9 @@ namespace uhf_rfid_catch.Helpers
         **    
         **/
         
+        // The Selected type of database to connect.
+        public readonly string DATA_STORE_TYPE = _settingsContext.GetSection("Database:Type").Get<string>();
+        
         // The Main store e.g MySql or PostgresSQl
         public readonly string DATA_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
         
@@ -86,7 +89,7 @@ namespace uhf_rfid_catch.Helpers
         public readonly string DATA_REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
         
         // In Memory SQLite caching options mostly for IOT mode.
-        public static readonly string DATA_DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
+        public readonly string DATA_DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
         
         /****
         **    Server mode configurations for the daemon.
@@ -124,13 +127,16 @@ namespace uhf_rfid_catch.Helpers
         **    
         **/
         
-        // Remote Host URI.
+        // Option to enable or disable Remote Forwarding.
         public readonly bool IOT_REMOTE_HOST_ENABLE = _settingsContext.GetSection("IOTMode:Remote:Enable").Get<bool>();
         // Remote Host URI.
         public readonly string IOT_REMOTE_HOST_URL = _settingsContext.GetSection("IOTMode:Remote:HostUrl").Get<string>();
 
         // Remote Host HTTP call method.
         public readonly string IOT_REMOTE_HOST_METHOD = _settingsContext.GetSection("IOTMode:Remote:Method").Get<string>();
+        
+        // Option to enable or disable Remote Host HTTP authentication.
+        public readonly bool IOT_REMOTE_HOST_AUTH = _settingsContext.GetSection("IOTMode:Remote:Auth").Get<bool>();
 
         // Remote Host HTTP authentication username.
         public readonly string IOT_REMOTE_HOST_USERNAME = _settingsContext.GetSection("IOTMode:Remote:Username").Get<string>();
@@ -140,6 +146,9 @@ namespace uhf_rfid_catch.Helpers
 
         // Option for minimum delay in seconds that allowed for an HTTP call.
         public readonly int IOT_MIN_REMOTE_HOST_DELAY = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:MinHostDelay").Get<decimal>());
+        
+        // Option for minimum sync frequency in seconds that allowed for push to server.
+        public readonly int IOT_MIN_REMOTE_FREQ = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:Frequency").Get<decimal>());
         
         // Others
 
@@ -156,7 +165,7 @@ namespace uhf_rfid_catch.Helpers
         public readonly string IOT_NETWORK_CHECK_ADDRESS = _settingsContext.GetSection("IOTMode:NetworkCheckAddress").Get<string>();
 
         // Options to configure maximum network connection timeout in seconds.
-        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) _settingsContext.GetSection("IOTMode:NetworkCheckTimeout").Get<decimal>();
+        public readonly int IOT_NETWORK_CHECK_TIMEOUT = (int) (1000 * _settingsContext.GetSection("IOTMode:NetworkCheckTimeout").Get<decimal>());
         
         /****
         **    IOT-Serial connection configurations for the daemon.

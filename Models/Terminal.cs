@@ -1,5 +1,5 @@
 ﻿//
-// WebSync.cs
+// Terminal.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,21 +24,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace uhf_rfid_catch.Handlers
+namespace uhf_rfid_catch.Models
 {
-    public class WebSync
+    public class Terminal
     {
-        private readonly MainLogger _logger;
-        private readonly ConsoleLogger _consolelog;
-        public WebSync()
+        public Terminal()
         {
-            _logger = new MainLogger();
-            _consolelog = new ConsoleLogger();
-        }
-
-        public void Sync()
-        {
-            _consolelog.Trigger("Info", "*****   Tried cloud push...   *****");
         }
     }
 }

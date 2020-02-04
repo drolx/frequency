@@ -36,6 +36,7 @@ namespace uhf_rfid_catch
     internal static class Program
     {
         private static readonly ConfigKey _config = new ConfigKey();
+        private static readonly MainLogger _logger = new MainLogger();
         private static void readerProcess()
         {
             ReaderConnection _readerProcess = new ReaderConnection();
@@ -45,6 +46,8 @@ namespace uhf_rfid_catch
         
                 static void Main(string[] args)
         {
+            _logger.Trigger("Info", "Booting up daemon.....");
+            
             // Reader process thread//
             var readerThread = new Thread(readerProcess) {Name = "UHF Reader Process"};
             readerThread.Start();
