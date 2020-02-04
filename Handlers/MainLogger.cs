@@ -79,6 +79,9 @@ namespace uhf_rfid_catch.Handlers
                     case "Debug":
                         Debug(returnText);
                         break;
+                    case "Fatal":
+                        Fatal(returnText);
+                        break;
                     default:
                         Error("Something really bad happened");
                         break;
@@ -108,6 +111,11 @@ namespace uhf_rfid_catch.Handlers
             public void Debug(String returnText)
             {
                 _logger.Debug(returnText);
+            }
+
+            public void Fatal(String returnText)
+            {
+                _logger.Fatal(returnText);
             }
     }
 }
