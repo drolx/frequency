@@ -61,7 +61,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             _config = new ConfigKey();
             _session = new SessionUtil();
             _context = new CaptureContext();
-            _context.PushStore = true;
+//            _context.PushStore = true;
             _persist = new CapturePersist();
             _request = new PersistRequest();
         }
@@ -125,7 +125,7 @@ namespace uhf_rfid_catch.Protocols.Readers
 
         public virtual async Task<bool> Persist(Scan data)
         {
-            bool returnBool = await _persist.Save(_context, data);
+            bool returnBool = await _persist.Save(data);
             return returnBool;
         }
     }
