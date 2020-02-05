@@ -194,7 +194,7 @@ namespace uhf_rfid_catch.Handlers
                 var TimerLimit = 1500;
                 if (DevMode)
                 {
-                    _logger.Trigger("Debug", "Switching byte simulation mode..");
+                    _logger.Trigger("Debug", "Switching to byte simulation mode..");
                     TimerLimit = 12000;
                 }
                 var devTest = new System.Timers.Timer {Interval = TimerLimit, AutoReset = true, Enabled = true};
@@ -225,7 +225,7 @@ namespace uhf_rfid_catch.Handlers
                 webSyncTimer.Elapsed += OnWebSyncEvent;
                     
                 void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                    var syncTask = new Task(_webSync.Sync);
+                    var syncTask = new Task(async () => await _webSync.Sync());
                     syncTask.Start();
                 }
             }
