@@ -1,5 +1,5 @@
 ﻿//
-// Antenna.cs
+// PostData.cs
 //
 // Author:
 //       Godwin peter .O <me@godwin.dev>
@@ -24,21 +24,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace uhf_rfid_catch.Models
 {
-    public class Antenna
+    public class PostData
     {
-        public Antenna()
+        public PostData()
         {
         }
 
-        [Key, Required]
-        public Guid Id { get; set; }
-        public Guid ReaderId { get; set; }
-        [Required]
-        public string UniqueId { get; set; }
-        public Reader Reader { get; set; }
+        public string ReaderUID { get; set; }
+        public string ReaderMode { get; set; }
+        public string ReaderProtocol { get; set; }
+        public string TagUID { get; set; }
+        public string TagType { get; set; }
+        public string CaptureTime { get; set; }
     }
 }

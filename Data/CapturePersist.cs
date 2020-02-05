@@ -24,12 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Data
@@ -50,28 +47,30 @@ namespace uhf_rfid_catch.Data
 
         }
 
-        public async Task<bool> Save(CaptureContext _context, Scan scn)
+        public async Task<bool> Save(Scan scn)
         {
+            using (var _context = new CaptureContext())
+            {
                 _context.Database.EnsureCreated();
 
                 if (await _filter.EarlyFilter(_context, scn))
                 {
-                    
+
                     _context.Add(scn);
-                    
+
                     var tagUpdate = Task.Run(() =>
                     {
                         return _context.Tags
                             .FirstOrDefaultAsync(e => e.Id == scn.TagId);
                     });
-                    
+
                     await Task.WhenAll(tagUpdate);
-                    
+
                     if (scn.Tag != null && tagUpdate.Result != null)
                     {
                         tagUpdate.Result.LastUpdated = DateTime.Now;
                     }
-                    
+
                 }
 
                 var readerUpdate = Task.Run(() =>
@@ -81,7 +80,7 @@ namespace uhf_rfid_catch.Data
                 });
 
                 await Task.WhenAll(readerUpdate);
-                
+
                 if (scn.Reader == null && readerUpdate.Result != null)
                 {
                     readerUpdate.Result.LastUpdated = DateTime.Now;
@@ -97,8 +96,9 @@ namespace uhf_rfid_catch.Data
                     returnBool = false;
                     _logger.Trigger("Fatal", e.ToString());
                 }
-                return  returnBool;
 
+                return returnBool;
+            }
         }
     }
 }
