@@ -34,6 +34,7 @@ namespace uhf_rfid_catch.Data
 {
     public class CaptureContext : DbContext
     {
+        private readonly ConsoleLogger _consolelog;
         private readonly ConfigKey _config;
         private readonly NetworkCheck _network;
         
@@ -47,6 +48,7 @@ namespace uhf_rfid_catch.Data
         public DbSet<Scan> Scans { get; set; }
         public CaptureContext()
         {
+            _consolelog = new ConsoleLogger();
             _config = new ConfigKey();
             _network = new NetworkCheck();
         }
@@ -68,17 +70,17 @@ namespace uhf_rfid_catch.Data
                         {
                             HotSwap = "Stream";
                         }
-                        Console.WriteLine("Network Stats ======>  IOT Store Bypass");
+                        _consolelog.Trigger("Info", "IOT-MODE MEMORY BYPASS STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
                     else if (!_network.Status())
                     {
-                        Console.WriteLine("Network Stats ======>  IOT Store");
+                        _consolelog.Trigger("Info", "IOT-MODE MAIN STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
                     else if (_network.Status())
                     {
-                        Console.WriteLine("Network Stats ======>  IOT Memory");
+                        _consolelog.Trigger("Info", "IOT-MODE MEMORY");
                         var connection = new SqliteConnection(_config.DATA_DATABASE_INMEMORY);
                         connection.Open();
                         optionsBuilder.UseSqlite(connection);
