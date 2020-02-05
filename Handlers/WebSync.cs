@@ -78,7 +78,7 @@ namespace uhf_rfid_catch.Handlers
                 if ( _network.Status() && checkStoreState.Result > 0)
                 {
                     context.PushStore = true;
-                    _logger.Trigger("Info", $"----------->>>>>> Push already local {checkStoreState.Result} data...");
+                    _logger.Trigger("Info", $"----------->>>>>> Pushed 1 of {checkStoreState.Result} cached data...");
                 }
                 
                 context.Database.EnsureCreated();
