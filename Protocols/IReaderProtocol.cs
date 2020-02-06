@@ -47,7 +47,7 @@ namespace uhf_rfid_catch.Protocols
         
         Task Log();
 
-        Scan DecodeData();
+        Task<Scan> DecodeData();
 
         Task<bool> Persist(Scan data);
     }
