@@ -24,13 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
-using System.Numerics;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using NLog.Fluent;
 using uhf_rfid_catch.Data;
-using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
 
 namespace uhf_rfid_catch.Protocols.Readers
@@ -125,12 +120,18 @@ namespace uhf_rfid_catch.Protocols.Readers
                 _continue = false;
             }
 
+            if (!_continue) return null;
             _Scan = new Scan();
             
             _Reader = new Reader
             { UniqueId = _config.IOT_UNIQUE_ID,
                 Mode = _session.GetMode(),
                 Protocol = _config.IOT_PROTOCOL
+            };
+            _Antenna = new Antenna
+            {
+                UniqueId = "ant01-" + _config.IOT_UNIQUE_ID,
+                ReaderId = _Reader.Id
             };
             _Tag = new Tag
             {
@@ -142,13 +143,16 @@ namespace uhf_rfid_catch.Protocols.Readers
             await using (var context = new CaptureContext())
             {
                 context.Database.EnsureCreated();
+
                 _Scan = await _request.ResolveReader(context, _Scan, _Reader);
+                _Scan = await _request.ResolveAntenna(context, _Scan, _Antenna, "ant01-" + _config.IOT_UNIQUE_ID);
                 _Scan = await _request.ResolveTag(context, _Scan, _Tag, _tagData);
                 
                 _context = context;
             }
 
             return _Scan;
+
         }
         
     }

@@ -47,6 +47,7 @@ namespace uhf_rfid_catch.Protocols.Readers
         
         // Data object declaration.
         protected Reader _Reader;
+        protected Antenna _Antenna;
         protected Tag _Tag;
         protected  Scan _Scan;
 
@@ -100,12 +101,15 @@ namespace uhf_rfid_catch.Protocols.Readers
                     try
                     {
                         var getFullScan = await _request.GetScanById(xcix, decData.Id);
-                        if (getFullScan.Reader != null || getFullScan.Tag != null)
+                        if (getFullScan.Reader != null
+                            && getFullScan.Tag != null
+                            && getFullScan.Antenna != null )
                         {
-                            var logVal = $"Reader Id: {getFullScan.Reader.UniqueId} | " +
-                                         $"Tag Type: {getFullScan.Tag.Type} | " +
-                                         $"Read Mode: {getFullScan.Reader.Mode} | " +
-                                         $"Tag Id: {getFullScan.Tag.UniqueId}";
+                            var logVal = $"Reader-UID: {getFullScan.Reader.UniqueId} | " +
+                                         $"Type: {getFullScan.Tag.Type} | " +
+                                         $"Mode: {getFullScan.Reader.Mode} | " +
+                                         $"Tag-UID: {getFullScan.Tag.UniqueId} | " +
+                                         $"Ant-UID: {getFullScan.Antenna.UniqueId}";
                             _logger.Trigger("Info", logVal);
                         }
                     }

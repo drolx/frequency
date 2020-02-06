@@ -48,8 +48,6 @@ namespace uhf_rfid_catch.Data
 
         public async Task<Scan> GetScanById(CaptureContext _context, Guid getbyid)
         {
-            _context.Database.EnsureCreated();
-
             var ScanData = _context.Scans
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == getbyid);
@@ -62,12 +60,18 @@ namespace uhf_rfid_catch.Data
             Task.WaitAll(Reader);
             await Reader;
             
+            var Antenna = _context.Antennae
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id == ScanData.Result.AntennaId);
+            Task.WaitAll(Antenna);
+            
             var Tag = _context.Tags
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.Id == ScanData.Result.TagId);
             Task.WaitAll(Tag);
             await Tag;
             ScanData.Result.Reader = Reader.Result;
+            ScanData.Result.Antenna = Antenna.Result;
             ScanData.Result.Tag = Tag.Result;
             
             return ScanData.Result;
@@ -90,6 +94,26 @@ namespace uhf_rfid_catch.Data
                 // Enter new Reader details.
                 // TODO: Make protocol and mode detection more dynamic.
                 _Scan.Reader = _Reader;
+            }
+
+            return _Scan;
+        }
+        
+        public async Task<Scan> ResolveAntenna(CaptureContext _context, Scan _Scan,  Antenna _Antenna, string atnData)
+        {
+            var antenna = _context.Antennae
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.UniqueId == atnData);
+            Task.WaitAll(antenna);
+            await antenna;
+            if (antenna.Result != null)
+            {
+                // Get already entered Unique-Id for Antenna.
+                _Scan.AntennaId = antenna.Result.Id;
+            }
+            else
+            {
+                _Scan.Antenna = _Antenna;
             }
 
             return _Scan;

@@ -31,5 +31,9 @@ namespace uhf_rfid_catch.Models
         public Terminal()
         {
         }
+
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string MacId { get; set; }
     }
 }

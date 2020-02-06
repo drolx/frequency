@@ -47,5 +47,8 @@ namespace uhf_rfid_catch.Models
 
         public string Protocol { get; set; }
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+        
+        public ICollection<Antenna> Antennae { get; set; }
+        public ICollection<Scan> Scans { get; set; }
     }
 }

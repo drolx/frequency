@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace uhf_rfid_catch.Models
@@ -35,10 +36,13 @@ namespace uhf_rfid_catch.Models
         }
 
         [Key, Required]
-        public Guid Id { get; set; }
-        public Guid ReaderId { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string UniqueId { get; set; }
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        public Guid ReaderId { get; set; }
         public Reader Reader { get; set; }
+
+        public ICollection<Scan> Scans { get; set; }
     }
 }
