@@ -40,7 +40,7 @@ namespace uhf_rfid_catch.Protocols.Readers
         public readonly ByteAssist _assist;
         public readonly ConfigKey _config;
         public readonly SessionUtil _session;
-        public readonly CaptureContext _context;
+        public CaptureContext _context;
         public readonly CapturePersist _persist;
         public readonly PersistRequest _request;
         public readonly ConsoleLogger _consolelog;
@@ -60,8 +60,6 @@ namespace uhf_rfid_catch.Protocols.Readers
             _assist = new ByteAssist();
             _config = new ConfigKey();
             _session = new SessionUtil();
-            _context = new CaptureContext();
-//            _context.PushStore = true;
             _persist = new CapturePersist();
             _request = new PersistRequest();
         }
@@ -91,34 +89,39 @@ namespace uhf_rfid_catch.Protocols.Readers
 
         public virtual async Task Log()
         {
-            var decData = DecodeData();
-            if (await Persist(decData))
-            {
-                _consolelog.Trigger("Info",
-                    $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
-                var getFullScan = _request.GetScanById(_context, decData.Id);
-                try
-                {
-                    var logVal = $"Reader Id: {getFullScan.Reader.UniqueId} | " +
-                                 $"Tag Type: {getFullScan.Tag.Type} | " +
-                                 $"Read Mode: {getFullScan.Reader.Mode} | " +
-                                 $"Tag Id: {getFullScan.Tag.UniqueId}";
-                        
-                    _logger.Trigger("Info", logVal);
-                }
-                catch (Exception e)
-                {
-                    _logger.Trigger("Error",e.ToString());
-                }
-            }
-            else
-            {
-                _logger.Trigger("Fatal","Issues persisting data.");
-            }
+            _consolelog.Trigger("Info",
+                $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
             
+            var decData = await DecodeData();
+            if (await Persist(decData) && decData.Id != null)
+            {
+                await using (var xcix = new CaptureContext())
+                {
+                    try
+                    {
+                        var getFullScan = await _request.GetScanById(xcix, decData.Id);
+                        if (getFullScan.Reader != null || getFullScan.Tag != null)
+                        {
+                            var logVal = $"Reader Id: {getFullScan.Reader.UniqueId} | " +
+                                         $"Tag Type: {getFullScan.Tag.Type} | " +
+                                         $"Read Mode: {getFullScan.Reader.Mode} | " +
+                                         $"Tag Id: {getFullScan.Tag.UniqueId}";
+                            _logger.Trigger("Info", logVal);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Trigger("Fatal","Issues persisting data.");
+                        if (!e.ToString().Contains("System.NullReferenceException:"))
+                        {
+                            _consolelog.Trigger("Fatal", e.ToString());
+                        }
+                    }
+                }
+            }
         }
 
-        public virtual Scan DecodeData()
+        public virtual Task<Scan> DecodeData()
         {
             throw new NotImplementedException();
         }
