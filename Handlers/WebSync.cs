@@ -68,89 +68,111 @@ namespace uhf_rfid_catch.Handlers
 
         public async Task Sync()
         {
-            _context.Database.EnsureCreated();
-            var checkStoreState = _context.Scans.CountAsync();
-            Task.WaitAll(checkStoreState);
-            
-            using (var context = new CaptureContext())
+            int checkStoreState = 0;
+            var netBool = _network.Status();
+            if (netBool)
+            {
+                try
+                {
+                    _context.Database.EnsureCreated();
+                    checkStoreState = await _context.Scans.CountAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
+            await using (var context = new CaptureContext())
             {
                 var isCompleted = false;
 
-                if (await _network.Status() && checkStoreState.Result > 0)
+                if (netBool && checkStoreState > 0)
                 {
                     context.PushStore = true;
-                    _logger.Trigger("Info", $"------>> Pushed 1 of {checkStoreState.Result} cached data...");
+                    _logger.Trigger("Info", $"------>> Pushed 1 of {checkStoreState} cached data...");
                 }
                 
-                context.Database.EnsureCreated();
-                var getLatest = context.Scans
-                    .Select(e => new {e, e.Reader, e.Tag})
-                    .FirstOrDefaultAsync();
-                Task.WaitAll(getLatest);
-
-                if (_config.IOT_REMOTE_HOST_ENABLE && await _network.Status() && getLatest.Result != null)
+                try
                 {
-                    var ScanData = new PostData
+                    context.Database.EnsureCreated();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+                
+                var getLatest = context.Scans
+                    .Select(e => new {e, e.Reader, e.Antenna, e.Tag})
+                    .ToList();
+
+                    foreach (var datav in getLatest)
                     {
-                        ReaderUID = getLatest.Result.Reader.UniqueId,
-                        ReaderMode = getLatest.Result.Reader.Mode,
-                        ReaderProtocol = getLatest.Result.Reader.Protocol,
-                        TagUID = getLatest.Result.Tag.UniqueId,
-                        TagType = getLatest.Result.Tag.Type,
-                        CaptureTime = getLatest.Result.e.CaptureTime.ToString()
-                    };
-                    
-                    switch (_config.IOT_REMOTE_HOST_METHOD)
-                    {
-                        case "GET":
-                            try
+                        if (_config.IOT_REMOTE_HOST_ENABLE && netBool && datav != null)
+                        {
+                            var ScanData = new PostData
                             {
-                                var Request = _httpclient.GetRequest(string.Empty)
-                                    .AsMultiPartFromDataRequest().
-                                    AddContent(ScanData, "ScanData")
-                                    .ExecuteAsHttpResponseMessageAsync();
-                                Task.WaitAll(Request);
-                                isCompleted = Request.IsCompletedSuccessfully;
-                            }
-                            catch (Exception ex)
+                                ReaderUID = datav.Reader.UniqueId,
+                                ReaderMode = datav.Reader.Mode,
+                                ReaderProtocol = datav.Reader.Protocol,
+                                AntennaUID = datav.Antenna.UniqueId,
+                                TagUID = datav.Tag.UniqueId,
+                                TagType = datav.Tag.Type,
+                                CaptureTime = datav.e.CaptureTime.ToString()
+                            };
+                        
+                            switch (_config.IOT_REMOTE_HOST_METHOD)
                             {
-                                var excp = ex.ToString();
-                                excp = string.Empty;
-                                _logger.Trigger("Error", "Failed to post to cloud.." + excp);
+                                case "GET":
+                                    try
+                                    {
+                                        var Request = _httpclient.GetRequest(string.Empty)
+                                            .AsMultiPartFromDataRequest().
+                                            AddContent(ScanData, "ScanData")
+                                            .ExecuteAsHttpResponseMessageAsync();
+                                        Task.WaitAll(Request);
+                                        isCompleted = Request.IsCompletedSuccessfully;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        var excp = ex.ToString();
+                                        excp = string.Empty;
+                                        _logger.Trigger("Error", "Failed to post to cloud.." + excp);
+                                    }
+
+                                    break;
+                                case "POST":
+                                
+                                    try
+                                    {
+                                        var Request = _httpclient.PostRequest(string.Empty)
+                                            .AsMultiPartFromDataRequest().
+                                            AddContent(ScanData, "ScanData")
+                                            .ExecuteAsHttpResponseMessageAsync();
+                                        Task.WaitAll(Request);
+                                        isCompleted = Request.IsCompletedSuccessfully;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        var excp = ex.ToString();
+                                        excp = string.Empty;
+                                        _logger.Trigger("Error", "Failed to post to cloud.." + excp);
+                                    }
+                                    break;
                             }
 
-                            break;
-                        case "POST":
-                            
-                            try
-                            {
-                                var Request = _httpclient.PostRequest(string.Empty)
-                                    .AsMultiPartFromDataRequest().
-                                    AddContent(ScanData, "ScanData")
-                                    .ExecuteAsHttpResponseMessageAsync();
-                                Task.WaitAll(Request);
-                                isCompleted = Request.IsCompletedSuccessfully;
-                            }
-                            catch (Exception ex)
-                            {
-                                var excp = ex.ToString();
-                                excp = string.Empty;
-                                _logger.Trigger("Error", "Failed to post to cloud.." + excp);
-                            }
-                            break;
-                    }
+                            var forDelete = context.Scans
+                                .FirstOrDefaultAsync(e => e.Id == datav.e.Id);
+                            Task.WaitAll(forDelete);
+                            context.Scans.Remove(forDelete.Result);
 
-                var forDelete = context.Scans
-                    .FirstOrDefaultAsync(e => e.Id == getLatest.Result.e.Id);
-                Task.WaitAll(forDelete);
-                context.Scans.Remove(forDelete.Result);
-
-                Task.WaitAll();
-                    if (isCompleted && await context.SaveChangesAsync() == 1)
-                    {
-                        _consolelog.Trigger("Info",
-                            $"*****   Pushed Scan {getLatest.Result.e.Id} from Tag: {getLatest.Result.Tag.UniqueId} to cloud  *****");
-                    }
+                            Task.WaitAll();
+                        if (isCompleted && await context.SaveChangesAsync() == 1)
+                        {
+                            _consolelog.Trigger("Info",
+                                $"*****   Pushed Scan {datav.e.Id} from Tag: {datav.Tag.UniqueId} to cloud  *****");
+                        }
+                        }
                 }
             }
         }
