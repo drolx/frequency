@@ -70,7 +70,7 @@ namespace uhf_rfid_catch.Data
                         {
                             HotSwap = "Stream";
                         }
-                        _consolelog.Trigger("Info", "IOT-MODE MEMORY BYPASS STORE");
+//                        _consolelog.Trigger("Info", "IOT-MODE MEMORY BYPASS STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
                     else if (!_network.Status())
