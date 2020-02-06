@@ -56,7 +56,7 @@ namespace uhf_rfid_catch.Handlers
             // Initialize HTTP calls
             _httpclient = new TinyRestClient(new HttpClient(), _config.IOT_REMOTE_HOST_URL);
             _httpclient.Settings.DefaultTimeout = TimeSpan.FromSeconds(_config.IOT_MIN_REMOTE_HOST_DELAY);
-            _httpclient.Settings.DefaultHeaders.Add("XIOT", "by gpproton...");
+            _httpclient.Settings.DefaultHeaders.Add("X-IOT", "by gpproton...");
 
             if (!String.IsNullOrEmpty(_config.IOT_REMOTE_HOST_USERNAME)
             && !String.IsNullOrEmpty(_config.IOT_REMOTE_HOST_PASSWORD))
@@ -68,6 +68,7 @@ namespace uhf_rfid_catch.Handlers
 
         public async Task Sync()
         {
+            _context.Database.EnsureCreated();
             var checkStoreState = _context.Scans.CountAsync();
             Task.WaitAll(checkStoreState);
             
@@ -78,7 +79,7 @@ namespace uhf_rfid_catch.Handlers
                 if ( _network.Status() && checkStoreState.Result > 0)
                 {
                     context.PushStore = true;
-                    _logger.Trigger("Info", $"----------->>>>>> Pushed 1 of {checkStoreState.Result} cached data...");
+                    _logger.Trigger("Info", $"------>> Pushed 1 of {checkStoreState.Result} cached data...");
                 }
                 
                 context.Database.EnsureCreated();
@@ -140,6 +141,7 @@ namespace uhf_rfid_catch.Handlers
                 Task.WaitAll(forDelete);
                 context.Scans.Remove(forDelete.Result);
 
+                Task.WaitAll();
                     if (isCompleted && await context.SaveChangesAsync() == 1)
                     {
                         _consolelog.Trigger("Info",
