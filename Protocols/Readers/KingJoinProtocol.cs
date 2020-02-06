@@ -125,6 +125,7 @@ namespace uhf_rfid_catch.Protocols.Readers
                 _continue = false;
             }
 
+            if (!_continue) return null;
             _Scan = new Scan();
             
             _Reader = new Reader
@@ -149,6 +150,7 @@ namespace uhf_rfid_catch.Protocols.Readers
             }
 
             return _Scan;
+
         }
         
     }
