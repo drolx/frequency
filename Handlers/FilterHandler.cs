@@ -45,13 +45,10 @@ namespace uhf_rfid_catch.Handlers
 
         public async Task<bool> EarlyFilter(CaptureContext _context, Scan scan)
         {
-            var checkedUpdate = Task.Run(() =>
-            {
-                return _context.Tags
+            var checkedUpdate = _context.Tags
                     .FirstOrDefaultAsync(e => e.Id == scan.TagId);
-            });
-            
-            await Task.WhenAll(checkedUpdate);
+            await checkedUpdate;
+            Task.WaitAll(checkedUpdate);
             
             var diffInSeconds = 0.0;
             if (checkedUpdate.Result != null)
