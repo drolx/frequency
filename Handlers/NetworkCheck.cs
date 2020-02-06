@@ -24,7 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Net.Http;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
+using Tiny.RestClient;
 using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Handlers
@@ -33,6 +36,7 @@ namespace uhf_rfid_catch.Handlers
     {
         private static bool _finalStatus;
         private static readonly ConfigKey _config = new ConfigKey();
+        private TinyRestClient _httpclient;
 
         readonly Ping _pingInit = new Ping();
         private readonly byte[] _buffer = new byte[32];
@@ -41,8 +45,13 @@ namespace uhf_rfid_catch.Handlers
         private readonly string _host = _config.IOT_NETWORK_CHECK_ADDRESS;
 
         public NetworkCheck()
-        { }
-        private bool  NetworkSee()
+        {
+            // Initialize HTTP calls
+            _httpclient = new TinyRestClient(new HttpClient(), _config.IOT_REMOTE_HOST_URL);
+            _httpclient.Settings.DefaultTimeout = TimeSpan.FromSeconds(_config.IOT_MIN_REMOTE_HOST_DELAY);
+            _httpclient.Settings.DefaultHeaders.Add("X-IOT", "by gpproton...");
+        }
+        private bool  DNSSee()
         {
             try
             {
@@ -56,9 +65,29 @@ namespace uhf_rfid_catch.Handlers
             return _finalStatus;
         }
 
-        public bool Status()
+        private async Task<bool> HttpCheck()
         {
-            return !_config.IOT_NETWORK_CHECK || NetworkSee();
+            var isCompleted = false;
+            try
+            {
+                var Request = _httpclient.GetRequest(string.Empty)
+                    .ExecuteAsHttpResponseMessageAsync();
+                Task.WaitAll(Request);
+                await Request;
+                isCompleted = Request.IsCompletedSuccessfully;
+            }
+            catch (Exception ex)
+            {
+                var excp = ex.ToString();
+                excp = string.Empty;
+            }
+
+            return isCompleted;
+        }
+
+        public async Task<bool> Status()
+        {
+            return !_config.IOT_NETWORK_CHECK || DNSSee() && await HttpCheck();
         }
     }
 }

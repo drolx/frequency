@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using uhf_rfid_catch.Handlers;
@@ -58,13 +59,13 @@ namespace uhf_rfid_catch.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override async void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 if (_config.IOT_MODE_ENABLE)
                 {
-                    if (PushStore && _network.Status())
+                    if (PushStore && await _network.Status())
                     {
                         if (HotSwap == "Store")
                         {
@@ -73,12 +74,12 @@ namespace uhf_rfid_catch.Data
 //                        _consolelog.Trigger("Info", "IOT-MODE MEMORY BYPASS STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
-                    else if (!_network.Status())
+                    else if (!await _network.Status())
                     {
 //                        _consolelog.Trigger("Info", "IOT-MODE MAIN STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
-                    else if (_network.Status())
+                    else if (await _network.Status())
                     {
 //                        _consolelog.Trigger("Info", "IOT-MODE MEMORY");
                         var connection = new SqliteConnection(_config.DATA_DATABASE_INMEMORY);

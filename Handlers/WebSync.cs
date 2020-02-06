@@ -76,7 +76,7 @@ namespace uhf_rfid_catch.Handlers
             {
                 var isCompleted = false;
 
-                if ( _network.Status() && checkStoreState.Result > 0)
+                if (await _network.Status() && checkStoreState.Result > 0)
                 {
                     context.PushStore = true;
                     _logger.Trigger("Info", $"------>> Pushed 1 of {checkStoreState.Result} cached data...");
@@ -88,7 +88,7 @@ namespace uhf_rfid_catch.Handlers
                     .FirstOrDefaultAsync();
                 Task.WaitAll(getLatest);
 
-                if (_config.IOT_REMOTE_HOST_ENABLE && _network.Status() && getLatest.Result != null)
+                if (_config.IOT_REMOTE_HOST_ENABLE && await _network.Status() && getLatest.Result != null)
                 {
                     var ScanData = new PostData
                     {
@@ -112,9 +112,11 @@ namespace uhf_rfid_catch.Handlers
                                 Task.WaitAll(Request);
                                 isCompleted = Request.IsCompletedSuccessfully;
                             }
-                            catch (HttpException ex)
+                            catch (Exception ex)
                             {
-                                _logger.Trigger("Fatal", ex.ToString());
+                                var excp = ex.ToString();
+                                excp = string.Empty;
+                                _logger.Trigger("Error", "Failed to post to cloud.." + excp);
                             }
 
                             break;
@@ -129,9 +131,11 @@ namespace uhf_rfid_catch.Handlers
                                 Task.WaitAll(Request);
                                 isCompleted = Request.IsCompletedSuccessfully;
                             }
-                            catch (HttpException ex)
+                            catch (Exception ex)
                             {
-                                _logger.Trigger("Fatal", ex.ToString());
+                                var excp = ex.ToString();
+                                excp = string.Empty;
+                                _logger.Trigger("Error", "Failed to post to cloud.." + excp);
                             }
                             break;
                     }
