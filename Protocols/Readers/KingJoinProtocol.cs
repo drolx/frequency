@@ -26,6 +26,7 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NLog.Fluent;
 using uhf_rfid_catch.Data;
@@ -63,7 +64,7 @@ namespace uhf_rfid_catch.Protocols.Readers
         public const byte RTN_FAIL = 0x01;
         public const byte RTN_AUTO = 0x32;
 
-        public override Scan DecodeData()
+        public override async Task<Scan> DecodeData()
         {
             bool _continue = START_RESPONSE_BYTE == _assist.pick( ReceivedData, 0);
             
@@ -137,11 +138,16 @@ namespace uhf_rfid_catch.Protocols.Readers
                 Type = _tagType,
                 LastMode = "Unknown"
             };
-            
-            _context.Database.EnsureCreated();
-            _Scan = _request.ResolveReader(_context, _Scan, _Reader);
-            _Scan = _request.ResolveTag(_context, _Scan, _Tag, _tagData);
-            
+
+            await using (var context = new CaptureContext())
+            {
+                context.Database.EnsureCreated();
+                _Scan = await _request.ResolveReader(context, _Scan, _Reader);
+                _Scan = await _request.ResolveTag(context, _Scan, _Tag, _tagData);
+                
+                _context = context;
+            }
+
             return _Scan;
         }
         

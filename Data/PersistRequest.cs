@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using uhf_rfid_catch.Helpers;
 using uhf_rfid_catch.Models;
@@ -45,31 +46,44 @@ namespace uhf_rfid_catch.Data
         }
 
 
-        public Scan GetScanById(CaptureContext _context, Guid getbyid)
+        public async Task<Scan> GetScanById(CaptureContext _context, Guid getbyid)
         {
             _context.Database.EnsureCreated();
 
-            Scan ScanData = _context.Scans
+            var ScanData = _context.Scans
                 .AsNoTracking()
-                .FirstOrDefault(e => e.Id == getbyid);
-            ScanData.Reader = _context.Readers
+                .FirstOrDefaultAsync(e => e.Id == getbyid);
+            Task.WaitAll(ScanData);
+            await ScanData;
+            
+            var Reader = _context.Readers
                 .AsNoTracking()
-                .FirstOrDefault(e => e.Id == ScanData.ReaderId);
-            ScanData.Tag = _context.Tags
+                .FirstOrDefaultAsync(e => e.Id == ScanData.Result.ReaderId);
+            Task.WaitAll(Reader);
+            await Reader;
+            
+            var Tag = _context.Tags
                 .AsNoTracking()
-                .FirstOrDefault(e => e.Id == ScanData.TagId);
-            return ScanData;
+                .FirstOrDefaultAsync(e => e.Id == ScanData.Result.TagId);
+            Task.WaitAll(Tag);
+            await Tag;
+            ScanData.Result.Reader = Reader.Result;
+            ScanData.Result.Tag = Tag.Result;
+            
+            return ScanData.Result;
         }
 
-        public Scan ResolveReader(CaptureContext _context, Scan _Scan, Reader _Reader)
+        public async Task<Scan> ResolveReader(CaptureContext _context, Scan _Scan, Reader _Reader)
         {
-            Reader readerid;
-            if ((readerid = _context.Readers
-                    .AsNoTracking()
-                    .FirstOrDefault(e => e.UniqueId == _config.IOT_UNIQUE_ID)) != null)
+            var reader = _context.Readers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.UniqueId == _config.IOT_UNIQUE_ID);
+            Task.WaitAll(reader);
+            await reader;
+            if (reader.Result != null)
             {
                 // Get already entered Unique Id for Reader.
-                _Scan.ReaderId = readerid.Id;
+                _Scan.ReaderId = reader.Result.Id;
             }
             else
             {
@@ -81,15 +95,18 @@ namespace uhf_rfid_catch.Data
             return _Scan;
         }
 
-        public Scan ResolveTag(CaptureContext _context, Scan _Scan, Tag _Tag, string _tagData)
+        public async Task<Scan> ResolveTag(CaptureContext _context, Scan _Scan, Tag _Tag, string _tagData)
         {
-            Tag tagid;
-            if ((tagid = _context.Tags
-                    .AsNoTracking()
-                    .FirstOrDefault(e => e.UniqueId == _tagData)) != null)
+            var tag = _context.Tags
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.UniqueId == _tagData);
+            Task.WaitAll(tag);
+            await tag;
+            
+            if (tag.Result != null)
             {
                 // Get already entered Unique Id for Tag.
-                _Scan.TagId = tagid.Id;
+                _Scan.TagId = tag.Result.Id;
             }
             else
             {

@@ -49,52 +49,49 @@ namespace uhf_rfid_catch.Data
 
         public async Task<bool> Save(Scan scn)
         {
+            var returnBool = false;
+            
             using (var _context = new CaptureContext())
             {
                 _context.Database.EnsureCreated();
 
                 if (await _filter.EarlyFilter(_context, scn))
                 {
-
                     _context.Add(scn);
-
-                    var tagUpdate = Task.Run(() =>
-                    {
-                        return _context.Tags
+                    
+                    var tagUpdate = _context.Tags
                             .FirstOrDefaultAsync(e => e.Id == scn.TagId);
-                    });
-
-                    await Task.WhenAll(tagUpdate);
+                    Task.WaitAll(tagUpdate);
+                    await tagUpdate;
 
                     if (scn.Tag != null && tagUpdate.Result != null)
                     {
                         tagUpdate.Result.LastUpdated = DateTime.Now;
                     }
-
+                    returnBool = true;
                 }
 
-                var readerUpdate = Task.Run(() =>
-                {
-                    return _context.Readers
+                var readerUpdate = _context.Readers
                         .FirstOrDefaultAsync(e => e.Id == scn.ReaderId);
-                });
-
-                await Task.WhenAll(readerUpdate);
+                Task.WaitAll(readerUpdate);
+                await readerUpdate;
 
                 if (scn.Reader == null && readerUpdate.Result != null)
                 {
                     readerUpdate.Result.LastUpdated = DateTime.Now;
                 }
 
-                var returnBool = true;
+                
                 try
                 {
                     await _context.SaveChangesAsync();
                 }
                 catch (Exception e)
                 {
-                    returnBool = false;
-                    _logger.Trigger("Fatal", e.ToString());
+                    if (!e.ToString().Contains("FOREIGN KEY constraint failed"))
+                    {
+                        _logger.Trigger("Fatal", e.ToString());
+                    }
                 }
 
                 return returnBool;
