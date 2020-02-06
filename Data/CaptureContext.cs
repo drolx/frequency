@@ -41,12 +41,11 @@ namespace uhf_rfid_catch.Data
         
         // Override cached IOT Sqlite data push to cloud.
         public bool PushStore { get; set; } = false;
-        
-        // Transition between active store.
-        public string HotSwap { get; set; } = "None";
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Reader> Readers { get; set; }
         public DbSet<Scan> Scans { get; set; }
+        public DbSet<Antenna> Antennae { get; set; }
+        public DbSet<Terminal> Terminals { get; set; }
         public CaptureContext()
         {
             _consolelog = new ConsoleLogger();
@@ -59,27 +58,24 @@ namespace uhf_rfid_catch.Data
         {
         }
 
-        protected override async void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var netBool = _network.Status();
             if (!optionsBuilder.IsConfigured)
             {
                 if (_config.IOT_MODE_ENABLE)
                 {
-                    if (PushStore && await _network.Status())
+                    if (PushStore && netBool)
                     {
-                        if (HotSwap == "Store")
-                        {
-                            HotSwap = "Stream";
-                        }
 //                        _consolelog.Trigger("Info", "IOT-MODE MEMORY BYPASS STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
-                    else if (!await _network.Status())
+                    else if (!_network.Status())
                     {
 //                        _consolelog.Trigger("Info", "IOT-MODE MAIN STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
-                    else if (await _network.Status())
+                    else if (netBool)
                     {
 //                        _consolelog.Trigger("Info", "IOT-MODE MEMORY");
                         var connection = new SqliteConnection(_config.DATA_DATABASE_INMEMORY);
@@ -107,7 +103,15 @@ namespace uhf_rfid_catch.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Reader>().HasIndex(e => new {e.UniqueId}).IsUnique();
+            modelBuilder.Entity<Reader>().HasMany(k => k.Antennae)
+                .WithOne(e => e.Reader).IsRequired().IsRequired(false);
+            
             modelBuilder.Entity<Tag>().HasIndex(e => new {e.UniqueId}).IsUnique();
+            
+            modelBuilder.Entity<Antenna>().HasIndex(e => new {e.UniqueId}).IsUnique();
+            modelBuilder.Entity<Antenna>().HasIndex(e => new {e.ReaderId}).IsUnique();
+            modelBuilder.Entity<Antenna>().HasOne(k => k.Reader)
+                .WithMany(e => e.Antennae).IsRequired(false);
             
             base.OnModelCreating(modelBuilder);
         }

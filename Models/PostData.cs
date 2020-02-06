@@ -36,6 +36,7 @@ namespace uhf_rfid_catch.Models
         public string ReaderMode { get; set; }
         public string ReaderProtocol { get; set; }
         public string TagUID { get; set; }
+        public string AntennaUID { get; set; }
         public string TagType { get; set; }
         public string CaptureTime { get; set; }
     }
