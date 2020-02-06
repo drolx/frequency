@@ -75,12 +75,12 @@ namespace uhf_rfid_catch.Data
                     }
                     else if (!_network.Status())
                     {
-                        _consolelog.Trigger("Info", "IOT-MODE MAIN STORE");
+//                        _consolelog.Trigger("Info", "IOT-MODE MAIN STORE");
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
                     else if (_network.Status())
                     {
-                        _consolelog.Trigger("Info", "IOT-MODE MEMORY");
+//                        _consolelog.Trigger("Info", "IOT-MODE MEMORY");
                         var connection = new SqliteConnection(_config.DATA_DATABASE_INMEMORY);
                         connection.Open();
                         optionsBuilder.UseSqlite(connection);
