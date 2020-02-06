@@ -88,7 +88,7 @@ namespace uhf_rfid_catch.Data
                 }
                 catch (Exception e)
                 {
-                    if (!e.ToString().Contains("FOREIGN KEY constraint failed"))
+                    if (!e.ToString().Contains("constraint failed"))
                     {
                         _logger.Trigger("Fatal", e.ToString());
                     }
