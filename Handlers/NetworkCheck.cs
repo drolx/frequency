@@ -85,9 +85,9 @@ namespace uhf_rfid_catch.Handlers
             return isCompleted;
         }
 
-        public async Task<bool> Status()
+        public bool Status()
         {
-            return !_config.IOT_NETWORK_CHECK || DNSSee() && await HttpCheck();
+            return !_config.IOT_NETWORK_CHECK || DNSSee() && HttpCheck().Result;
         }
     }
 }
