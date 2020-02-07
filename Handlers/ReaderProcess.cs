@@ -242,17 +242,7 @@ namespace uhf_rfid_catch.Handlers
             }
 
             // Handle continuous run and quit.
-            Console.WriteLine("Press ctrl C to quit");
-            Console.TreatControlCAsInput = false;
-            Console.CancelKeyPress += (s, ev) =>
-            {
-                Console.WriteLine("Ctrl+C pressed");
-                ev.Cancel = true;
-            };
-
-            while (true)
-                if (Console.ReadKey().Key == ConsoleKey.C)
-                    break;
+            Console.Read();
 
         }
         
