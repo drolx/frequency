@@ -115,11 +115,7 @@ namespace uhf_rfid_catch.Protocols.Readers
                     }
                     catch (Exception e)
                     {
-                        _logger.Trigger("Fatal","Issues persisting data.");
-                        if (!e.ToString().Contains("System.NullReferenceException:"))
-                        {
-                            _consolelog.Trigger("Fatal", e.ToString());
-                        }
+                            _logger.Trigger("Fatal", e.ToString().Remove(0,e.ToString().Length) + "Unique Ignored..");
                     }
                 }
             }
