@@ -34,7 +34,7 @@ using uhf_rfid_catch.Protocols;
 
 namespace uhf_rfid_catch.Handlers
 {
-    public class ReaderConnection
+    public class ReaderProcess
     {
         private readonly ConfigKey _config;
         private readonly MainLogger _logger;
@@ -48,7 +48,7 @@ namespace uhf_rfid_catch.Handlers
 #else
         private bool DevMode = false;
 #endif
-        public ReaderConnection()
+        public ReaderProcess()
         {
             _config = new ConfigKey();
             _logger = new MainLogger();

@@ -39,7 +39,7 @@ namespace uhf_rfid_catch
         private static readonly MainLogger _logger = new MainLogger();
         private static void readerProcess()
         {
-            ReaderConnection _readerProcess = new ReaderConnection();
+            ReaderProcess _readerProcess = new ReaderProcess();
             _readerProcess.Run();
             
         }
