@@ -75,50 +75,61 @@ namespace uhf_rfid_catch.Handlers
                 try
                 {
                     _context.Database.EnsureCreated();
-                    checkStoreState = await _context.Scans.CountAsync();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-
-            await using (var context = new CaptureContext())
-            {
-                var isCompleted = false;
-
-                if (netBool && checkStoreState > 0)
-                {
-                    context.PushStore = true;
-                    _logger.Trigger("Info", $"------>> Pushed 1 of {checkStoreState} cached data...");
-                }
-                
-                try
-                {
-                    context.Database.EnsureCreated();
+                    checkStoreState = await _context.Scans
+                        .Where(k => k.synced == 0)
+                        .CountAsync();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
                 
-                var getLatest = context.Scans
-                    .Select(e => new {e, e.Reader, e.Antenna, e.Tag})
-                    .ToList();
+                await using (var context = new CaptureContext())
+                {
+                    var isCompleted = false;
+                    var pushCount = 0;
 
-                    foreach (var datav in getLatest)
+                    if (_config.IOT_REMOTE_HOST_ENABLE && netBool && checkStoreState > 0)
                     {
-                        if (_config.IOT_REMOTE_HOST_ENABLE && netBool && datav != null)
+                        context.PushStore = true;
+                    }
+                
+                    try
+                    {
+                        context.Database.EnsureCreated();
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Trigger("Fatal", e.ToString().Remove(0,e.ToString().Length) + "Bootstrapping DB now..");
+                    }
+
+                    var getLatest = context.Scans
+                        .Where(k => k.synced == 0)
+                        .Include(e => e.Reader)
+                        .Include(y => y.Tag)
+                        .Include(r => r.Antenna)
+                        .Take(_config.IOT_MIN_REMOTE_PUSH_COUNT).AsEnumerable();
+                    
+                    var totalDelete = getLatest.Count();
+                    if (checkStoreState != 0)
+                    {
+                        _logger.Trigger("Info", $"------>> Pushing {totalDelete} of {checkStoreState} cached data...");
+                    }
+
+                    List<Scan> updateList = new List<Scan>();
+                    foreach (var innerData in getLatest)
+                    {
+                        if (innerData.Antenna != null)
                         {
                             var ScanData = new PostData
                             {
-                                ReaderUID = datav.Reader.UniqueId,
-                                ReaderMode = datav.Reader.Mode,
-                                ReaderProtocol = datav.Reader.Protocol,
-                                AntennaUID = datav.Antenna.UniqueId,
-                                TagUID = datav.Tag.UniqueId,
-                                TagType = datav.Tag.Type,
-                                CaptureTime = datav.e.CaptureTime.ToString()
+                                ReaderUID = innerData.Reader.UniqueId,
+                                ReaderMode = innerData.Reader.Mode,
+                                ReaderProtocol = innerData.Reader.Protocol,
+                                AntennaUID = innerData.Antenna.UniqueId,
+                                TagUID = innerData.Tag.UniqueId,
+                                TagType = innerData.Tag.Type,
+                                CaptureTime = innerData.CaptureTime.ToString()
                             };
                         
                             switch (_config.IOT_REMOTE_HOST_METHOD)
@@ -135,9 +146,7 @@ namespace uhf_rfid_catch.Handlers
                                     }
                                     catch (Exception ex)
                                     {
-                                        var excp = ex.ToString();
-                                        excp = string.Empty;
-                                        _logger.Trigger("Error", "Failed to post to cloud.." + excp);
+                                        _logger.Trigger("Error", "Failed to post to cloud.." + ex.ToString().Remove(0, ex.ToString().Length));
                                     }
 
                                     break;
@@ -154,25 +163,37 @@ namespace uhf_rfid_catch.Handlers
                                     }
                                     catch (Exception ex)
                                     {
-                                        var excp = ex.ToString();
-                                        excp = string.Empty;
-                                        _logger.Trigger("Error", "Failed to post to cloud.." + excp);
+                                        _logger.Trigger("Error", "Failed to post to cloud.." + ex.ToString().Remove(0, ex.ToString().Length));
                                     }
                                     break;
                             }
 
-                            var forDelete = context.Scans
-                                .FirstOrDefaultAsync(e => e.Id == datav.e.Id);
-                            Task.WaitAll(forDelete);
-                            context.Scans.Remove(forDelete.Result);
-
-                            Task.WaitAll();
-                        if (isCompleted && await context.SaveChangesAsync() == 1)
+                            if (isCompleted)
+                            {
+                                ++pushCount;
+                                _consolelog.Trigger("Info",
+                                    $"*****   Pushed Scan {innerData.Id} from Tag: {innerData.Tag.UniqueId} to cloud  *****");
+                                innerData.synced = 1;
+                                updateList.Add(innerData);
+                            }
+                        }
+                    }
+                    
+                    if (pushCount == totalDelete)
+                    {
+                        if (_config.SERVER_FORWARD
+                            && _config.SERVER_ENABLE
+                            && _config.IOT_REMOTE_HOST_ENABLE
+                            && !_config.IOT_MODE_ENABLE)
                         {
-                            _consolelog.Trigger("Info",
-                                $"*****   Pushed Scan {datav.e.Id} from Tag: {datav.Tag.UniqueId} to cloud  *****");
+                            context.Scans.UpdateRange(updateList);
                         }
+                        else
+                        {
+                            context.Scans.RemoveRange(getLatest);
                         }
+                        await context.SaveChangesAsync();
+                    }
                 }
             }
         }

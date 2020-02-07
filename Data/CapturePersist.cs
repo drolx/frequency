@@ -97,10 +97,7 @@ namespace uhf_rfid_catch.Data
                 catch (Exception e)
                 {
                     returnBool = false;
-                    if (!e.ToString().Contains("constraint failed"))
-                    {
-                        _logger.Trigger("Fatal", e.ToString());
-                    }
+                    _logger.Trigger("Fatal", e.ToString().Remove(0,e.ToString().Length) + "Unique Ignored..");
                 }
 
                 return returnBool;

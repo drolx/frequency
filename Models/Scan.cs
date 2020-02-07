@@ -41,6 +41,8 @@ namespace uhf_rfid_catch.Models
         public Guid TagId { get; set; }
         public Guid AntennaId { get; set; }
         public DateTime CaptureTime { get; set; } = DateTime.Now;
+        [MaxLength(1)]
+        public int? synced { get; set; } = 0;
         public Reader Reader { get; set; }
         public Tag Tag { get; set; }
         public Antenna Antenna { get; set; }

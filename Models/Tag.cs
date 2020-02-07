@@ -40,10 +40,12 @@ namespace uhf_rfid_catch.Models
 
         [Key, Required]
         public Guid Id { get; set; } = Guid.NewGuid();
-        [Required]
+        [Required, MaxLength(25)]
         public string UniqueId { get; set; }
+        [MaxLength(10)]
         public string Type { get; set; }
         public DateTime LastUpdated { get; set; } = DateTime.Now;
+        [MaxLength(25)]
         public string LastMode { get; set; }
 
         public ICollection<Scan> Scans { get; set; }
