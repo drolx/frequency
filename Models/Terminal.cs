@@ -24,6 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace uhf_rfid_catch.Models
 {
     public class Terminal
@@ -33,7 +35,9 @@ namespace uhf_rfid_catch.Models
         }
 
         public Guid Id { get; set; }
+        [MaxLength(25)]
         public string Name { get; set; }
+        [MaxLength(55)]
         public string MacId { get; set; }
     }
 }
