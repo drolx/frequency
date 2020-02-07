@@ -105,6 +105,9 @@ namespace uhf_rfid_catch.Helpers
         // Get Configured protocols list.
         public readonly IEnumerable SERVER_PROTOCOLS = _settingsContext.GetList("ServerMode:Protocols");
         
+        // Option to allow forwarding captured data through HTTP request.
+        public readonly bool SERVER_FORWARD = _settingsContext.GetSection("ServerMode:Forward").Get<bool>();
+        
         /****
         **    IOT mode configurations for the daemon.
         **    
@@ -149,6 +152,9 @@ namespace uhf_rfid_catch.Helpers
         
         // Option for minimum sync frequency in seconds that allowed for push to server.
         public readonly int IOT_MIN_REMOTE_FREQ = (int) (1000 * _settingsContext.GetSection("IOTMode:Remote:Frequency").Get<decimal>());
+        
+        // Option for maximum remote push count to server at once.
+        public readonly int IOT_MIN_REMOTE_PUSH_COUNT = (int) _settingsContext.GetSection("IOTMode:Remote:PushCount").Get<decimal>();
         
         // Others
 
