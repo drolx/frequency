@@ -24,18 +24,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Diagnostics;
 using System.IO;
 using NLog;
+using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Handlers
 {
     public class ConsoleLogger
     {
+        private readonly ConfigKey _config;
         private static Logger _logger;
 
         public ConsoleLogger()
         {
+            _config = new ConfigKey();
             string LogFilePath;
             if (File.Exists("NLog.config"))
             {
@@ -54,24 +56,39 @@ namespace uhf_rfid_catch.Handlers
             _logger = NLog.Web.NLogBuilder.ConfigureNLog(LogFilePath).GetLogger("ConsoleOnly");
         }
 
-        public void Trigger(string Type, string LogString)
+        public void Trigger(string Type, string returnText)
         {
-            switch(Type)
+            if (_config.LOGGING_ENABLE)
             {
-                case "Info":
-                    _logger.Info(LogString);
-                break;
-                case "Error":
-                    _logger.Error(LogString);
-                break;
-                case "Warn":
-                    _logger.Warn(LogString);
-                    break;
-                default:
-                    _logger.Debug(LogString);
-                    break;
+                try
+                {
+                    switch (Type) {
+                        case "Error" :
+                            _logger.Error(returnText);
+                            break;
+                        case "Info":
+                            _logger.Info(returnText);
+                            break;
+                        case "Warn":
+                            _logger.Warn(returnText);
+                            break;
+                        case "Debug":
+                            _logger.Debug(returnText);
+                            break;
+                        case "Fatal":
+                            _logger.Fatal(returnText);
+                            break;
+                        default:
+                            _logger.Error("Something really bad happened");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Something bad happened");
+                }
             }
-            
+
         }
     }
 }

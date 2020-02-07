@@ -113,10 +113,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
             var ListConnections = ListConnection();
             string startLine = $"---- {ListConnections.Length} Serial ports available ----";
-            _logger.Info(startLine);
+            _logger.Trigger("Info", startLine);
             foreach (string portName in ListConnections)
             {
-                _logger.Info(portName);
+                _logger.Trigger("Info", portName);
             }
         }
         

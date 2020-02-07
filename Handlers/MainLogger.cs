@@ -26,11 +26,13 @@
 using System;
 using System.IO;
 using NLog;
+using uhf_rfid_catch.Helpers;
 
 namespace uhf_rfid_catch.Handlers
 {
     public interface IMainLogger
     {
+        // In-case
         void Info(String returnText);
         void Error(String returnText);
         void Warn(String returnText);
@@ -38,12 +40,14 @@ namespace uhf_rfid_catch.Handlers
         void Trigger(string logType, string returnText);
     }
 
-    public class MainLogger : IMainLogger
+    public class MainLogger
     {
+        private readonly ConfigKey _config;
         private static Logger _logger;
 
         public MainLogger()
         {
+            _config = new ConfigKey();
             string LogFilePath;
             if (File.Exists("NLog.config"))
             {
@@ -64,58 +68,36 @@ namespace uhf_rfid_catch.Handlers
 
         public void Trigger(String logType, String returnText)
         {
-            try
+            if (_config.LOGGING_ENABLE)
             {
-                switch (logType) {
-                    case "Error" :
-                    Error(returnText);
-                    break;
-                    case "Info":
-                        Info(returnText);
-                        break;
-                    case "Warn":
-                        Warn(returnText);
-                        break;
-                    case "Debug":
-                        Debug(returnText);
-                        break;
-                    case "Fatal":
-                        Fatal(returnText);
-                        break;
-                    default:
-                        Error("Something really bad happened");
-                        break;
+                try
+                {
+                    switch (logType) {
+                        case "Error" :
+                            _logger.Error(returnText);
+                            break;
+                        case "Info":
+                            _logger.Info(returnText);
+                            break;
+                        case "Warn":
+                            _logger.Warn(returnText);
+                            break;
+                        case "Debug":
+                            _logger.Debug(returnText);
+                            break;
+                        case "Fatal":
+                            _logger.Fatal(returnText);
+                            break;
+                        default:
+                            _logger.Error("Something really bad happened");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Something bad happened");
                 }
             }
-            catch (Exception ex)
-            {
-                _logger.Error(ex, "Something bad happened");
-            }
         }
-
-            public void Error(String returnText)
-            {
-                    _logger.Error(returnText);
-            }
-
-            public void Info(String returnText)
-            {
-                    _logger.Info(returnText);
-            }
-
-            public void Warn(String returnText)
-            {
-                _logger.Warn(returnText);
-            }
-
-            public void Debug(String returnText)
-            {
-                _logger.Debug(returnText);
-            }
-
-            public void Fatal(String returnText)
-            {
-                _logger.Fatal(returnText);
-            }
     }
 }
