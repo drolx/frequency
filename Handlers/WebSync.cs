@@ -175,8 +175,10 @@ namespace uhf_rfid_catch.Handlers
                     {
                         if (_config.SERVER_FORWARD
                             && _config.SERVER_ENABLE
+                            && _config.SERVER_STORE
                             && _config.IOT_REMOTE_HOST_ENABLE
-                            && !_config.IOT_MODE_ENABLE)
+                            && !_config.IOT_MODE_ENABLE
+                            && _config.BASE_PERSIST_DATA)
                         {
                             context.Scans.UpdateRange(updateList);
                         }

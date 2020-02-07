@@ -96,7 +96,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                 // Logging and persisting task
                 Task.Factory.StartNew(protoInfo.Log);
             }
-            else if (!protoInfo.AutoRead && builtConnection.IsOpen)
+            else if ((!protoInfo.AutoRead || !_config.IOT_AUTO_READ) && builtConnection.IsOpen)
             {
                 Console.WriteLine("Implement non auto read mode.");
                 // TODO: Manual serial port Read with a command.

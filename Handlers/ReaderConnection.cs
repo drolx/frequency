@@ -176,7 +176,10 @@ namespace uhf_rfid_catch.Handlers
                 byteList.RemoveRange(0, DataLength);
                 // Start log process.
                 _selectedProtocol.ReceivedData = newRange.ToArray();
-                Task.Factory.StartNew(() => _selectedProtocol.Log());
+                if (_config.IOT_AUTO_READ)
+                {
+                    Task.Factory.StartNew(() => _selectedProtocol.Log());
+                }
             }
             
             // List devices
@@ -216,8 +219,11 @@ namespace uhf_rfid_catch.Handlers
         // Main Reader method for bootstrapping everything from the main thread.
         public void Run()
         {
-            SerialConnection();
-            
+            if (_config.IOT_SERIAL_ENABLE)
+            {
+                SerialConnection();
+            }
+
             // Cloud sync timed thread sub process.
             if (_config.IOT_MODE_ENABLE && _config.IOT_REMOTE_HOST_ENABLE)
             {
