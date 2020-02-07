@@ -79,6 +79,9 @@ namespace uhf_rfid_catch.Helpers
         /// Redis distributed caching configurations.
         /// </summary>
         
+        // Enable or disables Redis distributed caching.
+        public readonly bool DATA_REDIS_ENABLE = _settingsContext.GetSection("Logging::Redis:Enable").Get<bool>();
+        
         // Redis hostname or IP address information.
         public readonly string DATA_REDIS_HOST = _settingsContext.GetSection("Database:Redis:Host").Get<string>();
 
@@ -89,7 +92,7 @@ namespace uhf_rfid_catch.Helpers
         public readonly string DATA_REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
         
         // In Memory SQLite caching options mostly for IOT mode.
-        public readonly string DATA_DATABASE_INMEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
+        public readonly string DATA_DATABASE_IN_MEMORY = _settingsContext.GetSection("Database:InMemory").Get<string>();
         
         /****
         **    Server mode configurations for the daemon.
@@ -105,6 +108,14 @@ namespace uhf_rfid_catch.Helpers
         // Get Configured protocols list.
         public readonly IEnumerable SERVER_PROTOCOLS = _settingsContext.GetList("ServerMode:Protocols");
         
+        // Usage of array type temp.
+//        ConfigKey nq1 = new ConfigKey();
+//        IEnumerable test1 = nq1.SERVER_PROTOCOLS;
+//            foreach (IConfigurationSection VARIABLE in test1)
+//            {
+//                Console.WriteLine(VARIABLE.GetValue<string>("ProtocolName"));
+//            }
+        
         // Option to allow forwarding captured data through HTTP request.
         public readonly bool SERVER_FORWARD = _settingsContext.GetSection("ServerMode:Forward").Get<bool>();
         
@@ -115,9 +126,6 @@ namespace uhf_rfid_catch.Helpers
         
         // Option to enable or disable IOT remote functionality.
         public readonly bool IOT_MODE_ENABLE = _settingsContext.GetSection("IOTMode:Enable").Get<bool>();
-
-        // Option for how many simultaneous HTTP push can happen at once.
-        public readonly int PUSH_PROCESS_COUNT = (int) _settingsContext.GetSection("IOTMode:PushProcessCount").Get<decimal>();
 
         // The IOT mode unique identity for the daemon instance.
         public readonly string IOT_UNIQUE_ID = _settingsContext.GetSection("IOTMode:UniqueId").Get<string>();
@@ -218,17 +226,6 @@ namespace uhf_rfid_catch.Helpers
             
         // Options to configure minimum network connection timeout in seconds.
         public readonly int IOT_NETWORK_CONN_TIMEOUT = (int) (1000 * _settingsContext.GetSection("IOTMode:Connections:Network:ConnectionTimeout").Get<decimal>());
-
-        
-    
-    
-        // Usage of array type temp.
-//        ConfigKey nq1 = new ConfigKey();
-//        IEnumerable test1 = nq1.SERVER_PROTOCOLS;
-//            foreach (IConfigurationSection VARIABLE in test1)
-//            {
-//                Console.WriteLine(VARIABLE.GetValue<string>("ProtocolName"));
-//            }
 
     }
 }

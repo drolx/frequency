@@ -34,7 +34,7 @@ using uhf_rfid_catch.Protocols;
 
 namespace uhf_rfid_catch.Handlers
 {
-    public class ReaderConnection
+    public class ReaderProcess
     {
         private readonly ConfigKey _config;
         private readonly MainLogger _logger;
@@ -48,7 +48,7 @@ namespace uhf_rfid_catch.Handlers
 #else
         private bool DevMode = false;
 #endif
-        public ReaderConnection()
+        public ReaderProcess()
         {
             _config = new ConfigKey();
             _logger = new MainLogger();
@@ -58,16 +58,23 @@ namespace uhf_rfid_catch.Handlers
             _serialProfile = _serial.BuildConnection();
         }
 
-        public void SerialConnection()
+        private async Task SerialConnection()
         {
             IReaderProtocol _selectedProtocol = new BaseReaderProtocol().Resolve();
 
             // Thread maintenance Timer.
-            var sectCheck = new System.Timers.Timer {Interval = 35000, AutoReset = true, Enabled = true};
-            sectCheck.Elapsed += OnTimedEvent;
-            void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                Task.Factory.StartNew(() => _consolelog.Trigger("Info", "*****   Keep Thread Alive   *****"));
-            }
+            await Task.Run(() =>
+            {
+                var sectCheck = new System.Timers.Timer {Interval = 35000, AutoReset = true, Enabled = true};
+                sectCheck.Elapsed += OnTimedEvent;
+
+                void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+                {
+                    Task.Factory.StartNew(() =>
+                        _consolelog.Trigger("Info", "*****   Reader Thread Maintenance..   *****"));
+                }
+            });
+            
             
             // Data received handler method.
             int DataLength = _selectedProtocol.DataLength;
@@ -88,8 +95,7 @@ namespace uhf_rfid_catch.Handlers
                         byteList.AddRange(internalBytes);
                         if (byteList.Count <= DataLength)
                         {
-                            var tsk = new Task(HandleSerialList);
-                            tsk.Start();
+                            Task.Factory.StartNew(HandleSerialList);
                         }
                         else
                         {
@@ -176,7 +182,10 @@ namespace uhf_rfid_catch.Handlers
                 byteList.RemoveRange(0, DataLength);
                 // Start log process.
                 _selectedProtocol.ReceivedData = newRange.ToArray();
-                Task.Factory.StartNew(() => _selectedProtocol.Log());
+                if (_config.IOT_AUTO_READ)
+                {
+                    Task.Factory.StartNew(() => _selectedProtocol.Log()).Wait();
+                }
             }
             
             // List devices
@@ -214,10 +223,13 @@ namespace uhf_rfid_catch.Handlers
         }
 
         // Main Reader method for bootstrapping everything from the main thread.
-        public void Run()
+        public async Task Run()
         {
-            SerialConnection();
-            
+            if (_config.IOT_SERIAL_ENABLE)
+            {
+                await SerialConnection();
+            }
+
             // Cloud sync timed thread sub process.
             if (_config.IOT_MODE_ENABLE && _config.IOT_REMOTE_HOST_ENABLE)
             {
@@ -225,11 +237,13 @@ namespace uhf_rfid_catch.Handlers
                 webSyncTimer.Elapsed += OnWebSyncEvent;
                     
                 void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e) {
-                    var syncTask = new Task(async () => await _webSync.Sync());
-                    syncTask.Start();
+                    Task.Factory.StartNew(async () => await _webSync.Sync());
                 }
             }
-            
+
+            // Handle continuous run and quit.
+            Console.Read();
+
         }
         
     }

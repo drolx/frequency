@@ -96,7 +96,7 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
                 // Logging and persisting task
                 Task.Factory.StartNew(protoInfo.Log);
             }
-            else if (!protoInfo.AutoRead && builtConnection.IsOpen)
+            else if ((!protoInfo.AutoRead || !_config.IOT_AUTO_READ) && builtConnection.IsOpen)
             {
                 Console.WriteLine("Implement non auto read mode.");
                 // TODO: Manual serial port Read with a command.
@@ -113,10 +113,10 @@ namespace uhf_rfid_catch.Handlers.ReaderConnections
         {
             var ListConnections = ListConnection();
             string startLine = $"---- {ListConnections.Length} Serial ports available ----";
-            _logger.Info(startLine);
+            _logger.Trigger("Info", startLine);
             foreach (string portName in ListConnections)
             {
-                _logger.Info(portName);
+                _logger.Trigger("Info", portName);
             }
         }
         

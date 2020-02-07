@@ -41,6 +41,7 @@
     <Folder Include="wwwroot\lib" />
     <Folder Include="Handlers\ReaderConnections\" />
     <Folder Include="Data\" />
+    <Folder Include="TestServer\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="NLog.config">

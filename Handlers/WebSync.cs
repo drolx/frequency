@@ -42,7 +42,7 @@ namespace uhf_rfid_catch.Handlers
         private readonly ConsoleLogger _consolelog;
         private readonly ConfigKey _config;
         private readonly NetworkCheck _network;
-        private TinyRestClient _httpclient;
+        private readonly TinyRestClient _httpclient;
         private readonly CaptureContext _context;
         public WebSync()
         {
@@ -50,19 +50,11 @@ namespace uhf_rfid_catch.Handlers
             _consolelog = new ConsoleLogger();
             _config = new ConfigKey();
             _network = new NetworkCheck();
+            // Filesystem DB context
             _context = new CaptureContext();
+            // Memory mode override for context
             _context.PushStore = true;
-            
-            // Initialize HTTP calls
-            _httpclient = new TinyRestClient(new HttpClient(), _config.IOT_REMOTE_HOST_URL);
-            _httpclient.Settings.DefaultTimeout = TimeSpan.FromSeconds(_config.IOT_MIN_REMOTE_HOST_DELAY);
-            _httpclient.Settings.DefaultHeaders.Add("X-IOT", "by gpproton...");
-
-            if (!String.IsNullOrEmpty(_config.IOT_REMOTE_HOST_USERNAME)
-            && !String.IsNullOrEmpty(_config.IOT_REMOTE_HOST_PASSWORD))
-            {
-                _httpclient.Settings.DefaultHeaders.AddBasicAuthentication(_config.IOT_REMOTE_HOST_USERNAME, _config.IOT_REMOTE_HOST_PASSWORD);
-            }
+            _httpclient = new HTTPInitializer().Resolve();
             
         }
 
@@ -183,8 +175,10 @@ namespace uhf_rfid_catch.Handlers
                     {
                         if (_config.SERVER_FORWARD
                             && _config.SERVER_ENABLE
+                            && _config.SERVER_STORE
                             && _config.IOT_REMOTE_HOST_ENABLE
-                            && !_config.IOT_MODE_ENABLE)
+                            && !_config.IOT_MODE_ENABLE
+                            && _config.BASE_PERSIST_DATA)
                         {
                             context.Scans.UpdateRange(updateList);
                         }

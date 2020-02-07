@@ -24,6 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System.Threading;
+using System.Threading.Tasks;
 using NLog.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -37,39 +38,30 @@ namespace uhf_rfid_catch
     {
         private static readonly ConfigKey _config = new ConfigKey();
         private static readonly MainLogger _logger = new MainLogger();
-        private static void readerProcess()
-        {
-            ReaderConnection _readerProcess = new ReaderConnection();
-            _readerProcess.Run();
-            
-        }
+        private static readonly ReaderProcess _readerProcess = new ReaderProcess();
         
-                static void Main(string[] args)
+        static void Main(string[] args)
         {
             _logger.Trigger("Info", "Booting up daemon.....");
             
             // Reader process thread//
-            var readerThread = new Thread(readerProcess) {Name = "UHF Reader Process"};
-            readerThread.Start();
-
-
+            Task.Run(() => _readerProcess.Run()).Wait();
+            
             // Web view thread//
             if (_config.BASE_WEB_ENABLE)
             {
-                var webThread = new Thread(() => CreateHostBuilder(args).Build().Run()) {Name = "Web Process"};
-                webThread.Start();
+                Task.Run(() => CreateHostBuilder(args).Build().Run()).Wait();
             }
-            
         }
 
-                private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
-                })
-                .UseNLog();  // NLog: Setup NLog for Dependency injection
-                }
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+        .ConfigureLogging(logging =>
+        {
+            logging.ClearProviders();
+            logging.SetMinimumLevel(LogLevel.Trace);
+        })
+        .UseNLog();  // NLog: Setup NLog for Dependency injection
+        }
 }

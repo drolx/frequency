@@ -63,22 +63,24 @@ namespace uhf_rfid_catch.Data
             var netBool = _network.Status();
             if (!optionsBuilder.IsConfigured)
             {
-                if (_config.IOT_MODE_ENABLE)
+                if (_config.IOT_MODE_ENABLE
+                    && !_config.SERVER_STORE
+                    && !_config.SERVER_ENABLE)
                 {
                     if (PushStore && netBool)
                     {
-//                        _consolelog.Trigger("Info", "IOT-MODE MEMORY BYPASS STORE");
+                        // Bypass RAM to use embedded DB
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
                     else if (!_network.Status())
                     {
-//                        _consolelog.Trigger("Info", "IOT-MODE MAIN STORE");
+                        // Use embedded DB
                         optionsBuilder.UseSqlite(_config.DATA_STORE);
                     }
                     else if (netBool)
                     {
-//                        _consolelog.Trigger("Info", "IOT-MODE MEMORY");
-                        var connection = new SqliteConnection(_config.DATA_DATABASE_INMEMORY);
+                        // Use RAM for TEMP caching.
+                        var connection = new SqliteConnection(_config.DATA_DATABASE_IN_MEMORY);
                         connection.Open();
                         optionsBuilder.UseSqlite(connection);
                     }
@@ -93,6 +95,16 @@ namespace uhf_rfid_catch.Data
                             optionsBuilder.UseSqlite(_config.DATA_STORE); 
                             break;
                         case "Mysql":
+                            optionsBuilder.UseSqlite(_config.DATA_STORE); 
+                            break;
+                        case "Postgres":
+                            optionsBuilder.UseSqlite(_config.DATA_STORE); 
+                            break;
+                        case "Mssql":
+                            optionsBuilder.UseSqlite(_config.DATA_STORE); 
+                            break;
+                        default:
+                            optionsBuilder.UseSqlite(_config.DATA_STORE); 
                             break;
                     }
                 }
