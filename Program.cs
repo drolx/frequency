@@ -44,7 +44,7 @@ namespace uhf_rfid_catch
             
         }
         
-                static void Main(string[] args)
+        static void Main(string[] args)
         {
             _logger.Trigger("Info", "Booting up daemon.....");
             
@@ -62,14 +62,14 @@ namespace uhf_rfid_catch
             
         }
 
-                private static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Trace);
-                })
-                .UseNLog();  // NLog: Setup NLog for Dependency injection
-                }
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+        .ConfigureLogging(logging =>
+        {
+            logging.ClearProviders();
+            logging.SetMinimumLevel(LogLevel.Trace);
+        })
+        .UseNLog();  // NLog: Setup NLog for Dependency injection
+        }
 }
