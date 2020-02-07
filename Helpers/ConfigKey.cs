@@ -116,9 +116,6 @@ namespace uhf_rfid_catch.Helpers
         // Option to enable or disable IOT remote functionality.
         public readonly bool IOT_MODE_ENABLE = _settingsContext.GetSection("IOTMode:Enable").Get<bool>();
 
-        // Option for how many simultaneous HTTP push can happen at once.
-        public readonly int PUSH_PROCESS_COUNT = (int) _settingsContext.GetSection("IOTMode:PushProcessCount").Get<decimal>();
-
         // The IOT mode unique identity for the daemon instance.
         public readonly string IOT_UNIQUE_ID = _settingsContext.GetSection("IOTMode:UniqueId").Get<string>();
 
