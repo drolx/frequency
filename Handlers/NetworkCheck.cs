@@ -35,9 +35,9 @@ namespace uhf_rfid_catch.Handlers
     public class NetworkCheck
     {
         private static bool _finalStatus;
+        private readonly MainLogger _logger;
         private static readonly ConfigKey _config = new ConfigKey();
-        private TinyRestClient _httpclient;
-
+        private readonly TinyRestClient _httpclient;
         readonly Ping _pingInit = new Ping();
         private readonly byte[] _buffer = new byte[32];
         private readonly int _timeout = _config.IOT_NETWORK_CHECK_TIMEOUT;
@@ -46,10 +46,8 @@ namespace uhf_rfid_catch.Handlers
 
         public NetworkCheck()
         {
-            // Initialize HTTP calls
-            _httpclient = new TinyRestClient(new HttpClient(), _config.IOT_REMOTE_HOST_URL);
-            _httpclient.Settings.DefaultTimeout = TimeSpan.FromSeconds(_config.IOT_MIN_REMOTE_HOST_DELAY);
-            _httpclient.Settings.DefaultHeaders.Add("X-IOT", "by gpproton...");
+            _logger = new MainLogger();
+            _httpclient = new HTTPInitializer().Resolve();
         }
         private bool  DNSSee()
         {
