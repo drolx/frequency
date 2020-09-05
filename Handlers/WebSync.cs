@@ -129,12 +129,12 @@ namespace uhf_rfid_catch.Handlers
                                 case "GET":
                                     try
                                     {
-                                        var Request = _httpclient.GetRequest(string.Empty)
+                                        var request = _httpclient.GetRequest(string.Empty)
                                             .AsMultiPartFromDataRequest().
                                             AddContent(ScanData, "ScanData")
                                             .ExecuteAsHttpResponseMessageAsync();
-                                        Task.WaitAll(Request);
-                                        isCompleted = Request.IsCompletedSuccessfully;
+                                        Task.WaitAll(request);
+                                        isCompleted = request.IsCompletedSuccessfully;
                                     }
                                     catch (Exception ex)
                                     {
@@ -146,12 +146,12 @@ namespace uhf_rfid_catch.Handlers
                                 
                                     try
                                     {
-                                        var Request = _httpclient.PostRequest(string.Empty)
+                                        var request = _httpclient.PostRequest(string.Empty)
                                             .AsMultiPartFromDataRequest().
                                             AddContent(ScanData, "ScanData")
                                             .ExecuteAsHttpResponseMessageAsync();
-                                        Task.WaitAll(Request);
-                                        isCompleted = Request.IsCompletedSuccessfully;
+                                        Task.WaitAll(request);
+                                        isCompleted = request.IsCompletedSuccessfully;
                                     }
                                     catch (Exception ex)
                                     {
