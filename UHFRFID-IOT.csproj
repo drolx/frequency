@@ -11,17 +11,17 @@
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
     <Product>UHF RFID READER DAEMON</Product>
     <Copyright>2020 Tolaram Ent Africa</Copyright>
-    <PackageProjectUrl>https://github.com/gpproton/uhf_rfid_catch</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gpproton/uhf_rfid_catch</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/gpproton/UHFRFID-IOT</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/UHFRFID-IOT</RepositoryUrl>
     <PackageTags>RFID,UHF,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
-    <Title>UHF RFID CATCH</Title>
+    <Title>UHF RFID IOT</Title>
     <Description>This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
     <LangVersion>8</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
-    <AssemblyName>uhf-rfid</AssemblyName>
+    <AssemblyName>UHFRFID-IOT</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
