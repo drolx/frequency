@@ -26,9 +26,9 @@
 using System;
 using System.IO;
 using NLog;
-using uhf_rfid_catch.Helpers;
+using RFIDIOT.Helpers;
 
-namespace uhf_rfid_catch.Handlers
+namespace RFIDIOT.Handlers
 {
     public class ConsoleLogger
     {
@@ -43,9 +43,9 @@ namespace uhf_rfid_catch.Handlers
             {
                 LogFilePath = "NLog.config";
             }
-            else if (File.Exists("uhf_rfid_catch.exe.nlog"))
+            else if (File.Exists("UHFRFID-IOT.exe.nlog"))
             {
-                LogFilePath = "uhf_rfid_catch.exe.nlog";
+                LogFilePath = "UHFRFID-IOT.exe.nlog";
             }
             else
             {

@@ -1,27 +1,30 @@
 # UHF RFID IOT / SERVER DAEMON
-This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.
 
+This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.
 
 ## Devices supported
 
 Support is available for the devices listed below with link of device details or purchase store.
 
 ### `Build for Specific OS`
-`dotnet publish -c Release /p:PublishProfile=linux-x64`
 
-`dotnet publish -c Release /p:PublishProfile=win-x64`
+`dotnet publish -c Release -r linux-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true`
 
-`dotnet publish -c Release /p:PublishProfile=osx-x64`
+`dotnet publish -c Release -r linux-arm64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
 
+`dotnet publish -c Release -r linux-arm /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
+
+`dotnet publish -c Release -r win-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true`
+
+`dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true`
 
 ### `For Configuration override on excecution run this:`
 
-uhf_rfid_catch.exe --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
+UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
 
 #### `Or run for mac and linux`
 
-./uhf_rfid_catch --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
-
+./UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
 
 ## Lincense
 

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using uhf_rfid_catch.Models;
+using RFIDIOT.Models;
 
-namespace uhf_rfid_catch.Controllers
+namespace RFIDIOT.Controllers
 {
     public class HomeController : Controller
     {

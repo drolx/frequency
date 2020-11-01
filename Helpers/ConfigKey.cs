@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using Microsoft.Extensions.Configuration;
 
-namespace uhf_rfid_catch.Helpers
+namespace RFIDIOT.Helpers
 {
     public class ConfigKey
     {

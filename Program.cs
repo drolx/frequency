@@ -29,10 +29,10 @@ using NLog.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
-using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Helpers;
+using RFIDIOT.Handlers;
+using RFIDIOT.Helpers;
 
-namespace uhf_rfid_catch
+namespace RFIDIOT
 {
     internal static class Program
     {

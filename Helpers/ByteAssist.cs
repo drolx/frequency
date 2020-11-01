@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace uhf_rfid_catch.Helpers
+namespace RFIDIOT.Helpers
 {
     public class ByteAssist
     {

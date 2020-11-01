@@ -26,7 +26,7 @@
 using System;
 using System.Numerics;
 
-namespace uhf_rfid_catch.Helpers
+namespace RFIDIOT.Helpers
 {
     public class SessionUtil
     {

@@ -25,9 +25,9 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
-using uhf_rfid_catch.Models;
+using RFIDIOT.Models;
 
-namespace uhf_rfid_catch.Protocols
+namespace RFIDIOT.Protocols
 {
     public interface IReaderProtocol
     {

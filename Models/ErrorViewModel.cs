@@ -1,6 +1,6 @@
 using System;
 
-namespace uhf_rfid_catch.Models
+namespace RFIDIOT.Models
 {
     public class ErrorViewModel
     {

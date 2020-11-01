@@ -27,7 +27,7 @@ using System;
 using System.Net.Http;
 using Tiny.RestClient;
 
-namespace uhf_rfid_catch.Helpers
+namespace RFIDIOT.Helpers
 {
     public class HTTPInitializer
     {

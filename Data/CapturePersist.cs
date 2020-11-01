@@ -26,10 +26,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Models;
+using RFIDIOT.Handlers;
+using RFIDIOT.Models;
 
-namespace uhf_rfid_catch.Data
+namespace RFIDIOT.Data
 {
     public class CapturePersist
     {

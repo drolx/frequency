@@ -30,11 +30,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tiny.RestClient;
-using uhf_rfid_catch.Data;
-using uhf_rfid_catch.Helpers;
-using uhf_rfid_catch.Models;
+using RFIDIOT.Data;
+using RFIDIOT.Helpers;
+using RFIDIOT.Models;
 
-namespace uhf_rfid_catch.Handlers
+namespace RFIDIOT.Handlers
 {
     public class WebSync
     {
