@@ -1,4 +1,4 @@
-name: dev publish
+name: alpha-package-publish
 
 on:
   release:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
@@ -47,8 +47,11 @@ jobs:
           # Delete output directory
           rm -r "$release_name"
       - name: Publish
-        uses: softprops/action-gh-release@v1
+        uses: gpproton/UHFRFID-IOT@v0.02-alpha
         with:
           files: "UHFRFID-IOT*"
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "A sample release..."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
