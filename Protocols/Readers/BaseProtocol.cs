@@ -94,7 +94,7 @@ namespace uhf_rfid_catch.Protocols.Readers
                 $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
             
             var decData = await DecodeData();
-            if (await Persist(decData) && decData.Id != null)
+            if (await Persist(decData))
             {
                 await using (var xcix = new CaptureContext())
                 {
