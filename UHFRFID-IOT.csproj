@@ -3,10 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64;linux-x64;linux-arm;linux-arm64;osx-x64</RuntimeIdentifiers>
+    <PublishSingleFile>false</PublishSingleFile>
+    <SelfContained>false</SelfContained>
     <PublishTrimmed>true</PublishTrimmed>
     <PublishReadyToRun>true</PublishReadyToRun>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Company>Tolaram Group</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
     <Product>UHF RFID READER DAEMON</Product>
@@ -19,7 +22,7 @@
     <IsPackable>true</IsPackable>
     <Title>UHF RFID IOT</Title>
     <Description>This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
-    <LangVersion>8</LangVersion>
+    <LangVersion>latest</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <AssemblyName>UHFRFID-IOT</AssemblyName>
   </PropertyGroup>
@@ -31,7 +34,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'uhf_rfid_catch' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'UHFRFID-IOT' " />
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="5.0.0-rc.2.20475.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.0-rc.2.20475.6" />
@@ -69,13 +72,13 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)uhf_rfid_catch.exe.nlog" />
+    <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)UHFRFID-IOT.exe.nlog" />
     <Delete Files="$(TargetDir)NLog.config" />
   </Target>
   <Target Name="PostPublish" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(PublishDir)NLog.config" DestinationFiles="$(PublishDir)uhf_rfid_catch.exe.nlog" />
+    <Copy SourceFiles="$(PublishDir)NLog.config" DestinationFiles="$(PublishDir)UHFRFID-IOT.exe.nlog" />
     <Delete Files="$(PublishDir)NLog.config" />
-    <Delete Files="$(PublishDir)uhf_rfid_catch.pdb" />
+    <Delete Files="$(PublishDir)UHFRFID-IOT.pdb" />
     <Delete Files="$(PublishDir)appsettings.Development.json" />
   </Target>
 </Project>
