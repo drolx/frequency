@@ -47,7 +47,7 @@ jobs:
           # Delete output directory
           rm -r "$release_name"
       - name: Publish
-        uses: gpproton/UHFRFID-IOT@v0.02-alpha
+        uses: softprops/action-gh-release@v1
         with:
           files: "UHFRFID-IOT*"
           tag: ${{ github.ref }}
