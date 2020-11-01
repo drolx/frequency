@@ -9,7 +9,7 @@ jobs:
     name: Release
     strategy:
       matrix:
-        kind: ['linux-x64', 'linux-arm64', linux-arm', 'windows', 'macOS']
+        kind: ['linux-x64', 'linux-arm64', linux-arm', 'windows-x64', 'macOS-x64']
         include:
           - kind: linux-x64
             os: ubuntu-latest
