@@ -14,6 +14,12 @@ jobs:
           - kind: linux
             os: ubuntu-latest
             target: linux-x64
+          - kind: linux-arm64
+            os: ubuntu-latest
+            target: linux-arm64
+          - kind: linux-arm
+            os: ubuntu-latest
+            target: linux-arm
           - kind: windows
             os: windows-latest
             target: win-x64
@@ -36,7 +42,7 @@ jobs:
           tag=$(git describe --tags --abbrev=0)
           release_name="UHFRFID-IOT-$tag-${{ matrix.target }}"
           # Build everything
-          dotnet publish UHFRFID-IOT.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false
+          dotnet publish UHFRFID-IOT.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=false /p:PublishReadyToRun=false
           # Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
             # Pack to zip for Windows
