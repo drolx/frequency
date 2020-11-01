@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using uhf_rfid_catch.Helpers;
+using RFIDIOT.Helpers;
 
-namespace uhf_rfid_catch.Protocols
+namespace RFIDIOT.Protocols
 {
     public class BaseReaderProtocol
     {

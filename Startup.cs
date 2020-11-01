@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using uhf_rfid_catch.Data;
+using RFIDIOT.Data;
 
-namespace uhf_rfid_catch
+namespace RFIDIOT
 {
     public class Startup
     {

@@ -26,9 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using uhf_rfid_catch.Helpers;
+using RFIDIOT.Helpers;
 
-namespace uhf_rfid_catch.Models
+namespace RFIDIOT.Models
 {
     public class Tag
     {

@@ -27,11 +27,11 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using uhf_rfid_catch.Handlers;
-using uhf_rfid_catch.Helpers;
-using uhf_rfid_catch.Models;
+using RFIDIOT.Handlers;
+using RFIDIOT.Helpers;
+using RFIDIOT.Models;
 
-namespace uhf_rfid_catch.Data
+namespace RFIDIOT.Data
 {
     public class CaptureContext : DbContext
     {

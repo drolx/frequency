@@ -24,10 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using uhf_rfid_catch.Protocols;
-using uhf_rfid_catch.Protocols.Readers;
+using RFIDIOT.Protocols;
+using RFIDIOT.Protocols.Readers;
 
-namespace uhf_rfid_catch.Helpers
+namespace RFIDIOT.Helpers
 {
     public class Initializer
     {

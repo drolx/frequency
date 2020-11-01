@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace uhf_rfid_catch.Helpers
+namespace RFIDIOT.Helpers
 {
     public class ConfigContext
     {

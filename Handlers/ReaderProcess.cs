@@ -28,11 +28,11 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
-using uhf_rfid_catch.Handlers.ReaderConnections;
-using uhf_rfid_catch.Helpers;
-using uhf_rfid_catch.Protocols;
+using RFIDIOT.Handlers.ReaderConnections;
+using RFIDIOT.Helpers;
+using RFIDIOT.Protocols;
 
-namespace uhf_rfid_catch.Handlers
+namespace RFIDIOT.Handlers
 {
     public class ReaderProcess
     {

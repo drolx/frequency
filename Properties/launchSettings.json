@@ -14,7 +14,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "uhf_rfid_catch": {
+    "UHFRFID-IOT": {
       "commandName": "Project",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {

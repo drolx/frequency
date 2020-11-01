@@ -25,10 +25,10 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
-using uhf_rfid_catch.Data;
-using uhf_rfid_catch.Models;
+using RFIDIOT.Data;
+using RFIDIOT.Models;
 
-namespace uhf_rfid_catch.Protocols.Readers
+namespace RFIDIOT.Protocols.Readers
 {
     public class KingJoinProtocol : BaseProtocol
     {

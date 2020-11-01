@@ -28,9 +28,9 @@ using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Tiny.RestClient;
-using uhf_rfid_catch.Helpers;
+using RFIDIOT.Helpers;
 
-namespace uhf_rfid_catch.Handlers
+namespace RFIDIOT.Handlers
 {
     public class NetworkCheck
     {
