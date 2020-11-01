@@ -23,14 +23,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System.Threading;
+using System;
 using System.Threading.Tasks;
-using NLog.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using NLog.Web;
 using RFIDIOT.Handlers;
 using RFIDIOT.Helpers;
+
 
 namespace RFIDIOT
 {
@@ -42,7 +43,9 @@ namespace RFIDIOT
         
         static void Main(string[] args)
         {
-            _logger.Trigger("Info", "Booting up daemon.....");
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("UHFRFID IOT DAEMON"));
+
+            _logger.Trigger("Info", "Booting up daemon....");
             
             // Reader process thread//
             Task.Run(() => _readerProcess.Run()).Wait();
