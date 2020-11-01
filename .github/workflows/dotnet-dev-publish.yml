@@ -9,7 +9,7 @@ jobs:
     name: Release
     strategy:
       matrix:
-        kind: ['linux-x64', 'linux-arm64', 'linux-arm', 'windows-x64', 'macOS-x64']
+        kind: ['linux-x64', 'linux-arm64', 'linux-arm', 'windows-x64', 'osx-x64']
         include:
           - kind: linux-x64
             os: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
           - kind: windows-x64
             os: windows-latest
             target: win-x64
-          - kind: macOS-x64
+          - kind: osx-x64
             os: macos-latest
             target: osx-x64
     runs-on: ${{ matrix.os }}
@@ -41,14 +41,17 @@ jobs:
         run: |
           tag=$(git describe --tags --abbrev=0)
           release_name="UHFRFID-IOT-bin-$tag-${{ matrix.target }}"
-          # Build everything
-          dotnet publish UHFRFID-IOT.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=false /p:PublishReadyToRun=false
-          # Pack files
+
+          # Build for windows, osx and linux
+            dotnet publish UHFRFID-IOT.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
+
+          # Build everything & Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
-            # Pack to zip for Windows
+            # Pack to zip
             7z a -tzip "${release_name}.zip" "./${release_name}/*"
           else
-          tar czvf "${release_name}.tar.gz" "$release_name"
+            # Pack to gzipped tar 
+            tar czvf "${release_name}.tar.gz" "$release_name"
           fi
           # Delete output directory
           rm -r "$release_name"
