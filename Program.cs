@@ -43,7 +43,7 @@ namespace RFIDIOT
         
         static void Main(string[] args)
         {
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("UHFRFID IOT DAEMON"));
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("UHFRFID IOT"));
 
             _logger.Trigger("Info", "Booting up daemon....");
             
