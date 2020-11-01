@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "uhf_rfid_catch", "uhf_rfid_catch.csproj", "{2B399D07-F046-4801-B16E-D661EAFFF604}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UHFRFID-IOT", "UHFRFID-IOT.csproj", "{2B399D07-F046-4801-B16E-D661EAFFF604}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
