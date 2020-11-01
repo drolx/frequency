@@ -61,10 +61,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="setup.sh" />
-    <Content Include="setup.sh">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Remove="LICENSE.txt" />
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

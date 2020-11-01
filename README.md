@@ -8,7 +8,7 @@ Support is available for the devices listed below with link of device details or
 
 ### `Build for Specific OS`
 
-`dotnet publish -c Release -r linux-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true`
+`dotnet publish -c Release -r linux-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
 
 `dotnet publish -c Release -r linux-arm64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
 
