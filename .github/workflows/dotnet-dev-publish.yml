@@ -11,7 +11,7 @@ jobs:
       matrix:
         kind: ['linux', 'windows', 'macOS']
         include:
-          - kind: linux
+          - kind: linux-x64
             os: ubuntu-latest
             target: linux-x64
           - kind: linux-arm64
@@ -20,10 +20,10 @@ jobs:
           - kind: linux-arm
             os: ubuntu-latest
             target: linux-arm
-          - kind: windows
+          - kind: windows-x64
             os: windows-latest
             target: win-x64
-          - kind: macOS
+          - kind: macOS-x64
             os: macos-latest
             target: osx-x64
     runs-on: ${{ matrix.os }}
@@ -40,7 +40,7 @@ jobs:
         shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="UHFRFID-IOT-$tag-${{ matrix.target }}"
+          release_name="UHFRFID-IOT-bin-$tag-${{ matrix.target }}"
           # Build everything
           dotnet publish UHFRFID-IOT.csproj --framework net5.0 --runtime "${{ matrix.target }}" -c Release -o "$release_name" /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=false /p:PublishReadyToRun=false
           # Pack files
@@ -55,9 +55,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          files: "UHFRFID-IOT*"
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "A sample release..."
+          files: "UHFRFID-IOT-bin-*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
