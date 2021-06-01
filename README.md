@@ -8,42 +8,42 @@ Support is available for the devices listed below with link of device details or
 
 ### `Build for Specific OS`
 
-`dotnet publish -c Release -r linux-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
+```bash
+dotnet publish -c Release -r linux-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=false
+```
 
-`dotnet publish -c Release -r linux-arm64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
+```bash
+dotnet publish -c Release -r linux-arm64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=false
+```
 
-`dotnet publish -c Release -r linux-arm /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=false`
+```bash
+dotnet publish -c Release -r linux-arm /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=false
+```
 
-`dotnet publish -c Release -r win-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true`
+```bash
+dotnet publish -c Release -r win-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=true
+```
 
-`dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true`
+```bash
+dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=true
+```
 
 ### `For Configuration override on excecution run this:`
 
-UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
+UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 
 #### `Or run for mac and linux`
 
-./UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Debug
+```bash
+./UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+```
 
 ## Lincense
 
 `Copyright (c) 2020 Godwin peter .O`
 
-`Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:`
+`Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:`
 
-`The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.`
+`The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.`
 
-`THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.`
+`THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.`
