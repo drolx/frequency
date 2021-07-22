@@ -32,10 +32,10 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'UHFRFID-IOT' " />
   <ItemGroup>
     <PackageReference Include="Figgle" Version="0.4.0" />
-    <PackageReference Include="System.IO.Ports" Version="6.0.0-preview.4.21253.7" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-preview.4.21253.1" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0-preview.6.21352.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-preview.6.21352.1" />
     <PackageReference Include="Autofac" Version="6.2.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0-readme-preview" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0" />
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="Tiny.RestClient" Version="1.7.1" />
   </ItemGroup>
