@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <Version>0.0.2</Version>
     <Company>Tolaram Group</Company>
@@ -11,25 +13,17 @@
     <Copyright>2021 Tolaram Africa</Copyright>
     <PackageProjectUrl>https://github.com/gpproton/Iot.Rfid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gpproton/Iot.Rfid</RepositoryUrl>
-    <PackageTags>RFID,UHF,TAGS</PackageTags>
+    <PackageTags>RFID,UHF,IOT,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
     <Title>UHF RFID IOT</Title>
-    <Description>This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
+    <Description>This is a UHF RFID Reader application for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
     <LangVersion>latest</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <AssemblyName>Iot.Rfid</AssemblyName>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Iot.Rfid' " />
   <ItemGroup>
     <PackageReference Include="Figgle" Version="0.4.0" />
     <PackageReference Include="System.IO.Ports" Version="6.0.0-preview.6.21352.12" />
