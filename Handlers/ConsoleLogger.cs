@@ -38,22 +38,8 @@ namespace Iot.Rfid.Handlers
         public ConsoleLogger()
         {
             _config = new ConfigKey();
-            string LogFilePath;
-            if (File.Exists("NLog.config"))
-            {
-                LogFilePath = "NLog.config";
-            }
-            else if (File.Exists("Iot.Rfid.exe.nlog"))
-            {
-                LogFilePath = "Iot.Rfid.exe.nlog";
-            }
-            else
-            {
-                LogFilePath = "";
-                Console.WriteLine("No Log configuration found..");
-            }
 
-            _logger = NLog.Web.NLogBuilder.ConfigureNLog(LogFilePath).GetLogger("ConsoleOnly");
+            _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetLogger("ConsoleOnly");
         }
 
         public void Trigger(string Type, string returnText)
