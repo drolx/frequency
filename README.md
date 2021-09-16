@@ -13,14 +13,6 @@ dotnet publish -c Release -r linux-x64 /p:SelfContained=true /p:PublishSingleFil
 ```
 
 ```bash
-dotnet publish -c Release -r linux-arm64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=false
-```
-
-```bash
-dotnet publish -c Release -r linux-arm /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=false
-```
-
-```bash
 dotnet publish -c Release -r win-x64 /p:SelfContained=true /p:PublishSingleFile=true /p:PublishReadyToRun=true
 ```
 
@@ -30,7 +22,9 @@ dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=
 
 ### `For Configuration override on excecution run this:`
 
-Iot.Rfid --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+```bash
+./Iot.Rfid --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+```
 
 #### `Or run for mac and linux`
 
