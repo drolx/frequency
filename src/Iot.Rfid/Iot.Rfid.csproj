@@ -3,24 +3,30 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+    <!-- <RuntimeIdentifier Condition=" '$(OS)' == 'Windows_NT' ">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition=" '$(OS)' == 'Unix' ">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition=" '$(OS)' == 'Unix' ">linux-arm</RuntimeIdentifier> -->
+    <!-- <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled> -->
+    <!-- <RuntimeIdentifiers>osx-x64;linux-arm;linux-x64;win-x64</RuntimeIdentifiers> -->
     <Version>0.0.2</Version>
     <Company>Tolaram Group</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
     <Product>UHF RFID READER DAEMON</Product>
     <Copyright>2021 Tolaram Africa</Copyright>
-    <PackageProjectUrl>https://github.com/gpproton/Iot.Rfid</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gpproton/Iot.Rfid</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/gpproton/IotRfid</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/IotRfid</RepositoryUrl>
     <PackageTags>RFID,UHF,IOT,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
     <Title>UHF RFID IOT</Title>
     <Description>This is a UHF RFID Reader application for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
-    <LangVersion>latest</LangVersion>
-    <ServerGarbageCollection>true</ServerGarbageCollection>
     <AssemblyName>Iot.Rfid</AssemblyName>
   </PropertyGroup>
 
@@ -33,7 +39,7 @@
     <PackageReference Include="NLog" Version="4.7.10" />
     <PackageReference Include="Tiny.RestClient" Version="1.7.1" />
   </ItemGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Protocols\" />
     <Folder Include="Protocols\Tags\" />
@@ -55,5 +61,5 @@
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup> 
+  </ItemGroup>  -->
 </Project>
