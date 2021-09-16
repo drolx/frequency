@@ -27,7 +27,7 @@ using System;
 using System.Collections;
 using Microsoft.Extensions.Configuration;
 
-namespace RFIDIOT.Helpers
+namespace Iot.Rfid.Helpers
 {
     public class ConfigKey
     {

@@ -25,9 +25,9 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
-using RFIDIOT.Models;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Protocols
+namespace Iot.Rfid.Protocols
 {
     public interface IReaderProtocol
     {

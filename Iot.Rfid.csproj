@@ -8,9 +8,9 @@
     <Company>Tolaram Group</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
     <Product>UHF RFID READER DAEMON</Product>
-    <Copyright>2020 Tolaram Ent Africa</Copyright>
-    <PackageProjectUrl>https://github.com/gpproton/UHFRFID-IOT</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gpproton/UHFRFID-IOT</RepositoryUrl>
+    <Copyright>2021 Tolaram Africa</Copyright>
+    <PackageProjectUrl>https://github.com/gpproton/Iot.Rfid</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/Iot.Rfid</RepositoryUrl>
     <PackageTags>RFID,UHF,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -19,7 +19,7 @@
     <Description>This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
     <LangVersion>latest</LangVersion>
     <ServerGarbageCollection>true</ServerGarbageCollection>
-    <AssemblyName>UHFRFID-IOT</AssemblyName>
+    <AssemblyName>Iot.Rfid</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,7 +29,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'UHFRFID-IOT' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Iot.Rfid' " />
   <ItemGroup>
     <PackageReference Include="Figgle" Version="0.4.0" />
     <PackageReference Include="System.IO.Ports" Version="6.0.0-preview.6.21352.12" />
@@ -64,13 +64,13 @@
   </ItemGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)UHFRFID-IOT.exe.nlog" />
+    <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)Iot.Rfid.exe.nlog" />
     <Delete Files="$(TargetDir)NLog.config" />
   </Target>
   <Target Name="PostPublish" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(PublishDir)NLog.config" DestinationFiles="$(PublishDir)UHFRFID-IOT.exe.nlog" />
+    <Copy SourceFiles="$(PublishDir)NLog.config" DestinationFiles="$(PublishDir)Iot.Rfid.exe.nlog" />
     <Delete Files="$(PublishDir)NLog.config" />
-    <Delete Files="$(PublishDir)UHFRFID-IOT.pdb" />
+    <Delete Files="$(PublishDir)Iot.Rfid.pdb" />
     <Delete Files="$(PublishDir)appsettings.Development.json" />
   </Target>
 </Project>

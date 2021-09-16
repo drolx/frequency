@@ -9,7 +9,8 @@ jobs:
     name: Release
     strategy:
       matrix:
-        kind: ['linux-x64', 'linux-arm64', 'linux-arm', 'windows-x64', 'osx-x64']
+        kind:
+          ["linux-x64", "linux-arm64", "linux-arm", "windows-x64", "osx-x64"]
         include:
           - kind: linux-x64
             os: ubuntu-latest
@@ -34,16 +35,16 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: "6.0.x"
 
       - name: Build
         shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="UHFRFID-IOT-bin-$tag-${{ matrix.target }}"
+          release_name="Iot.Rfid-bin-$tag-${{ matrix.target }}"
 
           # Build for windows, osx and linux
-            dotnet publish UHFRFID-IOT.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
+            dotnet publish Iot.Rfid.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
 
           # Build everything & Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
@@ -58,6 +59,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          files: "UHFRFID-IOT-bin-*"
+          files: "Iot.Rfid-bin-*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

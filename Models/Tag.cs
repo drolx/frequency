@@ -26,9 +26,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using RFIDIOT.Helpers;
+using Iot.Rfid.Helpers;
 
-namespace RFIDIOT.Models
+namespace Iot.Rfid.Models
 {
     public class Tag
     {

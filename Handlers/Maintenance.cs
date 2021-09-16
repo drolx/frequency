@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace RFIDIOT.Handlers
+namespace Iot.Rfid.Handlers
 {
     public class Maintenance
     {

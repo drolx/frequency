@@ -26,10 +26,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using RFIDIOT.Handlers;
-using RFIDIOT.Models;
+using Iot.Rfid.Handlers;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Data
+namespace Iot.Rfid.Data
 {
     public class CapturePersist
     {

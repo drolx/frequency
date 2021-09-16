@@ -27,9 +27,9 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using RFIDIOT.Helpers;
+using Iot.Rfid.Helpers;
 
-namespace RFIDIOT.Handlers.ReaderConnections
+namespace Iot.Rfid.Handlers.ReaderConnections
 {
     
     // https://stackoverflow.com/questions/19387086/how-to-set-up-tcplistener-to-always-listen-and-accept-multiple-connections

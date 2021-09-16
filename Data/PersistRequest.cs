@@ -27,10 +27,10 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using RFIDIOT.Helpers;
-using RFIDIOT.Models;
+using Iot.Rfid.Helpers;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Data
+namespace Iot.Rfid.Data
 {
     public class PersistRequest
     {

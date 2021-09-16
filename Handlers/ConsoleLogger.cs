@@ -26,9 +26,9 @@
 using System;
 using System.IO;
 using NLog;
-using RFIDIOT.Helpers;
+using Iot.Rfid.Helpers;
 
-namespace RFIDIOT.Handlers
+namespace Iot.Rfid.Handlers
 {
     public class ConsoleLogger
     {
@@ -43,9 +43,9 @@ namespace RFIDIOT.Handlers
             {
                 LogFilePath = "NLog.config";
             }
-            else if (File.Exists("UHFRFID-IOT.exe.nlog"))
+            else if (File.Exists("Iot.Rfid.exe.nlog"))
             {
-                LogFilePath = "UHFRFID-IOT.exe.nlog";
+                LogFilePath = "Iot.Rfid.exe.nlog";
             }
             else
             {

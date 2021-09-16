@@ -1,6 +1,6 @@
 using System;
 
-namespace RFIDIOT.Models
+namespace Iot.Rfid.Models
 {
     public class ErrorViewModel
     {

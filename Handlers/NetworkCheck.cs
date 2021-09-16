@@ -28,9 +28,9 @@ using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Tiny.RestClient;
-using RFIDIOT.Helpers;
+using Iot.Rfid.Helpers;
 
-namespace RFIDIOT.Handlers
+namespace Iot.Rfid.Handlers
 {
     public class NetworkCheck
     {

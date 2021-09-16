@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-namespace RFIDIOT.Protocols.Tags
+namespace Iot.Rfid.Protocols.Tags
 {
     public class BaseTag
     {

@@ -25,10 +25,10 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
-using RFIDIOT.Data;
-using RFIDIOT.Models;
+using Iot.Rfid.Data;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Protocols.Readers
+namespace Iot.Rfid.Protocols.Readers
 {
     public class KingJoinProtocol : BaseProtocol
     {

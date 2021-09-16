@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using RFIDIOT.Helpers;
+using Iot.Rfid.Helpers;
 
-namespace RFIDIOT.Protocols
+namespace Iot.Rfid.Protocols
 {
     public class BaseReaderProtocol
     {

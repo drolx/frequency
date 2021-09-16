@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace RFIDIOT.Helpers
+namespace Iot.Rfid.Helpers
 {
     public class ConfigContext
     {

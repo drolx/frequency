@@ -30,11 +30,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Tiny.RestClient;
-using RFIDIOT.Data;
-using RFIDIOT.Helpers;
-using RFIDIOT.Models;
+using Iot.Rfid.Data;
+using Iot.Rfid.Helpers;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Handlers
+namespace Iot.Rfid.Handlers
 {
     public class WebSync
     {

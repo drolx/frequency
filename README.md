@@ -30,12 +30,12 @@ dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=
 
 ### `For Configuration override on excecution run this:`
 
-UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+Iot.Rfid --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 
 #### `Or run for mac and linux`
 
 ```bash
-./UHFRFID-IOT --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+./Iot.Rfid --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 ```
 
 ## Lincense

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using RFIDIOT.Models;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Controllers
+namespace Iot.Rfid.Controllers
 {
     public class HomeController : Controller
     {

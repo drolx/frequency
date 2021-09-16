@@ -27,7 +27,7 @@ using System;
 using System.Net.Http;
 using Tiny.RestClient;
 
-namespace RFIDIOT.Helpers
+namespace Iot.Rfid.Helpers
 {
     public class HTTPInitializer
     {

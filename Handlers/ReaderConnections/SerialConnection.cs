@@ -27,10 +27,10 @@ using System;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
-using RFIDIOT.Helpers;
-using RFIDIOT.Protocols;
+using Iot.Rfid.Helpers;
+using Iot.Rfid.Protocols;
 
-namespace RFIDIOT.Handlers.ReaderConnections
+namespace Iot.Rfid.Handlers.ReaderConnections
 {
     public class SerialConnection
     {

@@ -27,11 +27,11 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using RFIDIOT.Handlers;
-using RFIDIOT.Helpers;
-using RFIDIOT.Models;
+using Iot.Rfid.Handlers;
+using Iot.Rfid.Helpers;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Data
+namespace Iot.Rfid.Data
 {
     public class CaptureContext : DbContext
     {

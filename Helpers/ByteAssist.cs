@@ -27,7 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RFIDIOT.Helpers
+namespace Iot.Rfid.Helpers
 {
     public class ByteAssist
     {

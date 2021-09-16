@@ -28,11 +28,11 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
-using RFIDIOT.Handlers.ReaderConnections;
-using RFIDIOT.Helpers;
-using RFIDIOT.Protocols;
+using Iot.Rfid.Handlers.ReaderConnections;
+using Iot.Rfid.Helpers;
+using Iot.Rfid.Protocols;
 
-namespace RFIDIOT.Handlers
+namespace Iot.Rfid.Handlers
 {
     public class ReaderProcess
     {

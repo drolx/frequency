@@ -24,10 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using RFIDIOT.Protocols;
-using RFIDIOT.Protocols.Readers;
+using Iot.Rfid.Protocols;
+using Iot.Rfid.Protocols.Readers;
 
-namespace RFIDIOT.Helpers
+namespace Iot.Rfid.Helpers
 {
     public class Initializer
     {

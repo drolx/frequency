@@ -26,7 +26,7 @@
 using System;
 using System.Numerics;
 
-namespace RFIDIOT.Helpers
+namespace Iot.Rfid.Helpers
 {
     public class SessionUtil
     {

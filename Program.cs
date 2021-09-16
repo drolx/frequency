@@ -29,11 +29,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
-using RFIDIOT.Handlers;
-using RFIDIOT.Helpers;
+using Iot.Rfid.Handlers;
+using Iot.Rfid.Helpers;
 
 
-namespace RFIDIOT
+namespace Iot.Rfid
 {
     internal static class Program
     {

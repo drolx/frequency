@@ -27,11 +27,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using RFIDIOT.Data;
-using RFIDIOT.Helpers;
-using RFIDIOT.Models;
+using Iot.Rfid.Data;
+using Iot.Rfid.Helpers;
+using Iot.Rfid.Models;
 
-namespace RFIDIOT.Handlers
+namespace Iot.Rfid.Handlers
 {
     public class FilterHandler
     {
