@@ -55,16 +55,5 @@
     <Content Include="LICENSE.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(TargetDir)NLog.config" DestinationFiles="$(TargetDir)Iot.Rfid.exe.nlog" />
-    <Delete Files="$(TargetDir)NLog.config" />
-  </Target>
-  <Target Name="PostPublish" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(PublishDir)NLog.config" DestinationFiles="$(PublishDir)Iot.Rfid.exe.nlog" />
-    <Delete Files="$(PublishDir)NLog.config" />
-    <Delete Files="$(PublishDir)Iot.Rfid.pdb" />
-    <Delete Files="$(PublishDir)appsettings.Development.json" />
-  </Target>
+  </ItemGroup> 
 </Project>
