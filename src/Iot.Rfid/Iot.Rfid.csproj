@@ -27,7 +27,7 @@
     <IsPackable>true</IsPackable>
     <Title>UHF RFID IOT</Title>
     <Description>This is a UHF RFID Reader application for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
-    <AssemblyName>Iot.Rfid</AssemblyName>
+    <AssemblyName>rfid_reader</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
