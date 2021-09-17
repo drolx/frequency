@@ -6,14 +6,17 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UseAppHost>true</UseAppHost>
     <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>Link</TrimMode>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
-    <!-- <RuntimeIdentifier Condition=" '$(OS)' == 'Windows_NT' ">win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition=" '$(OS)' == 'Unix' ">linux-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition=" '$(OS)' == 'Unix' ">linux-arm</RuntimeIdentifier> -->
-    <!-- <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled> -->
-    <!-- <RuntimeIdentifiers>osx-x64;linux-arm;linux-x64;win-x64</RuntimeIdentifiers> -->
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>osx-x64;linux-x64;linux-arm;win-x64</RuntimeIdentifiers>
     <Version>0.0.2</Version>
     <Company>Tolaram Group</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
@@ -32,34 +35,11 @@
 
   <ItemGroup>
     <PackageReference Include="Figgle" Version="0.4.0" />
-    <PackageReference Include="System.IO.Ports" Version="6.0.0-preview.6.21352.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-preview.6.21352.1" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0-rc.1.21451.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-rc.1.21452.10" />
     <PackageReference Include="Autofac" Version="6.2.0" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0" />
-    <PackageReference Include="NLog" Version="4.7.10" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+    <PackageReference Include="NLog" Version="4.7.11" />
     <PackageReference Include="Tiny.RestClient" Version="1.7.1" />
   </ItemGroup>
-  <!-- <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Protocols\" />
-    <Folder Include="Protocols\Tags\" />
-    <Folder Include="Protocols\Readers\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="wwwroot\lib" />
-    <Folder Include="Handlers\ReaderConnections\" />
-    <Folder Include="Data\" />
-    <Folder Include="TestServer\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="LICENSE.txt" />
-    <Content Include="LICENSE.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>  -->
 </Project>
