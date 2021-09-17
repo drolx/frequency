@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseAppHost>true</UseAppHost>
@@ -24,7 +24,7 @@
     <Copyright>2021 Tolaram Africa</Copyright>
     <PackageProjectUrl>https://github.com/gpproton/IotRfid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gpproton/IotRfid</RepositoryUrl>
-    <PackageTags>RFID,UHF,IOT,TAGS</PackageTags>
+    <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>

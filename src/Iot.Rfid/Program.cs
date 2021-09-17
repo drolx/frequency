@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
-using NLog.Web;
 using Iot.Rfid.Handlers;
 using Iot.Rfid.Helpers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var _config = new ConfigKey();
 var _logger = new MainLogger();
@@ -11,9 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-/**
-* Configure the HTTP request pipeline.
-**/
 if (!app.Environment.IsDevelopment())
 {
   app.UseExceptionHandler("/Error");
@@ -26,12 +25,10 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();
 
-System.Console.WriteLine(Figgle.FiggleFonts.Standard.Render("UHFRFID IOT"));
+System.Console.WriteLine(Figgle.FiggleFonts.Standard.Render("UHF RFID IOT"));
 _logger.Trigger("Info", "Booting up daemon....");
-/** Reader process thread **/
 Task.Run(() => _readerProcess.Run()).Wait();
 
-/** Web view thread **/
 if (_config.BASE_WEB_ENABLE)
 {
   Task.Run(() => app.Run()).Wait();
