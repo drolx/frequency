@@ -23,13 +23,13 @@ dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=
 ### For Configuration override on excecution run this:
 
 ```bash
-./Iot.Rfid --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+./Proton.Frequency.Service --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 ```
 
 #### Or run for mac and linux
 
 ```bash
-./Iot.Rfid --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+./Proton.Frequency.Service --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 ```
 
 ## Lincense

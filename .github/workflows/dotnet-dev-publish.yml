@@ -42,10 +42,10 @@ jobs:
         shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="Iot.Rfid-bin-$tag-${{ matrix.target }}"
+          release_name="Proton.Frequency.Service-bin-$tag-${{ matrix.target }}"
 
           # Build for windows, osx and linux
-            dotnet publish Iot.Rfid.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
+            dotnet publish Proton.Frequency.Service.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
 
           # Build everything & Pack files
           if [ "${{ matrix.target }}" == "win-x64" ]; then
@@ -60,6 +60,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          files: "Iot.Rfid-bin-*"
+          files: "Proton.Frequency.Service-bin-*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
