@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Common", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Service", "src\Proton.Frequency.Service\Proton.Frequency.Service.csproj", "{7C151FA8-504A-4257-BA82-5239B9C6FC3E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{AAA7D284-53F5-44FC-AAE3-F953EA201D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Tests", "tests\Proton.Frequency.Tests\Proton.Frequency.Tests.csproj", "{A6EC863E-5489-4EF3-82E3-C4AFFFD981D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +30,14 @@ Global
 		{7C151FA8-504A-4257-BA82-5239B9C6FC3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C151FA8-504A-4257-BA82-5239B9C6FC3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C151FA8-504A-4257-BA82-5239B9C6FC3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6EC863E-5489-4EF3-82E3-C4AFFFD981D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6EC863E-5489-4EF3-82E3-C4AFFFD981D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6EC863E-5489-4EF3-82E3-C4AFFFD981D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6EC863E-5489-4EF3-82E3-C4AFFFD981D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{10CD116E-AC1E-4F05-861B-33E3AC2D43B3} = {519BC2F8-95F2-4117-993E-8AD8E201DA26}
 		{7C151FA8-504A-4257-BA82-5239B9C6FC3E} = {519BC2F8-95F2-4117-993E-8AD8E201DA26}
+		{A6EC863E-5489-4EF3-82E3-C4AFFFD981D9} = {AAA7D284-53F5-44FC-AAE3-F953EA201D76}
 	EndGlobalSection
 EndGlobal
