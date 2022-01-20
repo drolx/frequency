@@ -42,7 +42,7 @@ jobs:
         shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
-          release_name="Proton.Frequency.Service-bin-$tag-${{ matrix.target }}"
+          release_name="proton-frequency-bin-$tag-${{ matrix.target }}"
 
           # Build for windows, osx and linux
             dotnet publish Proton.Frequency.Service.csproj --runtime "${{ matrix.target }}" -c Release -o "$release_name" --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true
@@ -60,6 +60,6 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          files: "Proton.Frequency.Service-bin-*"
+          files: "proton-frequency-bin-*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

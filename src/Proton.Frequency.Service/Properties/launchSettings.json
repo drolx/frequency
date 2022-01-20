@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:64888",
+      "applicationUrl": "http://localhost:57709",
       "sslPort": 0
     }
   },
@@ -16,7 +16,7 @@
     },
     "Proton.Frequency.Service": {
       "commandName": "Project",
-      "applicationUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:57709",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

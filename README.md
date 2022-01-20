@@ -1,6 +1,6 @@
-# UHF RFID IOT / SERVER DAEMON
+# Proton Frequency
 
-This is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.
+is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.
 
 ## Devices supported
 
@@ -23,13 +23,13 @@ dotnet publish -c Release -r osx-x64 /p:SelfContained=true /p:PublishSingleFile=
 ### For Configuration override on excecution run this:
 
 ```bash
-./Proton.Frequency.Service --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+./proton-frequency --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 ```
 
 #### Or run for mac and linux
 
 ```bash
-./Proton.Frequency.Service --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
+./proton-frequency --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 ```
 
 ## Lincense
