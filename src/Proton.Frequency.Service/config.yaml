@@ -1,0 +1,83 @@
+## Web client configuration
+Web:
+  Enable: true
+  Port: 17250
+AllowedHosts: "*"
+Logging:
+  LogLevel:
+    Default: Information
+    Microsoft: Information
+    Microsoft.AspNetCore: Warning
+
+## Database configuration
+Database:
+  Type: Sqlite
+  Store: Data Source=app.db;cache=shared
+  InMemory: "DataSource=file:app.db?mode=memory&cache=shared"
+  Persist: true
+  PersistDuration: 86400
+
+## Card configuration
+Cards:
+  Allowed:
+    - EPC-GEN1
+    - EPC-GEN2
+    - ISO1800-6B
+  TruncateNumber: 0
+  MaximumLength: 24
+
+## IOT Hub mode
+hubs:
+  Enable: true
+  Auto: true
+  Store: true
+  Forward: true
+  Id: Site-Gate-01
+  Protocol: KingJoin
+  MinFrequency: 120
+  PersistDuration: 86400
+  Connections:
+    Serial:
+      Enable: true
+      PortName: "null"
+      BaudRate: 9600
+      DataBits: 8
+      ConnectionRetries: 5
+      ConnectionTimeout: 3
+    ## For network hub option
+    # Network:
+    #   Enable: false
+    #   Type: TCP
+    #   Address: 127.0.0.1
+    #   Port: 56000
+    #   ConnectionRetries: 5
+    #   ConnectionTimeout: 3
+
+## Server mode configuration
+ServerMode:
+  Enable: false
+  Store: true
+  Forward: false
+  Protocols:
+    - Name: Chafon
+      Type: TCP
+      Port: 17301
+    - Name: KingJoin
+      Type: UDP
+      Port: 17302
+
+## Web forwarding configuration
+Forward:
+  Enable: true
+  Path: "http://127.0.0.1:40440/proton.frequency.service/api/v1/log"
+  Method: POST
+  Auth: false
+  Username: ""
+  Password: ""
+  MinDelay: 1
+  Frequency: 11
+  Buffer: 10
+  Network:
+    Verify: true
+    Ping: google.com
+    Timeout: 100

@@ -1,6 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 var startUpText = Figgle.FiggleFonts.Standard.Render("Proton . Frequency");
-
+builder.Configuration.AddYamlFile("config.yaml");
 builder.Services.AddRazorPages();
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
