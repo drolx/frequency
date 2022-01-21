@@ -1,7 +1,11 @@
+## Hub | Server | Both
+Mode: Hub
+
 ## Web client configuration
-Web:
-  Enable: true
-  Port: 17250
+Kestrel:
+  EndPoints:
+    Http:
+      Url: http://localhost:17250
 AllowedHosts: "*"
 Logging:
   LogLevel:
@@ -27,34 +31,37 @@ Cards:
   MaximumLength: 24
 
 ## IOT Hub mode
-hubs:
+Hub:
   Enable: true
   Auto: true
   Store: true
   Forward: true
-  Id: Site-Gate-01
   Protocol: KingJoin
   MinFrequency: 120
   PersistDuration: 86400
   Connections:
+    Retries: 5
+    Timeout: 3
+    ## Serial | Network | Both
+    Type: Serial
     Serial:
       Enable: true
+      Id: SITE-01
+      ## Common serial port defaults
+      # Windows: COM5 | Linux: /dev/ttyUSB0 | Mac: /dev/tty.usbserial-*
       PortName: "null"
       BaudRate: 9600
       DataBits: 8
-      ConnectionRetries: 5
-      ConnectionTimeout: 3
-    ## For network hub option
-    # Network:
-    #   Enable: false
-    #   Type: TCP
-    #   Address: 127.0.0.1
-    #   Port: 56000
-    #   ConnectionRetries: 5
-    #   ConnectionTimeout: 3
+    ## Hub ethernet configurations
+    Network:
+      Enable: false
+      Id: SITE-01
+      Type: TCP
+      Address: 127.0.0.1
+      Port: 56000
 
 ## Server mode configuration
-ServerMode:
+Server:
   Enable: false
   Store: true
   Forward: false
@@ -69,13 +76,13 @@ ServerMode:
 ## Web forwarding configuration
 Forward:
   Enable: true
-  Path: "http://127.0.0.1:40440/proton.frequency.service/api/v1/log"
+  Path: "http://localhost:40440/proton.frequency.service/api/v1/log"
   Method: POST
   Auth: false
   Username: ""
   Password: ""
-  MinDelay: 1
-  Frequency: 11
+  MaxDelay: 1
+  Frequency: 7
   Buffer: 10
   Network:
     Verify: true

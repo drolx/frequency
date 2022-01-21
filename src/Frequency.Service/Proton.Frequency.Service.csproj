@@ -30,6 +30,14 @@
     <AssemblyName>proton-frequency</AssemblyName>
   </PropertyGroup>
 
+  <!-- <PropertyGroup>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup> -->
+
+  <ItemGroup>
+    <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Figgle" Version="0.4.0" />
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.1.0" />
