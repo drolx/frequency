@@ -1,14 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
   <PropertyGroup>
-  <UserSecretsId>dotnet-proton-frequency-00</UserSecretsId>
+    <UserSecretsId>dotnet-proton-frequency-00</UserSecretsId>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
     <UseAppHost>true</UseAppHost>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
     <PublishTrimmed>true</PublishTrimmed>
-    <TrimMode>Link</TrimMode>
+    <TrimmerDefaultAction>link</TrimmerDefaultAction>
     <SelfContained>true</SelfContained>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
@@ -29,19 +31,13 @@
     <Description>This is a UHF RFID cli daemon for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
     <AssemblyName>proton-frequency</AssemblyName>
   </PropertyGroup>
-
-  <!--
-    <PropertyGroup>
-      <EnableDefaultContentItems>false</EnableDefaultContentItems>
-    </PropertyGroup>
-  -->
-
+  
   <ItemGroup>
     <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="Figgle" Version="0.4.0" />
+    <PackageReference Include="Figgle" Version="0.4.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
 	  <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.1.0" />

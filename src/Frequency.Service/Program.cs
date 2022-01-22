@@ -1,6 +1,5 @@
 using Proton.Frequency.Service;
 
-var startUpText = Figgle.FiggleFonts.Standard.Render("Proton . Frequency");
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
@@ -14,5 +13,5 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-Console.WriteLine(startUpText);
+Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Proton . Frequency"));
 await host.RunAsync();
