@@ -1,12 +1,12 @@
 ## Hub | Server | Both
 Mode: Hub
 
-## Web client configuration
-Kestrel:
-  EndPoints:
-    Http:
-      Url: http://localhost:17250
-AllowedHosts: "*"
+## TODO: Web client configuration
+#Kestrel:
+#  EndPoints:
+#    Http:
+#      Url: http://localhost:17250
+#AllowedHosts: "*"
 Logging:
   LogLevel:
     Default: Information

@@ -1,18 +1,18 @@
-var builder = WebApplication.CreateBuilder(args);
-var startUpText = Figgle.FiggleFonts.Standard.Render("Proton . Frequency");
+using Proton.Frequency.Service;
 
-builder.Configuration.AddYamlFile("config.yaml");
-builder.Services.AddRazorPages();
-var app = builder.Build();
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-app.MapRazorPages();
-app.Logger.LogInformation(startUpText);
-app.Run();
+var startUpText = Figgle.FiggleFonts.Standard.Render("Proton . Frequency");
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        services.AddHostedService<ServiceWorker>();
+    })
+    .ConfigureAppConfiguration((hostingContext, config) =>
+    {
+        config
+            .AddYamlFile("config.yaml", optional: false, reloadOnChange: true)
+            .AddEnvironmentVariables();
+    })
+    .Build();
+
+Console.WriteLine(startUpText);
+await host.RunAsync();
