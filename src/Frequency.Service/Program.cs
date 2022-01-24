@@ -1,7 +1,11 @@
 using Proton.Frequency.Service;
 using Proton.Frequency.Service.Process;
+using Microsoft.Extensions.Hosting.WindowsServices;
+using Microsoft.Extensions.Hosting.Systemd;
 
 IHost host = Host.CreateDefaultBuilder(args)
+    .UseWindowsService()
+    .UseSystemd()
     .ConfigureServices(services =>
     {
         services.AddHostedService<StateWorker>();
@@ -10,7 +14,8 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
         // TODO: Handle file not fould exceptions..
         config
-            .AddYamlFile("config.yaml", optional: false, reloadOnChange: true)
+            .AddYamlFile("defaults.yaml", optional: false, reloadOnChange: true)
+            .AddYamlFile("channels.yaml", optional: false, reloadOnChange: true)
             .AddEnvironmentVariables();
     })
     .Build();

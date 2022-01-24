@@ -12,11 +12,10 @@
     <PublishTrimmed>true</PublishTrimmed>
     <TrimmerDefaultAction>link</TrimmerDefaultAction>
     <SelfContained>true</SelfContained>
-    <!--
+    <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
-    -->
     <RuntimeIdentifiers>linux-x64;linux-arm;linux-arm64;win-x64;win-arm;osx-x64;osx-arm64</RuntimeIdentifiers>
     <Version>0.0.2</Version>
     <Company>Opensource</Company>
@@ -42,6 +41,9 @@
     <PackageReference Include="Figgle" Version="0.4.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
 	  <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.1.0" />
 	  <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
