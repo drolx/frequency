@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+  <PropertyGroup>
+    <UserSecretsId>dotnet-proton-frequency-00</UserSecretsId>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <UseAppHost>true</UseAppHost>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimmerDefaultAction>link</TrimmerDefaultAction>
+    <SelfContained>true</SelfContained>
+   <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>osx-x64;linux-x64;linux-arm;win-x64</RuntimeIdentifiers>
+    <Version>0.0.2</Version>
+    <Company>Opensource</Company>
+    <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
+    <Product>Proton Frequency</Product>
+    <Copyright>2022 MIT</Copyright>
+    <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
+    <PackageTags>Raspberry PI, Orange PI,RFID,UHF,IOT,TAGS</PackageTags>
+    <RepositoryType>Opensource</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <Title>Proton Frequency Server</Title>
+    <Description>This is a UHF RFID cli daemon for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
+    <AssemblyName>proton-frequency</AssemblyName>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Update="defaults.yaml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Figgle" Version="0.4.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+	  <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.1.0" />
+	  <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>
+</Project>
