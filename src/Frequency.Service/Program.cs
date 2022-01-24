@@ -8,6 +8,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureAppConfiguration((hostingContext, config) =>
     {
+        // TODO: Handle file not fould exceptions..
         config
             .AddYamlFile("config.yaml", optional: false, reloadOnChange: true)
             .AddEnvironmentVariables();

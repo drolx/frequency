@@ -12,7 +12,7 @@
     <PublishTrimmed>true</PublishTrimmed>
     <TrimmerDefaultAction>link</TrimmerDefaultAction>
     <SelfContained>true</SelfContained>
-    <RuntimeIdentifiers>osx-x64;osx-arm;linux-x64;linux-arm;win-x64;win-arm</RuntimeIdentifiers>
+    <RuntimeIdentifiers>osx-x64;linux-x64;linux-arm;win-x64;win-arm</RuntimeIdentifiers>
     <Version>0.0.2</Version>
     <Company>Opensource</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
