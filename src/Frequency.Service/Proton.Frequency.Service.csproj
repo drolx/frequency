@@ -33,7 +33,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="defaults.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

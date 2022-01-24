@@ -1,12 +1,6 @@
 ## Hub | Server | Both
 Mode: Hub
 
-## TODO: Web client configuration
-#Kestrel:
-#  EndPoints:
-#    Http:
-#      Url: http://localhost:17250
-#AllowedHosts: "*"
 Logging:
   LogLevel:
     Default: Information
@@ -29,10 +23,10 @@ Cards:
     - ISO1800-6B
   TruncateNumber: 0
   MaximumLength: 24
+  SessionTimeout: 300
 
 ## IOT Hub mode
 Hub:
-  Enable: true
   Auto: true
   Store: true
   Forward: true
@@ -46,23 +40,23 @@ Hub:
     Type: Serial
     Serial:
       Enable: true
-      Id: SITE-01
+      Id: SITE-01-SERIAL
       ## Common serial port defaults
-      # Windows: COM5 | Linux: /dev/ttyUSB0 | Mac: /dev/tty.usbserial-*
-      PortName: "null"
+      # Win: COM5 | Linux: /dev/ttyUSB0 | OsX: /dev/tty.usbserial-*
+      PortName: "/dev/ttyUSB0"
       BaudRate: 9600
       DataBits: 8
+      BlockLimit: 100
     ## Hub ethernet configurations
     Network:
       Enable: false
-      Id: SITE-01
+      Id: SITE-01-HUB
       Type: TCP
-      Address: 127.0.0.1
+      Address: frequency.test
       Port: 56000
 
 ## Server mode configuration
 Server:
-  Enable: false
   Store: true
   Forward: false
   Protocols:
@@ -76,15 +70,25 @@ Server:
 ## Web forwarding configuration
 Forward:
   Enable: true
-  Path: "http://localhost:40440/proton.frequency.service/api/v1/log"
+  ## 'http://frequency.test:40440/service/api/v1/log?id={terminal.id}&tag-id={tag.id}'
+  Path: "http://frequency.test:40440/service/api/v1/log"
   Method: POST
   Auth: false
   Username: ""
   Password: ""
-  MaxDelay: 1
-  Frequency: 7
+  CheckFrequency: 15
+  Timeout: 3
+  Retry: 5
   Buffer: 10
+  Delay: 300
   Network:
     Verify: true
     Ping: google.com
     Timeout: 100
+
+Management:
+  Host: "frequency.test"
+  Port: 8080
+  EndPoints:
+    Config: "management/config"
+    StateSync: "management/state"
