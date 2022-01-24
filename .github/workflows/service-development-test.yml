@@ -63,7 +63,7 @@ jobs:
           cd src/Frequency.Service
 
           # Build for windows, osx and linux
-          dotnet build --no-restore --runtime "${{ matrix.target }}"
+          dotnet build --no-restore --runtime "${{ matrix.target }}" --no-self-contained --configuration Debug
 
       - name: Test in Development mode
         run: dotnet test --no-restore --verbosity normal
