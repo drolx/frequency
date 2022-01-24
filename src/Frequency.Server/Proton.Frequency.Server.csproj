@@ -2,8 +2,31 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<OutputType>Exe</OutputType>
+	<UseAppHost>true</UseAppHost>
+	<PublishSingleFile>true</PublishSingleFile>
+	<PublishReadyToRun>true</PublishReadyToRun>
+	<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+	<PublishTrimmed>true</PublishTrimmed>
+	<TrimmerDefaultAction>link</TrimmerDefaultAction>
+	<SelfContained>true</SelfContained>
+	<RuntimeIdentifiers>osx-x64;osx-arm;linux-x64;linux-arm;win-x64;win-arm</RuntimeIdentifiers>
+	<Version>0.0.2</Version>
+	<Company>Opensource</Company>
+	<Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
+	<Product>Proton Frequency Server</Product>
+	<Copyright>2022 MIT</Copyright>
+	<PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
+	<PackageTags>Raspberry PI, Orange PI,RFID,UHF,Server,App</PackageTags>
+	<RepositoryType>Opensource</RepositoryType>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<IsPackable>true</IsPackable>
+	<Title>Proton Frequency Server</Title>
+	<Description>This is a UHF RFID default server/web app.</Description>
+	<AssemblyName>proton-frequency-server</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

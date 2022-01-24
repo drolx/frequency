@@ -12,10 +12,7 @@
     <PublishTrimmed>true</PublishTrimmed>
     <TrimmerDefaultAction>link</TrimmerDefaultAction>
     <SelfContained>true</SelfContained>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
-    <RuntimeIdentifiers>osx-x64;linux-x64;linux-arm;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifiers>osx-x64;osx-arm;linux-x64;linux-arm;win-x64;win-arm</RuntimeIdentifiers>
     <Version>0.0.2</Version>
     <Company>Opensource</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
@@ -23,11 +20,11 @@
     <Copyright>2022 MIT</Copyright>
     <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
-    <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
+    <PackageTags>Raspberry PI, Orange PI,RFID,UHF,IOT,TAGS</PackageTags>
     <RepositoryType>Opensource</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IsPackable>true</IsPackable>
-    <Title>Proton Frequency</Title>
+    <Title>Proton Frequency Server</Title>
     <Description>This is a UHF RFID cli daemon for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
     <AssemblyName>proton-frequency</AssemblyName>
   </PropertyGroup>

@@ -1,9 +1,10 @@
 using Proton.Frequency.Service;
+using Proton.Frequency.Service.Process;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddHostedService<ServiceWorker>();
+        services.AddHostedService<StateWorker>();
     })
     .ConfigureAppConfiguration((hostingContext, config) =>
     {
