@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EFDB1A06
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency.Tests", "tests\Frequency.Tests\Proton.Frequency.Tests.csproj", "{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Server", "src\Frequency.Server\Proton.Frequency.Server.csproj", "{B207E352-7D8F-4143-A391-579C9843C92F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B207E352-7D8F-4143-A391-579C9843C92F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B207E352-7D8F-4143-A391-579C9843C92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B207E352-7D8F-4143-A391-579C9843C92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B207E352-7D8F-4143-A391-579C9843C92F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{A87A9CB5-BFCD-4F28-90A9-17B062E8D912} = {3D070037-5050-4D90-9B8C-D03FAB428521}
 		{861FF486-BEF7-43EB-8A54-C8BE7288E934} = {3D070037-5050-4D90-9B8C-D03FAB428521}
 		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5} = {EFDB1A06-13EF-4991-AD6A-B4C9B0EDFD71}
+		{B207E352-7D8F-4143-A391-579C9843C92F} = {3D070037-5050-4D90-9B8C-D03FAB428521}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8DDA2FCB-F056-45B5-B072-634E9D8A349B}
