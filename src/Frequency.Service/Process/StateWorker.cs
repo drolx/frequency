@@ -11,15 +11,16 @@ public class StateWorker : BackgroundService
         _logger = logger;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation(
            "Consume Scoped Service Hosted Service running.");
 
-        await DoWork(stoppingToken);
+        DoWork(stoppingToken);
+        return Task.CompletedTask;
     }
 
-    private async Task DoWork(CancellationToken stoppingToken)
+    private Task DoWork(CancellationToken stoppingToken)
     {
         _logger.LogInformation(
             "Starting Servicex process...");
@@ -37,16 +38,19 @@ public class StateWorker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+            Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
         }
+
+        return Task.CompletedTask;
     }
 
-    public override async Task StopAsync(CancellationToken stoppingToken)
+    public override Task StopAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation(
             "Performing some important cleanup...");
 
-        await base.StopAsync(stoppingToken);
+        base.StopAsync(stoppingToken);
+        return Task.CompletedTask;
     }
 
 }
