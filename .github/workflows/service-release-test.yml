@@ -16,6 +16,7 @@ jobs:
         kind:
           [
             "linux-x64",
+            "linux-arm64",
             "linux-arm",
             "windows-x64",
             "windows-arm",
@@ -26,6 +27,9 @@ jobs:
           - kind: linux-x64
             os: ubuntu-latest
             target: linux-x64
+          - kind: linux-arm64
+            os: ubuntu-latest
+            target: linux-arm64
           - kind: linux-arm
             os: ubuntu-latest
             target: linux-arm
