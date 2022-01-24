@@ -1,12 +1,16 @@
-name: alpha-package-publish
+name: Proton.Frequency.Service development test
 
 on:
   release:
     types: [published]
+  push:
+    branches: [dev-*]
+  pull_request:
+    branches: [dev-*]
 
 jobs:
   release:
-    name: Release
+    name: Proton.Frequency.Service development branch build tests
     strategy:
       matrix:
         kind:
@@ -54,11 +58,14 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
 
-      - name: Build in release mode
+      - name: Build in Development mode
         shell: bash
         run: |
+          # Move into working directory
+          cd src/Frequency.Service
+
           # Build for windows, osx and linux
-          dotnet build --configuration Release --no-restore --runtime "${{ matrix.target }}" --self-contained
+          dotnet build --no-restore --runtime "${{ matrix.target }}"
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
