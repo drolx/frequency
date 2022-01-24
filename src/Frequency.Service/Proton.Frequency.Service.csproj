@@ -12,10 +12,12 @@
     <PublishTrimmed>true</PublishTrimmed>
     <TrimmerDefaultAction>link</TrimmerDefaultAction>
     <SelfContained>true</SelfContained>
-   <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
+    <!--
+    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
-    <RuntimeIdentifiers>osx-x64;linux-x64;linux-arm;win-x64</RuntimeIdentifiers>
+    -->
+    <RuntimeIdentifiers>linux-x64;linux-arm;linux-arm64;win-x64;win-arm;osx-x64;osx-arm64</RuntimeIdentifiers>
     <Version>0.0.2</Version>
     <Company>Opensource</Company>
     <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
