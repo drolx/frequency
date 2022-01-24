@@ -51,7 +51,7 @@ jobs:
         with:
           dotnet-version: "6.0.x"
 
-      - name: Build
+      - name: Build in release mode
         shell: bash
         run: |
           tag=$(git describe --tags --abbrev=0)
@@ -73,7 +73,7 @@ jobs:
           fi
           # Delete output directory
           rm -r "$release_name"
-      - name: Publish
+      - name: Publish built binaries
         uses: softprops/action-gh-release@v1
         with:
           files: "proton-frequency-bin-*"

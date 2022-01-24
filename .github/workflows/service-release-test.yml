@@ -67,5 +67,5 @@ jobs:
           # Build for windows, osx and linux
           dotnet build --configuration Release --no-restore --runtime "${{ matrix.target }}" --self-contained
 
-      - name: Test
+      - name: Test in release mode
         run: dotnet test --no-restore --verbosity normal

@@ -1,8 +1,6 @@
 name: Proton.Frequency.Service development test
 
 on:
-  release:
-    types: [published]
   push:
     branches: [dev-*]
   pull_request:
@@ -67,5 +65,5 @@ jobs:
           # Build for windows, osx and linux
           dotnet build --no-restore --runtime "${{ matrix.target }}"
 
-      - name: Test
+      - name: Test in Development mode
         run: dotnet test --no-restore --verbosity normal
