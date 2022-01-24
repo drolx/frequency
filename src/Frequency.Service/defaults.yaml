@@ -1,3 +1,5 @@
+### Frequency.Service default options #####
+
 ## Hub | Server | Both
 Mode: Hub
 
@@ -25,7 +27,12 @@ Cards:
   MaximumLength: 24
   SessionTimeout: 300
 
-## IOT Hub mode
+## Central Server mode
+Server:
+  Store: true
+  Forward: false
+
+## IOT Terminal mode
 Terminal:
   Auto: true
   Store: true
@@ -40,7 +47,7 @@ Terminal:
     Type: Serial
     Serial:
       Enable: true
-      Id: SITE-01-SERIAL
+      Id: terminal-serial-00
       ## Common serial port defaults
       # Win: COM5 | Linux: /dev/ttyUSB0 | OsX: /dev/tty.usbserial-*
       PortName: "/dev/ttyUSB0"
@@ -48,24 +55,12 @@ Terminal:
       DataBits: 8
       BlockLimit: 100
     ## Hub ethernet configurations
-    Network:
+    Stream:
       Enable: false
-      Id: SITE-01-HUB
+      Id: terminal-stream-00
       Type: TCP
       Address: frequency.test
       Port: 56000
-
-## Server mode configuration
-Server:
-  Store: true
-  Forward: false
-  Protocols:
-    - Name: Chafon
-      Type: TCP
-      Port: 17301
-    - Name: KingJoin
-      Type: UDP
-      Port: 17302
 
 ## Web forwarding configuration
 Forward:
