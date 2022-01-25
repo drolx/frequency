@@ -23,13 +23,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
 namespace Proton.Frequency.Terminal.Protocols.Readers
 {
-    public class ChafonProtocol : BaseProtocol
-    {
-        public ChafonProtocol()
-        {
-        }
-    }
+    public class ChafonProtocol
+    { }
 }

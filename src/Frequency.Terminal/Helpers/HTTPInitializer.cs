@@ -34,14 +34,15 @@ namespace Proton.Frequency.Terminal.Helpers
         private ConfigKey _config;
         private TinyRestClient _httpclient;
 
-        public HTTPInitializer()
+        public HTTPInitializer(
+            ConfigKey config
+        )
         {
-            _config = new ConfigKey();
-            // Initialize HTTP calls
+            _config = config;
             _httpclient = new TinyRestClient(new HttpClient(), _config.IOT_REMOTE_HOST_URL);
             _httpclient.Settings.DefaultTimeout = TimeSpan.FromSeconds(_config.IOT_MIN_REMOTE_HOST_DELAY);
-            _httpclient.Settings.DefaultHeaders.Add("X-IOT", "by gpproton...");
-            // HTTP Auth
+            _httpclient.Settings.DefaultHeaders.Add("X-IOT", "Proton.Frequency");
+            // HTTP Authentication
             if (!String.IsNullOrEmpty(_config.IOT_REMOTE_HOST_USERNAME)
                 && !String.IsNullOrEmpty(_config.IOT_REMOTE_HOST_PASSWORD)
                 && _config.IOT_REMOTE_HOST_AUTH)

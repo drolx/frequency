@@ -24,7 +24,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
@@ -33,16 +32,9 @@ namespace Proton.Frequency.Terminal.Helpers
 {
     public class ConfigContext
     {
-#if DEBUG
-        private const String Filepath = "appsettings.Development.json";
-#endif
-#if !DEBUG
-        private const String Filepath = "appsettings.json";
-#endif
-
         private static IConfigurationBuilder _builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile(Filepath)
+            .AddYamlFile("defaults.yaml", optional: false, reloadOnChange: true)
             .AddEnvironmentVariables();
         private static IConfiguration _configuration = _builder.Build();
 

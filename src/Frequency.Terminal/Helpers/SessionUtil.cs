@@ -33,10 +33,13 @@ namespace Proton.Frequency.Terminal.Helpers
         private static ConfigKey _config;
         private static ByteAssist _assist;
 
-        public SessionUtil()
+        public SessionUtil(
+            ConfigKey config,
+            ByteAssist assist
+        )
         {
-            _config = new ConfigKey();
-            _assist = new ByteAssist();
+            _config = config;
+            _assist = assist;
         }
 
         public string GetTagID(byte[] tempBytes)

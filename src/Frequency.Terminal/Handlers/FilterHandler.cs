@@ -24,8 +24,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Proton.Frequency.Terminal.Data;
 using Proton.Frequency.Terminal.Helpers;
@@ -36,11 +36,14 @@ namespace Proton.Frequency.Terminal.Handlers
     public class FilterHandler
     {
         private static ConfigKey _config;
-        private readonly ConsoleLogger _consolelog;
-        public FilterHandler()
+        private readonly ILogger<FilterHandler> _logger;
+        public FilterHandler(
+            ILogger<FilterHandler> logger,
+            ConfigKey config
+        )
         {
-            _config = new ConfigKey();
-            _consolelog = new ConsoleLogger();
+            _config = config;
+            _logger = logger;
         }
 
         public async Task<bool> EarlyFilter(CaptureContext _context, Scan scan)
@@ -60,7 +63,7 @@ namespace Proton.Frequency.Terminal.Handlers
 
             if (!checkFilter)
             {
-                _consolelog.Trigger("Info", "Filtered By Time..");
+                _logger.LogInformation("Filtered By Time..");
                 return checkFilter;
             }
 

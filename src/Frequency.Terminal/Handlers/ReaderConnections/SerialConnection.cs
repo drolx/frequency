@@ -25,7 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.IO.Ports;
-using System.Threading;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Proton.Frequency.Terminal.Helpers;
 using Proton.Frequency.Terminal.Protocols;
@@ -35,21 +35,23 @@ namespace Proton.Frequency.Terminal.Handlers.ReaderConnections
     public class SerialConnection
     {
         private readonly ConfigKey _config;
-        private readonly MainLogger _logger;
+        private readonly ILogger<SerialConnection> _logger;
         private readonly ByteAssist _assist;
-        private readonly ConsoleLogger _consolelog;
 #if DEBUG
         private bool DevMode = true;
 #else
         private bool DevMode = false;
 #endif
 
-        public SerialConnection()
+        public SerialConnection(
+            ILogger<SerialConnection> logger,
+            ConfigKey config,
+            ByteAssist byteAssist
+        )
         {
-            _config = new ConfigKey();
-            _logger = new MainLogger();
-            _assist = new ByteAssist();
-            _consolelog = new ConsoleLogger();
+            _config = config;
+            _logger = logger;
+            _assist = byteAssist;
         }
 
         public SerialPort BuildConnection()
@@ -74,7 +76,7 @@ namespace Proton.Frequency.Terminal.Handlers.ReaderConnections
         {
             var selectedPort = "/dev/tty.usb_serial";
             var ListConnections = ListConnection();
-            _logger.Trigger("Warn", "Incorrect port specified, Suggesting port...");
+            _logger.LogWarning("Incorrect port specified, Suggesting port...");
             foreach (string portName in ListConnections)
             {
                 if (portName.Contains("serial")
@@ -118,10 +120,10 @@ namespace Proton.Frequency.Terminal.Handlers.ReaderConnections
         {
             var ListConnections = ListConnection();
             string startLine = $"---- {ListConnections.Length} Serial ports available ----";
-            _logger.Trigger("Info", startLine);
+            _logger.LogInformation(startLine);
             foreach (string portName in ListConnections)
             {
-                _logger.Trigger("Info", portName);
+                Console.WriteLine(portName);
             }
         }
 

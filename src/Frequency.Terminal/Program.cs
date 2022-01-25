@@ -1,70 +1,73 @@
-﻿//
-// Program.cs
-//
-// Author:
-//       Godwin peter .O <me@godwin.dev>
-//
-// Copyright (c) 2020 MIT
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
 using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
+using System.Net.NetworkInformation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using NLog.Web;
-using Proton.Frequency.Terminal.Handlers;
+using Microsoft.Extensions.Logging;
+using Proton.Frequency.Terminal.Data;
 using Proton.Frequency.Terminal.Helpers;
-
+using Proton.Frequency.Terminal.Handlers;
+using Proton.Frequency.Terminal.Handlers.ReaderConnections;
+using Proton.Frequency.Terminal.Protocols.Readers;
 
 namespace Proton.Frequency.Terminal
 {
-    internal static class Program
+    public class Program
     {
-        private static readonly ConfigKey _config = new ConfigKey();
-        private static readonly MainLogger _logger = new MainLogger();
-        private static readonly ReaderProcess _readerProcess = new ReaderProcess();
-
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("UHFRFID IOT"));
+            Console.WriteLine(Figgle.FiggleFonts.Standard.Render("Proton Frequency"));
+            var host = CreateHostBuilder(args).Build();
+            ILogger logger = host.Services.GetService<ILogger<Program>>();
 
-            _logger.Trigger("Info", "Booting up daemon....");
-
-            // Reader process thread//
-            Task.Run(() => _readerProcess.Run()).Wait();
-
-            // Web view thread//
-            if (_config.BASE_WEB_ENABLE)
-            {
-                Task.Run(() => CreateHostBuilder(args).Build().Run()).Wait();
-            }
+            logger.LogInformation("Starting Proton Frequency...");
+            host.Run();
         }
 
-        private static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
-        .ConfigureLogging(logging =>
-        {
-            logging.ClearProviders();
-            logging.SetMinimumLevel(LogLevel.Trace);
-        })
-        .UseNLog();  // NLog: Setup NLog for Dependency injection
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .UseWindowsService()
+            .UseSystemd()
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddConsole();
+            })
+            .ConfigureServices((hostContext, services) =>
+            {
+                /** Load Dependencies into DI container */
+                services.AddSingleton<ConfigKey>();
+                services.AddScoped<PingOptions>();
+                services.AddScoped<Ping>();
+                services.AddScoped<HTTPInitializer>();
+                services.AddSingleton<SerialConnection>();
+                services.AddTransient<ByteAssist>();
+                services.AddTransient<SessionUtil>();
+                services.AddScoped<FilterHandler>();
+                services.AddScoped<NetworkCheck>();
+
+                /** DB Connection required **/
+                services.AddDbContext<CaptureContext>();
+                services.AddScoped<CapturePersist>();
+                services.AddScoped<PersistRequest>();
+                services.AddSingleton<WebSync>();
+
+                /** Extra DI Registration **/
+                services.AddSingleton<KingJoinProtocol>();
+                services.AddSingleton<ReaderProcess>();
+
+                /** Worker service Registration **/
+                services.AddHostedService<PipelineWorker>();
+                services.AddHostedService<ForwardWorker>();
+
+            })
+            .UseDefaultServiceProvider(options =>
+                    options.ValidateScopes = false)
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config
+                .AddYamlFile("defaults.yaml", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+            });
     }
 }

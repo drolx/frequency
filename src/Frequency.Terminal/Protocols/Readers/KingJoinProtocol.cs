@@ -27,14 +27,33 @@ using System;
 using System.Threading.Tasks;
 using Proton.Frequency.Terminal.Data;
 using Proton.Frequency.Terminal.Models;
+using Microsoft.Extensions.Logging;
+using Proton.Frequency.Terminal.Helpers;
 
 namespace Proton.Frequency.Terminal.Protocols.Readers
 {
     public class KingJoinProtocol : BaseProtocol
     {
-        public KingJoinProtocol()
+        public KingJoinProtocol(
+            ILogger<KingJoinProtocol> logger,
+            ByteAssist byteAssist,
+            ConfigKey configKey,
+            SessionUtil sessionUtil,
+            CapturePersist capturePersist,
+            CaptureContext context,
+            PersistRequest persistRequest
+        ) : base(
+            logger,
+            byteAssist,
+            configKey,
+            sessionUtil,
+            capturePersist,
+            context,
+            persistRequest
+        )
         {
             DataLength = 20;
+            _context = context;
         }
 
         public new const byte START_RESPONSE_BYTE = 0xCC;
@@ -141,7 +160,7 @@ namespace Proton.Frequency.Terminal.Protocols.Readers
                 LastMode = "Unknown"
             };
 
-            await using (var context = new CaptureContext())
+            await using (var context = _context)
             {
                 context.Database.EnsureCreated();
 

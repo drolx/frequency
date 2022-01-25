@@ -24,9 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Tiny.RestClient;
 using Proton.Frequency.Terminal.Helpers;
 
@@ -35,19 +35,30 @@ namespace Proton.Frequency.Terminal.Handlers
     public class NetworkCheck
     {
         private static bool _finalStatus;
-        private readonly MainLogger _logger;
-        private static readonly ConfigKey _config = new ConfigKey();
+        private readonly ILogger<NetworkCheck> _logger;
+        private readonly ConfigKey _config;
         private readonly TinyRestClient _httpclient;
-        readonly Ping _pingInit = new Ping();
-        private readonly byte[] _buffer = new byte[32];
-        private readonly int _timeout = _config.IOT_NETWORK_CHECK_TIMEOUT;
-        readonly PingOptions _pingOptions = new PingOptions();
-        private readonly string _host = _config.IOT_NETWORK_CHECK_ADDRESS;
+        private readonly Ping _pingInit;
+        readonly PingOptions _pingOptions;
+        private readonly byte[] _buffer;
+        private readonly int _timeout;
+        private readonly string _host;
 
-        public NetworkCheck()
+        public NetworkCheck(
+                ILogger<NetworkCheck> logger,
+                ConfigKey config,
+                HTTPInitializer httpInitializer
+                )
         {
-            _logger = new MainLogger();
-            _httpclient = new HTTPInitializer().Resolve();
+            _logger = logger;
+            _config = config;
+            _httpclient = httpInitializer.Resolve();
+            _timeout = _config.IOT_NETWORK_CHECK_TIMEOUT;
+            _host = _config.IOT_NETWORK_CHECK_ADDRESS;
+            _pingOptions = new PingOptions();
+            _pingInit = new Ping();
+            _buffer = new byte[32];
+
         }
         private bool DNSSee()
         {

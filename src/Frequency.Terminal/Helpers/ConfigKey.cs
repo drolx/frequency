@@ -23,7 +23,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-using System;
 using System.Collections;
 using Microsoft.Extensions.Configuration;
 
@@ -75,19 +74,6 @@ namespace Proton.Frequency.Terminal.Helpers
         // The Main store e.g MySql or PostgresSQl
         public readonly string DATA_STORE = _settingsContext.GetSection("Database:Store").Get<string>();
 
-        /// <summary>
-        /// Redis distributed caching configurations.
-        /// </summary>
-
-        // Enable or disables Redis distributed caching.
-        public readonly bool DATA_REDIS_ENABLE = _settingsContext.GetSection("Logging::Redis:Enable").Get<bool>();
-
-        // Redis hostname or IP address information.
-        public readonly string DATA_REDIS_HOST = _settingsContext.GetSection("Database:Redis:Host").Get<string>();
-
-        // Redis host port
-        public readonly int DATA_REDIS_PORT = (int)_settingsContext.GetSection("Database:Redis:Port").Get<decimal>();
-
         // Redis instance type, either master or slave.
         public readonly string DATA_REDIS_INSTANCE = _settingsContext.GetSection("Database:Redis:Instance").Get<string>();
 
@@ -107,14 +93,6 @@ namespace Proton.Frequency.Terminal.Helpers
 
         // Get Configured protocols list.
         public readonly IEnumerable SERVER_PROTOCOLS = _settingsContext.GetList("ServerMode:Protocols");
-
-        // Usage of array type temp.
-        //        ConfigKey nq1 = new ConfigKey();
-        //        IEnumerable test1 = nq1.SERVER_PROTOCOLS;
-        //            foreach (IConfigurationSection VARIABLE in test1)
-        //            {
-        //                Console.WriteLine(VARIABLE.GetValue<string>("ProtocolName"));
-        //            }
 
         // Option to allow forwarding captured data through HTTP request.
         public readonly bool SERVER_FORWARD = _settingsContext.GetSection("ServerMode:Forward").Get<bool>();
@@ -230,5 +208,6 @@ namespace Proton.Frequency.Terminal.Helpers
         // Options to configure minimum network connection timeout in seconds.
         public readonly int IOT_NETWORK_CONN_TIMEOUT = (int)(1000 * _settingsContext.GetSection("IOTMode:Connections:Network:ConnectionTimeout").Get<decimal>());
 
+        public ConfigKey() { }
     }
 }

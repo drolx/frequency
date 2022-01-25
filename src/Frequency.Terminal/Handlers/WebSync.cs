@@ -26,10 +26,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Tiny.RestClient;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Proton.Frequency.Terminal.Data;
 using Proton.Frequency.Terminal.Helpers;
 using Proton.Frequency.Terminal.Models;
@@ -38,24 +38,24 @@ namespace Proton.Frequency.Terminal.Handlers
 {
     public class WebSync
     {
-        private readonly MainLogger _logger;
-        private readonly ConsoleLogger _consolelog;
+        private readonly ILogger<WebSync> _logger;
         private readonly ConfigKey _config;
         private readonly NetworkCheck _network;
         private readonly TinyRestClient _httpclient;
         private readonly CaptureContext _context;
-        public WebSync()
+        public WebSync(ILogger<WebSync> logger,
+                ConfigKey config,
+                HTTPInitializer httpInitializer,
+                NetworkCheck network,
+                CaptureContext captureContext
+            )
         {
-            _logger = new MainLogger();
-            _consolelog = new ConsoleLogger();
-            _config = new ConfigKey();
-            _network = new NetworkCheck();
-            // Filesystem DB context
-            _context = new CaptureContext();
-            // Memory mode override for context
+            _logger = logger;
+            _config = config;
+            _httpclient = httpInitializer.Resolve();
+            _network = network;
+            _context = captureContext;
             _context.PushStore = true;
-            _httpclient = new HTTPInitializer().Resolve();
-
         }
 
         public async Task Sync()
@@ -76,7 +76,7 @@ namespace Proton.Frequency.Terminal.Handlers
                     Console.WriteLine(e);
                 }
 
-                await using (var context = new CaptureContext())
+                await using (var context = _context)
                 {
                     var isCompleted = false;
                     var pushCount = 0;
@@ -92,7 +92,7 @@ namespace Proton.Frequency.Terminal.Handlers
                     }
                     catch (Exception e)
                     {
-                        _logger.Trigger("Fatal", e.ToString().Remove(0, e.ToString().Length) + "Bootstrapping DB now..");
+                        _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Bootstrapping DB now..");
                     }
 
                     var getLatest = context.Scans
@@ -105,7 +105,7 @@ namespace Proton.Frequency.Terminal.Handlers
                     var totalDelete = getLatest.Count();
                     if (checkStoreState != 0)
                     {
-                        _logger.Trigger("Info", $"------>> Pushing {totalDelete} of {checkStoreState} cached data...");
+                        _logger.LogInformation($"------>> Pushing {totalDelete} of {checkStoreState} cached data...");
                     }
 
                     List<Scan> updateList = new List<Scan>();
@@ -138,7 +138,7 @@ namespace Proton.Frequency.Terminal.Handlers
                                     }
                                     catch (Exception ex)
                                     {
-                                        _logger.Trigger("Error", "Failed to post to cloud.." + ex.ToString().Remove(0, ex.ToString().Length));
+                                        _logger.LogError("Failed to post to cloud.." + ex.ToString().Remove(0, ex.ToString().Length));
                                     }
 
                                     break;
@@ -155,7 +155,7 @@ namespace Proton.Frequency.Terminal.Handlers
                                     }
                                     catch (Exception ex)
                                     {
-                                        _logger.Trigger("Error", "Failed to post to cloud.." + ex.ToString().Remove(0, ex.ToString().Length));
+                                        _logger.LogError("Error", "Failed to post to cloud.." + ex.ToString().Remove(0, ex.ToString().Length));
                                     }
                                     break;
                             }
@@ -163,8 +163,7 @@ namespace Proton.Frequency.Terminal.Handlers
                             if (isCompleted)
                             {
                                 ++pushCount;
-                                _consolelog.Trigger("Info",
-                                    $"*****   Pushed Scan {innerData.Id} from Tag: {innerData.Tag.UniqueId} to cloud  *****");
+                                _logger.LogInformation($"*****   Pushed Scan {innerData.Id} from Tag: {innerData.Tag.UniqueId} to cloud  *****");
                                 innerData.synced = 1;
                                 updateList.Add(innerData);
                             }

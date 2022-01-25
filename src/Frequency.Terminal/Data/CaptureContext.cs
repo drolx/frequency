@@ -33,7 +33,6 @@ namespace Proton.Frequency.Terminal.Data
 {
     public class CaptureContext : DbContext
     {
-        private readonly ConsoleLogger _consolelog;
         private readonly ConfigKey _config;
         private readonly NetworkCheck _network;
 
@@ -44,16 +43,15 @@ namespace Proton.Frequency.Terminal.Data
         public DbSet<Scan> Scans { get; set; }
         public DbSet<Antenna> Antennae { get; set; }
         public DbSet<Proton.Frequency.Terminal.Models.Terminal> Terminals { get; set; }
-        public CaptureContext()
-        {
-            _consolelog = new ConsoleLogger();
-            _config = new ConfigKey();
-            _network = new NetworkCheck();
-        }
 
-        public CaptureContext(DbContextOptions<CaptureContext> options)
-            : base(options)
+        public CaptureContext(
+                DbContextOptions<CaptureContext> options,
+                ConfigKey configKey,
+                NetworkCheck networkCheck
+            ) : base(options)
         {
+            _config = configKey;
+            _network = networkCheck;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

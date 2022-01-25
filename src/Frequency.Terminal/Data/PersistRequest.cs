@@ -24,7 +24,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Proton.Frequency.Terminal.Helpers;
@@ -35,9 +34,11 @@ namespace Proton.Frequency.Terminal.Data
     public class PersistRequest
     {
         public readonly ConfigKey _config;
-        public PersistRequest()
+        public PersistRequest(
+            ConfigKey config
+        )
         {
-            _config = new ConfigKey();
+            _config = config;
         }
 
         public void OldestData()

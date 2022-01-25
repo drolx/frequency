@@ -24,11 +24,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Proton.Frequency.Terminal.Data;
-using Proton.Frequency.Terminal.Handlers;
 using Proton.Frequency.Terminal.Helpers;
 using Proton.Frequency.Terminal.Models;
 
@@ -36,14 +34,13 @@ namespace Proton.Frequency.Terminal.Protocols.Readers
 {
     public abstract class BaseProtocol : IReaderProtocol
     {
-        public readonly MainLogger _logger;
+        protected readonly ILogger<BaseProtocol> _logger;
         public readonly ByteAssist _assist;
         public readonly ConfigKey _config;
         public readonly SessionUtil _session;
         public CaptureContext _context;
         public readonly CapturePersist _persist;
         public readonly PersistRequest _request;
-        public readonly ConsoleLogger _consolelog;
 
         // Data object declaration.
         protected Reader _Reader;
@@ -54,15 +51,23 @@ namespace Proton.Frequency.Terminal.Protocols.Readers
         protected string _tagData;
         protected string _tagType;
 
-        public BaseProtocol()
+        public BaseProtocol(
+            ILogger<BaseProtocol> logger,
+            ByteAssist byteAssist,
+            ConfigKey configKey,
+            SessionUtil sessionUtil,
+            CapturePersist capturePersist,
+            CaptureContext context,
+            PersistRequest persistRequest
+        )
         {
-            _logger = new MainLogger();
-            _consolelog = new ConsoleLogger();
-            _assist = new ByteAssist();
-            _config = new ConfigKey();
-            _session = new SessionUtil();
-            _persist = new CapturePersist();
-            _request = new PersistRequest();
+            _logger = logger;
+            _assist = byteAssist;
+            _config = configKey;
+            _session = sessionUtil;
+            _persist = capturePersist;
+            _context = context;
+            _request = persistRequest;
         }
 
         // Default byte maps.
@@ -90,13 +95,12 @@ namespace Proton.Frequency.Terminal.Protocols.Readers
 
         public virtual async Task Log()
         {
-            _consolelog.Trigger("Info",
-                $"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
+            _logger.LogInformation($"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
 
             var decData = await DecodeData();
             if (await Persist(decData))
             {
-                await using (var xcix = new CaptureContext())
+                await using (var xcix = _context)
                 {
                     try
                     {
@@ -110,12 +114,12 @@ namespace Proton.Frequency.Terminal.Protocols.Readers
                                          $"Mode: {getFullScan.Reader.Mode} | " +
                                          $"Tag-UID: {getFullScan.Tag.UniqueId} | " +
                                          $"Ant-UID: {getFullScan.Antenna.UniqueId}";
-                            _logger.Trigger("Info", logVal);
+                            _logger.LogInformation(logVal);
                         }
                     }
                     catch (Exception e)
                     {
-                        _logger.Trigger("Fatal", e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
+                        _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
                     }
                 }
             }

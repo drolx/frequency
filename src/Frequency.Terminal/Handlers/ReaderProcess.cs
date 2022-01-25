@@ -28,8 +28,10 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Proton.Frequency.Terminal.Handlers.ReaderConnections;
 using Proton.Frequency.Terminal.Helpers;
+using Proton.Frequency.Terminal.Protocols.Readers;
 using Proton.Frequency.Terminal.Protocols;
 
 namespace Proton.Frequency.Terminal.Handlers
@@ -37,41 +39,45 @@ namespace Proton.Frequency.Terminal.Handlers
     public class ReaderProcess
     {
         private readonly ConfigKey _config;
-        private readonly MainLogger _logger;
-        private readonly ConsoleLogger _consolelog;
+        private readonly ILogger<ReaderProcess> _logger;
         private readonly SerialConnection _serial;
         private readonly WebSync _webSync;
         private readonly SerialPort _serialProfile;
+        private IReaderProtocol _selectedProtocol;
 
 #if DEBUG
         private bool DevMode = true;
 #else
         private bool DevMode = false;
 #endif
-        public ReaderProcess()
+        public ReaderProcess(
+                ILogger<ReaderProcess> logger,
+                ConfigKey config,
+                SerialConnection serialConnection,
+                WebSync webSync,
+                KingJoinProtocol selectedProtocol
+        )
         {
-            _config = new ConfigKey();
-            _logger = new MainLogger();
-            _consolelog = new ConsoleLogger();
-            _serial = new SerialConnection();
-            _webSync = new WebSync();
+            _config = config;
+            _logger = logger;
+            _serial = serialConnection;
+            _webSync = webSync;
             _serialProfile = _serial.BuildConnection();
+            _selectedProtocol = selectedProtocol;
         }
 
-        private async Task SerialConnection()
+        public async Task SerialConnection()
         {
-            IReaderProtocol _selectedProtocol = new BaseReaderProtocol().Resolve();
-
             // Thread maintenance Timer.
             await Task.Run(() =>
             {
-                var sectCheck = new System.Timers.Timer { Interval = 35000, AutoReset = true, Enabled = true };
+                var sectCheck = new System.Timers.Timer { Interval = 85000, AutoReset = true, Enabled = true };
                 sectCheck.Elapsed += OnTimedEvent;
 
                 void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
                 {
                     Task.Factory.StartNew(() =>
-                        _consolelog.Trigger("Info", "*****   Reader Thread Maintenance..   *****"));
+                        _logger.LogInformation("*****   Reader Thread Maintenance..   *****"));
                 }
             });
 
@@ -111,7 +117,7 @@ namespace Proton.Frequency.Terminal.Handlers
                     }
                     catch (Exception exception)
                     {
-                        _logger.Trigger("Error", exception.ToString());
+                        _logger.LogError(exception.ToString());
                     }
                 }
 
@@ -147,10 +153,8 @@ namespace Proton.Frequency.Terminal.Handlers
 
                         if (_serialProfile.IsOpen)
                         {
-                            _logger.Trigger("Info", "Serial connection opened successfully..");
+                            _logger.LogInformation("Serial connection opened successfully..");
                         }
-
-                        // Clear buffer to avoid out-of-bounds exceptions
                         _serialProfile.DiscardInBuffer();
                         _serialProfile.DiscardOutBuffer();
 
@@ -159,7 +163,7 @@ namespace Proton.Frequency.Terminal.Handlers
                     {
                         var _exp = unauthorizedAccessException;
                         var condLog = _config.IOT_SERIAL_CONN_RETRY == 0 ? "retrying now." : $"retrying now, {maxRetries} remaining.";
-                        _logger.Trigger("Error", $"Serial connection failed to open/read, {condLog}");
+                        _logger.LogError($"Serial connection failed to open/read, {condLog}");
                         maxRetries--;
                         retryState = retryFailedCheck;
                         Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
@@ -167,7 +171,7 @@ namespace Proton.Frequency.Terminal.Handlers
                     catch (Exception e)
                     {
                         var _exp = e;
-                        _logger.Trigger("Error", "Serial connection failed to open/read, retrying now.");
+                        _logger.LogError("Serial connection failed to open/read, retrying now.");
                         maxRetries--;
                         retryState = retryFailedCheck;
                         Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
@@ -180,19 +184,16 @@ namespace Proton.Frequency.Terminal.Handlers
             {
                 var newRange = byteList.GetRange(0, DataLength);
                 byteList.RemoveRange(0, DataLength);
-                // Start log process.
                 _selectedProtocol.ReceivedData = newRange.ToArray();
                 if (_config.IOT_AUTO_READ)
-                {
                     Task.Factory.StartNew(() => _selectedProtocol.Log()).Wait();
-                }
             }
 
             // List devices
             _serial.ShowPorts();
             _serialProfile.DataReceived += DataReceivedHandler;
 
-            _logger.Trigger("Info", "Opening new serial connection...");
+            _logger.LogInformation("Opening new serial connection...");
 
             // Start Serial connection.
             serialOpen();
@@ -203,7 +204,7 @@ namespace Proton.Frequency.Terminal.Handlers
                 var TimerLimit = 1500;
                 if (DevMode)
                 {
-                    _logger.Trigger("Debug", "Switching to byte simulation mode..");
+                    _logger.LogDebug("Switching to byte simulation mode...");
                     TimerLimit = 12000;
                 }
                 var devTest = new System.Timers.Timer { Interval = TimerLimit, AutoReset = true, Enabled = true };
@@ -222,28 +223,9 @@ namespace Proton.Frequency.Terminal.Handlers
 
         }
 
-        // Main Reader method for bootstrapping everything from the main thread.
         public async Task Run()
         {
-            if (_config.IOT_SERIAL_ENABLE)
-            {
-                await SerialConnection();
-            }
-
-            // Cloud sync timed thread sub process.
-            if (_config.IOT_MODE_ENABLE && _config.IOT_REMOTE_HOST_ENABLE)
-            {
-                var webSyncTimer = new System.Timers.Timer { Interval = _config.IOT_MIN_REMOTE_FREQ, AutoReset = true, Enabled = true };
-                webSyncTimer.Elapsed += OnWebSyncEvent;
-
-                void OnWebSyncEvent(Object source, System.Timers.ElapsedEventArgs e)
-                {
-                    Task.Factory.StartNew(async () => await _webSync.Sync());
-                }
-            }
-
-            // Handle continuous run and quit.
-            Console.Read();
+            await Task.CompletedTask;
 
         }
 

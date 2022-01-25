@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Proton.Frequency.Terminal.Handlers;
 using Proton.Frequency.Terminal.Models;
@@ -34,12 +35,18 @@ namespace Proton.Frequency.Terminal.Data
     public class CapturePersist
     {
         private static FilterHandler _filter;
-        private readonly MainLogger _logger;
+        private readonly ILogger<CapturePersist> _logger;
+        private CaptureContext _context;
 
-        public CapturePersist()
+        public CapturePersist(
+                FilterHandler filter,
+                ILogger<CapturePersist> logger,
+                CaptureContext context
+            )
         {
-            _filter = new FilterHandler();
-            _logger = new MainLogger();
+            _filter = filter;
+            _logger = logger;
+            _context = context;
         }
 
         public void OldestDelete()
@@ -51,13 +58,13 @@ namespace Proton.Frequency.Terminal.Data
         {
             var returnBool = false;
 
-            using (var _context = new CaptureContext())
+            using (var context = _context)
             {
-                if (await _filter.EarlyFilter(_context, scn))
+                if (await _filter.EarlyFilter(context, scn))
                 {
-                    _context.Add(scn);
+                    context.Add(scn);
 
-                    var tagUpdate = _context.Tags
+                    var tagUpdate = context.Tags
                         .FirstOrDefaultAsync(e => e.Id == scn.TagId);
                     Task.WaitAll(tagUpdate);
                     await tagUpdate;
@@ -67,7 +74,7 @@ namespace Proton.Frequency.Terminal.Data
                         tagUpdate.Result.LastUpdated = DateTime.Now;
                     }
 
-                    var antennaUpdate = _context.Antennae
+                    var antennaUpdate = context.Antennae
                         .FirstOrDefaultAsync(e => e.Id == scn.AntennaId);
                     Task.WaitAll(antennaUpdate);
                     await antennaUpdate;
@@ -77,7 +84,7 @@ namespace Proton.Frequency.Terminal.Data
                         antennaUpdate.Result.LastUpdated = DateTime.Now;
                     }
 
-                    var readerUpdate = _context.Readers
+                    var readerUpdate = context.Readers
                         .FirstOrDefaultAsync(e => e.Id == scn.ReaderId);
                     Task.WaitAll(readerUpdate);
                     await readerUpdate;
@@ -92,12 +99,12 @@ namespace Proton.Frequency.Terminal.Data
 
                 try
                 {
-                    await _context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
                 catch (Exception e)
                 {
                     returnBool = false;
-                    _logger.Trigger("Fatal", e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
+                    _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
                 }
 
                 return returnBool;
