@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    name: Publish Proton.Frequency.Device in release mode
+    name: Publish Proton.Frequency.Device 0.3 in release mode
     strategy:
       matrix:
         kind:
