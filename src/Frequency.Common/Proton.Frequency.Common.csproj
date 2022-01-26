@@ -4,7 +4,22 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<OutputType>Library</OutputType>
+	  <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.3.0</Version>
+    <Company>Opensource</Company>
+    <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
+    <Product>Proton Frequency</Product>
+    <Copyright>2022 MIT</Copyright>
+    <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
+    <PackageTags>Raspberry PI, Orange PI,RFID,UHF,IOT,TAGS</PackageTags>
+    <RepositoryType>Opensource</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <Title>Proton Frequency Common</Title>
   </PropertyGroup>
 
 </Project>
