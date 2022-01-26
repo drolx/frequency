@@ -8,6 +8,7 @@ using Proton.Frequency.Device.Data;
 using Proton.Frequency.Device.Helpers;
 using Proton.Frequency.Device.Handlers;
 using Proton.Frequency.Device.Handlers.ReaderConnections;
+using Proton.Frequency.Device.Protocols;
 using Proton.Frequency.Device.Protocols.Readers;
 
 namespace Proton.Frequency.Device
@@ -53,7 +54,7 @@ namespace Proton.Frequency.Device
                 services.AddSingleton<WebSync>();
 
                 /** Extra DI Registration **/
-                services.AddSingleton<KingJoinProtocol>();
+                services.AddSingleton<IReaderProtocol, KingJoinProtocol>();
                 services.AddSingleton<ReaderProcess>();
 
                 /** Worker service Registration **/

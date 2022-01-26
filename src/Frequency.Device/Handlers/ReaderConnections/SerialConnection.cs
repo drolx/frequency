@@ -74,7 +74,7 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
 
         public string SuggestPort()
         {
-            var selectedPort = "/dev/tty.usb_serial";
+            var selectedPort = "/dev/ttyUSB0";
             var ListConnections = ListConnection();
             _logger.LogWarning("Incorrect port specified, Suggesting port...");
             foreach (string portName in ListConnections)

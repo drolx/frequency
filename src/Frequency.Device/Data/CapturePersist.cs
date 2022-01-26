@@ -49,66 +49,57 @@ namespace Proton.Frequency.Device.Data
             _context = context;
         }
 
-        public void OldestDelete()
-        {
-
-        }
-
-        public async Task<bool> Save(Scan scn)
+        public async Task<bool> Save(Scan scan)
         {
             var returnBool = false;
-
-            using (var context = _context)
+            if (await _filter.EarlyFilter(_context, scan))
             {
-                if (await _filter.EarlyFilter(context, scn))
+                _context.Add(scan);
+
+                var tagUpdate = _context.Tags
+                    .FirstOrDefaultAsync(e => e.Id == scan.TagId);
+                Task.WaitAll(tagUpdate);
+                await tagUpdate;
+
+                if (scan.Tag != null && tagUpdate.Result != null)
                 {
-                    context.Add(scn);
-
-                    var tagUpdate = context.Tags
-                        .FirstOrDefaultAsync(e => e.Id == scn.TagId);
-                    Task.WaitAll(tagUpdate);
-                    await tagUpdate;
-
-                    if (scn.Tag != null && tagUpdate.Result != null)
-                    {
-                        tagUpdate.Result.LastUpdated = DateTime.Now;
-                    }
-
-                    var antennaUpdate = context.Antennae
-                        .FirstOrDefaultAsync(e => e.Id == scn.AntennaId);
-                    Task.WaitAll(antennaUpdate);
-                    await antennaUpdate;
-
-                    if (scn.Antenna != null && antennaUpdate.Result != null)
-                    {
-                        antennaUpdate.Result.LastUpdated = DateTime.Now;
-                    }
-
-                    var readerUpdate = context.Readers
-                        .FirstOrDefaultAsync(e => e.Id == scn.ReaderId);
-                    Task.WaitAll(readerUpdate);
-                    await readerUpdate;
-
-                    if (scn.Reader != null && readerUpdate.Result != null)
-                    {
-                        readerUpdate.Result.LastUpdated = DateTime.Now;
-                    }
-
-                    returnBool = true;
+                    tagUpdate.Result.LastUpdated = DateTime.Now;
                 }
 
-                try
+                var antennaUpdate = _context.Antennae
+                    .FirstOrDefaultAsync(e => e.Id == scan.AntennaId);
+                Task.WaitAll(antennaUpdate);
+                await antennaUpdate;
+
+                if (scan.Antenna != null && antennaUpdate.Result != null)
                 {
-                    await context.SaveChangesAsync();
-                }
-                catch (Exception e)
-                {
-                    returnBool = false;
-                    _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
+                    antennaUpdate.Result.LastUpdated = DateTime.Now;
                 }
 
-                return returnBool;
+                var readerUpdate = _context.Readers
+                    .FirstOrDefaultAsync(e => e.Id == scan.ReaderId);
+                Task.WaitAll(readerUpdate);
+                await readerUpdate;
+
+                if (scan.Reader != null && readerUpdate.Result != null)
+                {
+                    readerUpdate.Result.LastUpdated = DateTime.Now;
+                }
+
+                returnBool = true;
             }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                returnBool = false;
+                _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
+            }
+
+            return returnBool;
         }
     }
 }

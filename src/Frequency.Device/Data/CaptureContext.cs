@@ -90,15 +90,6 @@ namespace Proton.Frequency.Device.Data
                         case "Sqlite":
                             optionsBuilder.UseSqlite(_config.DATA_STORE);
                             break;
-                        case "Mysql":
-                            optionsBuilder.UseSqlite(_config.DATA_STORE);
-                            break;
-                        case "Postgres":
-                            optionsBuilder.UseSqlite(_config.DATA_STORE);
-                            break;
-                        case "Mssql":
-                            optionsBuilder.UseSqlite(_config.DATA_STORE);
-                            break;
                         default:
                             optionsBuilder.UseSqlite(_config.DATA_STORE);
                             break;

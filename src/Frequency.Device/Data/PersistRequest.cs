@@ -34,11 +34,14 @@ namespace Proton.Frequency.Device.Data
     public class PersistRequest
     {
         public readonly ConfigKey _config;
+        private readonly CaptureContext _context;
         public PersistRequest(
-            ConfigKey config
+            ConfigKey config,
+            CaptureContext context
         )
         {
             _config = config;
+            _context = context;
         }
 
         public void OldestData()
@@ -47,7 +50,7 @@ namespace Proton.Frequency.Device.Data
         }
 
 
-        public async Task<Scan> GetScanById(CaptureContext _context, Guid getbyid)
+        public async Task<Scan> GetScanById(Guid getbyid)
         {
             var ScanData = _context.Scans
                 .AsNoTracking()
@@ -78,7 +81,7 @@ namespace Proton.Frequency.Device.Data
             return ScanData.Result;
         }
 
-        public async Task<Scan> ResolveReader(CaptureContext _context, Scan _Scan, Reader _Reader)
+        public async Task<Scan> ResolveReader(Scan _Scan, Reader _Reader)
         {
             var reader = _context.Readers
                 .AsNoTracking()
@@ -100,7 +103,7 @@ namespace Proton.Frequency.Device.Data
             return _Scan;
         }
 
-        public async Task<Scan> ResolveAntenna(CaptureContext _context, Scan _Scan, Antenna _Antenna, string atnData)
+        public async Task<Scan> ResolveAntenna(Scan _Scan, Antenna _Antenna, string atnData)
         {
             var antenna = _context.Antennae
                 .AsNoTracking()
@@ -120,7 +123,7 @@ namespace Proton.Frequency.Device.Data
             return _Scan;
         }
 
-        public async Task<Scan> ResolveTag(CaptureContext _context, Scan _Scan, Tag _Tag, string _tagData)
+        public async Task<Scan> ResolveTag(Scan _Scan, Tag _Tag, string _tagData)
         {
             var tag = _context.Tags
                 .AsNoTracking()

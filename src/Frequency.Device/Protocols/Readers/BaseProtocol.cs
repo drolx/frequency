@@ -91,36 +91,32 @@ namespace Proton.Frequency.Device.Protocols.Readers
         public virtual bool AutoRead { get; set; } = true;
 
         // Specify data type before processing response, in case conversion is required.
-        public virtual string DataType { get; set; } = "hex";
+        public virtual string DataType { get; set; } = "Hex";
 
         public virtual async Task Log()
         {
-            _logger.LogInformation($"Received {DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
-
+            _logger.LogInformation($"{DataType} data: {BitConverter.ToString(ReceivedData).Replace("-", string.Empty).ToLower()}");
             var decData = await DecodeData();
             if (await Persist(decData))
             {
-                await using (var xcix = _context)
+                try
                 {
-                    try
+                    var getFullScan = await _request.GetScanById(decData.Id);
+                    if (getFullScan.Reader != null
+                        && getFullScan.Tag != null
+                        && getFullScan.Antenna != null)
                     {
-                        var getFullScan = await _request.GetScanById(xcix, decData.Id);
-                        if (getFullScan.Reader != null
-                            && getFullScan.Tag != null
-                            && getFullScan.Antenna != null)
-                        {
-                            var logVal = $"Reader-UID: {getFullScan.Reader.UniqueId} | " +
-                                         $"Type: {getFullScan.Tag.Type} | " +
-                                         $"Mode: {getFullScan.Reader.Mode} | " +
-                                         $"Tag-UID: {getFullScan.Tag.UniqueId} | " +
-                                         $"Ant-UID: {getFullScan.Antenna.UniqueId}";
-                            _logger.LogInformation(logVal);
-                        }
+                        var logVal = $"Reader-UID: {getFullScan.Reader.UniqueId} | " +
+                                     $"Type: {getFullScan.Tag.Type} | " +
+                                     $"Mode: {getFullScan.Reader.Mode} | " +
+                                     $"Tag-UID: {getFullScan.Tag.UniqueId} | " +
+                                     $"Ant-UID: {getFullScan.Antenna.UniqueId}";
+                        _logger.LogInformation(logVal);
                     }
-                    catch (Exception e)
-                    {
-                        _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
-                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.LogCritical(e.ToString().Remove(0, e.ToString().Length) + "Unique Ignored..");
                 }
             }
         }

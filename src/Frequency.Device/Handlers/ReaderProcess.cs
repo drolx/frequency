@@ -55,7 +55,7 @@ namespace Proton.Frequency.Device.Handlers
                 ConfigKey config,
                 SerialConnection serialConnection,
                 WebSync webSync,
-                KingJoinProtocol selectedProtocol
+                IReaderProtocol selectedProtocol
         )
         {
             _config = config;
@@ -216,17 +216,23 @@ namespace Proton.Frequency.Device.Handlers
                     Task.Factory.StartNew(() => _serial.ManuallyReadData(_serialProfile, _selectedProtocol));
                 }
             }
+            else if (!DevMode && !_serialProfile.IsOpen)
+            {
+                int maxRetries = _config.IOT_SERIAL_CONN_RETRY;
+                while (maxRetries > 0)
+                {
+                    maxRetries--;
+                    serialOpen();
+                }
+            }
         }
 
         public void NetworkConnection()
-        {
-
-        }
+        { }
 
         public async Task Run()
         {
             await Task.CompletedTask;
-
         }
 
     }

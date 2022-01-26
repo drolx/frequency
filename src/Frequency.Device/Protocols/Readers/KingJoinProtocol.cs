@@ -53,7 +53,6 @@ namespace Proton.Frequency.Device.Protocols.Readers
         )
         {
             DataLength = 20;
-            _context = context;
         }
 
         public new const byte START_RESPONSE_BYTE = 0xCC;
@@ -160,16 +159,10 @@ namespace Proton.Frequency.Device.Protocols.Readers
                 LastMode = "Unknown"
             };
 
-            await using (var context = _context)
-            {
-                context.Database.EnsureCreated();
-
-                _Scan = await _request.ResolveReader(context, _Scan, _Reader);
-                _Scan = await _request.ResolveAntenna(context, _Scan, _Antenna, "ant01-" + _config.IOT_UNIQUE_ID);
-                _Scan = await _request.ResolveTag(context, _Scan, _Tag, _tagData);
-
-                _context = context;
-            }
+            _context.Database.EnsureCreated();
+            _Scan = await _request.ResolveReader(_Scan, _Reader);
+            _Scan = await _request.ResolveAntenna(_Scan, _Antenna, "ant01-" + _config.IOT_UNIQUE_ID);
+            _Scan = await _request.ResolveTag(_Scan, _Tag, _tagData);
 
             return _Scan;
 
