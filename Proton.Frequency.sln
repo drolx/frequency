@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8A44628D-C32E-483D-B2CA-0193777BEA88}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3AC094A4-56D9-4156-A242-57BA474DBC3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Terminal", "src\Frequency.Terminal\Proton.Frequency.Terminal.csproj", "{99BF19D7-5A5A-4391-9C5A-37ABFCFBFCA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Device", "src\Frequency.Device\Proton.Frequency.Device.csproj", "{61A5D6EE-5E20-4972-98B7-316FD2DCEF3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,12 +16,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{99BF19D7-5A5A-4391-9C5A-37ABFCFBFCA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99BF19D7-5A5A-4391-9C5A-37ABFCFBFCA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99BF19D7-5A5A-4391-9C5A-37ABFCFBFCA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99BF19D7-5A5A-4391-9C5A-37ABFCFBFCA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61A5D6EE-5E20-4972-98B7-316FD2DCEF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61A5D6EE-5E20-4972-98B7-316FD2DCEF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61A5D6EE-5E20-4972-98B7-316FD2DCEF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61A5D6EE-5E20-4972-98B7-316FD2DCEF3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{99BF19D7-5A5A-4391-9C5A-37ABFCFBFCA0} = {8A44628D-C32E-483D-B2CA-0193777BEA88}
+		{61A5D6EE-5E20-4972-98B7-316FD2DCEF3D} = {3AC094A4-56D9-4156-A242-57BA474DBC3B}
 	EndGlobalSection
 EndGlobal
