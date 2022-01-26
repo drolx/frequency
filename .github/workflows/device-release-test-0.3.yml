@@ -1,0 +1,65 @@
+name: Proton.Frequency.Device 0.3 release/main-branch test
+
+on:
+  push:
+    branches: [main, release-0.3*]
+  pull_request:
+    branches: [main, release-0.3*]
+
+jobs:
+  release:
+    name: Proton.Frequency.Device release/main-branch build test
+    strategy:
+      matrix:
+        kind:
+          [
+            "linux-x64",
+            "linux-arm",
+            "windows-x64",
+            "windows-arm",
+            "osx-x64",
+            "osx-arm64",
+          ]
+        include:
+          - kind: linux-x64
+            os: ubuntu-latest
+            target: linux-x64
+          - kind: linux-arm
+            os: ubuntu-latest
+            target: linux-arm
+          - kind: windows-x64
+            os: windows-latest
+            target: win-x64
+          - kind: windows-arm
+            os: windows-latest
+            target: win-arm
+          - kind: osx-x64
+            os: macos-latest
+            target: osx-x64
+          - kind: osx-arm64
+            os: macos-latest
+            target: osx-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build in release mode
+        shell: bash
+        run: |
+          # Move into working directory
+          cd src/Frequency.Device
+
+          # Build for windows, osx and linux
+          dotnet build --configuration Release --no-restore --runtime "${{ matrix.target }}" --self-contained
+
+      - name: Test in release mode
+        run: dotnet test --no-restore --verbosity normal

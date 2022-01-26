@@ -1,0 +1,78 @@
+name: Proton.Frequency.Device 0.3 Publish
+
+on:
+  release:
+    types: [published]
+    branches: [main, release-0.3*]
+
+jobs:
+  release:
+    name: Publish Proton.Frequency.Device in release mode
+    strategy:
+      matrix:
+        kind:
+          [
+            "linux-x64",
+            "linux-arm",
+            "windows-x64",
+            "windows-arm",
+            "osx-x64",
+            "osx-arm64",
+          ]
+        include:
+          - kind: linux-x64
+            os: ubuntu-latest
+            target: linux-x64
+          - kind: linux-arm
+            os: ubuntu-latest
+            target: linux-arm
+          - kind: windows-x64
+            os: windows-latest
+            target: win-x64
+          - kind: windows-arm
+            os: windows-latest
+            target: win-arm
+          - kind: osx-x64
+            os: macos-latest
+            target: osx-x64
+          - kind: osx-arm64
+            os: macos-latest
+            target: osx-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Build in release mode
+        shell: bash
+        run: |
+          tag=$(git describe --tags --abbrev=0)
+          release_name="frequency-device-bin-$tag-${{ matrix.target }}"
+
+          # Move into working directory
+          cd src/Frequency.Device
+
+          # Build for windows, osx and linux
+            dotnet publish Proton.Frequency.Device.csproj --runtime "${{ matrix.target }}" -c Release --nologo -o "$release_name" --self-contained 
+
+          # Build everything & Pack files
+          if [ "${{ matrix.target }}" == "win-x64" ]; then
+            # Pack to zip
+            7z a -tzip "${release_name}.zip" "./${release_name}/*"
+          else
+            # Pack to gzipped tar 
+            tar czvf "${release_name}.tar.gz" "$release_name"
+          fi
+          # Delete output directory
+          rm -r "$release_name"
+      - name: Publish built binaries
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "frequency-device-bin-*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

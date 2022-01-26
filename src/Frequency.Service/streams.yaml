@@ -1,9 +1,0 @@
-﻿Streams:
-  - Id: chafon-00
-    Protocol: chafon
-    Type: TCP
-    Port: 17301
-  - Id: king-join-00
-    Protocol: kingJoin
-    Type: UDP
-    Port: 17302
