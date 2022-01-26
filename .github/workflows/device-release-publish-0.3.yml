@@ -3,6 +3,7 @@ name: Proton.Frequency.Device 0.3 Publish
 on:
   release:
     types: [published]
+  push:
     branches: [main, release-0.3*]
 
 jobs:
