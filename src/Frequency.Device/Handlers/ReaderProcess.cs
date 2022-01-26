@@ -31,7 +31,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Proton.Frequency.Device.Handlers.ReaderConnections;
 using Proton.Frequency.Device.Helpers;
-using Proton.Frequency.Device.Protocols.Readers;
 using Proton.Frequency.Device.Protocols;
 
 namespace Proton.Frequency.Device.Handlers
@@ -219,20 +218,56 @@ namespace Proton.Frequency.Device.Handlers
             else if (!DevMode && !_serialProfile.IsOpen)
             {
                 int maxRetries = _config.IOT_SERIAL_CONN_RETRY;
-                while (maxRetries > 0)
+                while (maxRetries > 1)
                 {
                     maxRetries--;
                     serialOpen();
+                    await Task.Delay(2000);
                 }
+
+                /**
+                String processDirectory = System.AppContext.BaseDirectory;
+                String processPath = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+                String path = Path.Combine(processDirectory, processPath);
+                if (Path.IsPathFullyQualified(path))
+                {
+                    String escapedArgs = path.Replace("\"", "\\\"");
+                    String _filename = null;
+                    String _arguments = null;
+                    if (System.OperatingSystem.IsWindows())
+                    {
+                        _filename = "cmd.exe";
+                        _arguments = $"/c \"{escapedArgs}\"";
+                    }
+                    else
+                    {
+                        _filename = "/bin/bash";
+                        _arguments = $"-c \"{escapedArgs}\"";
+                    }
+
+                    var process = new Process()
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            FileName = _filename,
+                            Arguments = _arguments,
+                            RedirectStandardOutput = true,
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                        }
+                    };
+
+                    _logger.LogWarning("Restarting application...");
+                    process.Start();
+                    process.WaitForExit();
+                }
+                */
+
+                _logger.LogWarning("Shutting daemon process...");
+                /** System.Diagnostics.Process.Start(path); **/
+                Environment.Exit(0);
+
             }
-        }
-
-        public void NetworkConnection()
-        { }
-
-        public async Task Run()
-        {
-            await Task.CompletedTask;
         }
 
     }
