@@ -82,6 +82,7 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
                 if (portName.Contains("serial")
                    || portName.Contains("uart")
                    || portName.Contains("ttyUSB")
+                   || portName.Contains("ttyAMA")
                    || portName.Contains("COM"))
                 {
                     selectedPort = portName;
