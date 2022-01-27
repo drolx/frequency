@@ -56,8 +56,7 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
 
         public SerialPort BuildConnection()
         {
-            var portName = _config.IOT_SERIAL_PORTNAME == "null" ? SuggestPort() : _config.IOT_SERIAL_PORTNAME;
-
+            String portName = _config.IOT_SERIAL_PORTNAME == "none" ? SuggestPort() : _config.IOT_SERIAL_PORTNAME;
             var parity = Parity.None;
             var stopBits = StopBits.One;
             var srp = new SerialPort(portName, _config.IOT_SERIAL_BAUDRATE, parity, _config.IOT_SERIAL_DATABITS, stopBits)
@@ -74,9 +73,9 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
 
         public string SuggestPort()
         {
-            var selectedPort = "/dev/ttyUSB0";
+            String selectedPort = null;
             var ListConnections = ListConnection();
-            _logger.LogWarning("Incorrect port specified, Suggesting port...");
+            _logger.LogWarning("Port specified is unavailable, Suggesting port...");
             foreach (string portName in ListConnections)
             {
                 if (portName.Contains("serial")

@@ -162,7 +162,7 @@ namespace Proton.Frequency.Device.Handlers
                     {
                         var _exp = unauthorizedAccessException;
                         var condLog = _config.IOT_SERIAL_CONN_RETRY == 0 ? "retrying now." : $"retrying now, {maxRetries} remaining.";
-                        _logger.LogError($"Serial connection failed to open/read, {condLog}");
+                        _logger.LogError($"Serial in use by another process {condLog}");
                         maxRetries--;
                         retryState = retryFailedCheck;
                         Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);

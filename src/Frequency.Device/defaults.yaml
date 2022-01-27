@@ -34,7 +34,7 @@ IOTMode:
   Connections:
     Serial:
       Enable: true
-      PortName: "/dev/ttyUSB0"
+      PortName: "none"
       BaudRate: 9600
       DataBits: 8
       ConnectionRetries: 5
