@@ -25,7 +25,7 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Proton.Frequency.Device.Helpers
 {
@@ -56,7 +56,7 @@ namespace Proton.Frequency.Device.Helpers
                 {
                     if (attempted > 0)
                     {
-                        Thread.Sleep(retryInterval);
+                        Task.Delay(retryInterval);
                     }
                     return action();
                 }

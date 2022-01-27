@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Proton.Frequency.Device.Handlers.ReaderConnections;
@@ -123,7 +122,7 @@ namespace Proton.Frequency.Device.Handlers
             }
 
             // Connection state handler.
-            void serialOpen()
+            async void serialOpen()
             {
                 var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
                 var retryState = true;
@@ -165,7 +164,7 @@ namespace Proton.Frequency.Device.Handlers
                         _logger.LogError($"Serial in use by another process {condLog}");
                         maxRetries--;
                         retryState = retryFailedCheck;
-                        Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
+                        await Task.Delay(_config.IOT_SERIAL_CONN_TIMEOUT);
                     }
                     catch (Exception e)
                     {
@@ -173,7 +172,7 @@ namespace Proton.Frequency.Device.Handlers
                         _logger.LogError("Serial connection failed to open/read, retrying now.");
                         maxRetries--;
                         retryState = retryFailedCheck;
-                        Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
+                        await Task.Delay(_config.IOT_SERIAL_CONN_TIMEOUT);
                     }
 
                 }
@@ -185,7 +184,7 @@ namespace Proton.Frequency.Device.Handlers
                 byteList.RemoveRange(0, DataLength);
                 _selectedProtocol.ReceivedData = newRange.ToArray();
                 if (_config.IOT_AUTO_READ)
-                    Task.Factory.StartNew(() => _selectedProtocol.Log()).Wait();
+                    Task.Factory.StartNew(_selectedProtocol.Log);
             }
 
             // List devices
