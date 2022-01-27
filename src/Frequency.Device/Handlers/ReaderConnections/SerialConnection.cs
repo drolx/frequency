@@ -73,7 +73,7 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
 
         public string SuggestPort()
         {
-            String selectedPort = "/dev/ttyUSB0";
+            String selectedPort = null;
             var ListConnections = ListConnection();
             _logger.LogWarning("Port specified is unavailable, Suggesting port...");
             foreach (string portName in ListConnections)
