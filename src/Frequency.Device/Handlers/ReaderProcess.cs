@@ -82,7 +82,7 @@ namespace Proton.Frequency.Device.Handlers
             await Task.Factory.StartNew(() => _selectedProtocol.Log());
         }
 
-        public void StartChannel(CancellationToken stoppingToken)
+        public async Task StartChannel(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Serial port connection complete..");
             _serialProfile.DiscardInBuffer();
@@ -110,10 +110,10 @@ namespace Proton.Frequency.Device.Handlers
             kickoffRead();
 
             while (!stoppingToken.IsCancellationRequested)
-                Thread.Sleep(100);
+                await Task.Delay(100, stoppingToken);
         }
 
-        public void Initialize(CancellationToken stoppingToken)
+        public async Task Initialize(CancellationToken stoppingToken)
         {
             while (maxRetries > -1)
             {
@@ -121,7 +121,7 @@ namespace Proton.Frequency.Device.Handlers
                 {
                     _serialProfile.Open();
                     if (_serialProfile.IsOpen)
-                        StartChannel(stoppingToken);
+                        await StartChannel(stoppingToken);
                 }
                 catch (Exception exception)
                 {
@@ -132,7 +132,7 @@ namespace Proton.Frequency.Device.Handlers
                     if (isDevelopment && maxRetries == 0)
                     {
                         _logger.LogDebug("Switching to byte simulation mode...");
-                        Task.Run(async () =>
+                        await Task.Run(async () =>
                         {
                             while (!stoppingToken.IsCancellationRequested)
                             {
@@ -142,7 +142,7 @@ namespace Proton.Frequency.Device.Handlers
                         }, stoppingToken);
 
                         while (!stoppingToken.IsCancellationRequested)
-                            Thread.Sleep(100);
+                            await Task.Delay(100, stoppingToken);
                     }
                     else
                     {
@@ -152,7 +152,7 @@ namespace Proton.Frequency.Device.Handlers
                             Environment.Exit(0);
                         }
                         if (_serialProfile.IsOpen)
-                            StartChannel(stoppingToken);
+                            await StartChannel(stoppingToken);
                     }
                 }
                 maxRetries--;

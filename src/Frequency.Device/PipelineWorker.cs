@@ -29,7 +29,7 @@ namespace Proton.Frequency.Device
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Pipeline Serial conection initialization...");
-                _readerProcess.Initialize(stoppingToken);
+                await _readerProcess.Initialize(stoppingToken);
                 await Task.Delay(100);
             }
         }
