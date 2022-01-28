@@ -59,7 +59,7 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
             String portName = _config.IOT_SERIAL_PORTNAME == "none" ? SuggestPort() : _config.IOT_SERIAL_PORTNAME;
             var parity = Parity.None;
             var stopBits = StopBits.One;
-            var srp = new SerialPort(portName, _config.IOT_SERIAL_BAUDRATE, parity, _config.IOT_SERIAL_DATABITS, stopBits)
+            return new SerialPort(portName, _config.IOT_SERIAL_BAUDRATE, parity, _config.IOT_SERIAL_DATABITS, stopBits)
             {
                 DtrEnable = true,
                 RtsEnable = true,
@@ -68,12 +68,11 @@ namespace Proton.Frequency.Device.Handlers.ReaderConnections
                 Handshake = Handshake.None,
                 DiscardNull = true
             };
-            return srp;
         }
 
         public string SuggestPort()
         {
-            String selectedPort = null;
+            String selectedPort = "/dev/ttyUSB0";
             var ListConnections = ListConnection();
             _logger.LogWarning("Port specified is unavailable, Suggesting port...");
             foreach (string portName in ListConnections)

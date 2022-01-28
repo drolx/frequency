@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -30,12 +29,8 @@ namespace Proton.Frequency.Device
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Pipeline Serial conection initialization...");
-                if (_config.IOT_SERIAL_ENABLE)
-                {
-                    await _readerProcess.SerialConnection();
-                    Console.Read();
-                }
-                await Task.Delay(100, stoppingToken);
+                _readerProcess.Initialize(stoppingToken);
+                await Task.Delay(100);
             }
         }
 

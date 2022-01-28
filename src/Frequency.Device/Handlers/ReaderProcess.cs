@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,6 +33,7 @@ using Proton.Frequency.Device.Handlers.ReaderConnections;
 using Proton.Frequency.Device.Helpers;
 using Proton.Frequency.Device.Protocols;
 
+#nullable enable
 namespace Proton.Frequency.Device.Handlers
 {
     public class ReaderProcess
@@ -41,13 +42,15 @@ namespace Proton.Frequency.Device.Handlers
         private readonly ILogger<ReaderProcess> _logger;
         private readonly SerialConnection _serial;
         private readonly WebSync _webSync;
-        private readonly SerialPort _serialProfile;
+        private SerialPort _serialProfile;
         private IReaderProtocol _selectedProtocol;
+        private int blockLimit;
+        private int maxRetries;
 
 #if DEBUG
-        private bool DevMode = true;
+        private bool isDevelopment = true;
 #else
-        private bool DevMode = false;
+        private bool isDevelopment = false;
 #endif
         public ReaderProcess(
                 ILogger<ReaderProcess> logger,
@@ -63,212 +66,98 @@ namespace Proton.Frequency.Device.Handlers
             _webSync = webSync;
             _serialProfile = _serial.BuildConnection();
             _selectedProtocol = selectedProtocol;
+            blockLimit = 100;
+            maxRetries = _config.IOT_SERIAL_CONN_RETRY - 1;
         }
 
-        public async Task SerialConnection()
+        private void handleAppSerialError(Exception exception)
         {
-            // Thread maintenance Timer.
-            await Task.Run(() =>
+            var error = $"{exception.Message}";
+            _logger.LogError("Serial Error");
+        }
+
+        private async void raiseAppSerialDataEvent(byte[] received)
+        {
+            _selectedProtocol.ReceivedData = received;
+            await Task.Factory.StartNew(() => _selectedProtocol.Log());
+        }
+
+        public void StartChannel(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation("Serial port connection complete..");
+            _serialProfile.DiscardInBuffer();
+            _serialProfile.DiscardOutBuffer();
+            byte[] buffer = new byte[blockLimit];
+            Action? kickoffRead = null;
+            kickoffRead = delegate
             {
-                var sectCheck = new System.Timers.Timer { Interval = 85000, AutoReset = true, Enabled = true };
-                sectCheck.Elapsed += OnTimedEvent;
-
-                void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
-                {
-                    Task.Factory.StartNew(() =>
-                        _logger.LogInformation("*****   Reader Thread Maintenance..   *****"));
-                }
-            });
-
-
-            // Data received handler method.
-            int DataLength = _selectedProtocol.DataLength;
-            List<byte> byteList = new List<byte>();
-
-            void DataReceivedHandler(
-                object sender,
-                SerialDataReceivedEventArgs e)
-            {
-                SerialPort port = (SerialPort)sender;
-                var internalBytes = new byte[port.BytesToRead];
-
-                if (port.IsOpen)
+                _serialProfile.BaseStream.BeginRead(buffer, 0, buffer.Length, delegate (IAsyncResult ar)
                 {
                     try
                     {
-                        port.Read(internalBytes, 0, internalBytes.Length);
-                        byteList.AddRange(internalBytes);
-                        if (byteList.Count <= DataLength)
+                        int actualLength = _serialProfile.BaseStream.EndRead(ar);
+                        byte[] received = new byte[actualLength];
+                        Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
+                        raiseAppSerialDataEvent(received);
+                    }
+                    catch (IOException exception)
+                    {
+                        handleAppSerialError(exception);
+                    }
+                    kickoffRead!();
+                }, null);
+            };
+            kickoffRead();
+
+            while (!stoppingToken.IsCancellationRequested)
+                Thread.Sleep(100);
+        }
+
+        public void Initialize(CancellationToken stoppingToken)
+        {
+            while (maxRetries > -1)
+            {
+                try
+                {
+                    _serialProfile.Open();
+                    if (_serialProfile.IsOpen)
+                        StartChannel(stoppingToken);
+                }
+                catch (Exception exception)
+                {
+                    var error = $"{exception.Message}";
+                    var retryLogOutput = $"retrying now, {maxRetries} remaining.";
+                    _logger.LogError($"Connection failed {retryLogOutput}");
+
+                    if (isDevelopment && maxRetries == 0)
+                    {
+                        _logger.LogDebug("Switching to byte simulation mode...");
+                        Task.Run(async () =>
                         {
-                            Task.Factory.StartNew(HandleSerialList);
-                        }
-                        else
-                        {
-                            if (byteList.Count > DataLength + 3)
+                            while (!stoppingToken.IsCancellationRequested)
                             {
-                                byteList.Clear();
+                                await Task.Run(() => _serial.ManuallyReadData(_serialProfile, _selectedProtocol), stoppingToken);
+                                await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
                             }
-                            else
-                            {
-                                byteList.RemoveRange(0, byteList.Count - DataLength);
-                            }
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        _logger.LogError(exception.ToString());
-                    }
-                }
+                        }, stoppingToken);
 
-            }
-
-            // Connection state handler.
-            void serialOpen()
-            {
-                var maxRetries = _config.IOT_SERIAL_CONN_RETRY;
-                var retryState = true;
-                var retryFailedCheck = true;
-                // Failure handler start process
-                while (retryState)
-                {
-                    try
-                    {
-                        if (maxRetries > 0 || _config.IOT_SERIAL_CONN_RETRY == 0)
-                        {
-                            retryState = false;
-                            retryFailedCheck = true;
-                        }
-                        else
-                        {
-                            retryFailedCheck = false;
-                        }
-
-                        if (_serialProfile.IsOpen && _serialProfile != null)
-                        {
-                            _serialProfile.Close();
-                            _serialProfile.Dispose();
-                        }
-                        _serialProfile.Open();
-
-                        if (_serialProfile.IsOpen)
-                        {
-                            _logger.LogInformation("Serial connection opened successfully..");
-                        }
-                        _serialProfile.DiscardInBuffer();
-                        _serialProfile.DiscardOutBuffer();
-
-                    }
-                    catch (UnauthorizedAccessException unauthorizedAccessException)
-                    {
-                        var _exp = unauthorizedAccessException;
-                        var condLog = _config.IOT_SERIAL_CONN_RETRY == 0 ? "retrying now." : $"retrying now, {maxRetries} remaining.";
-                        _logger.LogError($"Serial in use by another process {condLog}");
-                        maxRetries--;
-                        retryState = retryFailedCheck;
-                        Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
-                    }
-                    catch (Exception e)
-                    {
-                        var _exp = e;
-                        _logger.LogError("Serial connection failed to open/read, retrying now.");
-                        maxRetries--;
-                        retryState = retryFailedCheck;
-                        Thread.Sleep(_config.IOT_SERIAL_CONN_TIMEOUT);
-                    }
-
-                }
-            }
-
-            void HandleSerialList()
-            {
-                var newRange = byteList.GetRange(0, DataLength);
-                byteList.RemoveRange(0, DataLength);
-                _selectedProtocol.ReceivedData = newRange.ToArray();
-                if (_config.IOT_AUTO_READ)
-                    Task.Factory.StartNew(() => _selectedProtocol.Log()).Wait();
-            }
-
-            // List devices
-            _serial.ShowPorts();
-            _serialProfile.DataReceived += DataReceivedHandler;
-
-            _logger.LogInformation("Opening new serial connection...");
-
-            // Start Serial connection.
-            serialOpen();
-
-            // Development test for hard-coded Hex values.
-            if (DevMode && !_serialProfile.IsOpen || !_selectedProtocol.AutoRead)
-            {
-                var TimerLimit = 1500;
-                if (DevMode)
-                {
-                    _logger.LogDebug("Switching to byte simulation mode...");
-                    TimerLimit = 12000;
-                }
-                var devTest = new System.Timers.Timer { Interval = TimerLimit, AutoReset = true, Enabled = true };
-                devTest.Enabled = true;
-                devTest.Elapsed += OnDevTest;
-
-                void OnDevTest(Object source, System.Timers.ElapsedEventArgs e)
-                {
-                    Task.Factory.StartNew(() => _serial.ManuallyReadData(_serialProfile, _selectedProtocol));
-                }
-            }
-            else if (!DevMode && !_serialProfile.IsOpen)
-            {
-                int maxRetries = _config.IOT_SERIAL_CONN_RETRY;
-                while (maxRetries > 1)
-                {
-                    maxRetries--;
-                    serialOpen();
-                    await Task.Delay(2000);
-                }
-
-                /**
-                String processDirectory = System.AppContext.BaseDirectory;
-                String processPath = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
-                String path = Path.Combine(processDirectory, processPath);
-                if (Path.IsPathFullyQualified(path))
-                {
-                    String escapedArgs = path.Replace("\"", "\\\"");
-                    String _filename = null;
-                    String _arguments = null;
-                    if (System.OperatingSystem.IsWindows())
-                    {
-                        _filename = "cmd.exe";
-                        _arguments = $"/c \"{escapedArgs}\"";
+                        while (!stoppingToken.IsCancellationRequested)
+                            Thread.Sleep(100);
                     }
                     else
                     {
-                        _filename = "/bin/bash";
-                        _arguments = $"-c \"{escapedArgs}\"";
-                    }
-
-                    var process = new Process()
-                    {
-                        StartInfo = new ProcessStartInfo
+                        if (maxRetries == 0)
                         {
-                            FileName = _filename,
-                            Arguments = _arguments,
-                            RedirectStandardOutput = true,
-                            UseShellExecute = false,
-                            CreateNoWindow = true,
+                            _logger.LogError("Max retries reached, terminating...");
+                            Environment.Exit(0);
                         }
-                    };
-
-                    _logger.LogWarning("Restarting application...");
-                    process.Start();
-                    process.WaitForExit();
+                        if (_serialProfile.IsOpen)
+                            StartChannel(stoppingToken);
+                    }
                 }
-                */
-
-                _logger.LogWarning("Shutting daemon process...");
-                /** System.Diagnostics.Process.Start(path); **/
-                Environment.Exit(0);
-
+                maxRetries--;
+                Task.Delay(_config.IOT_SERIAL_CONN_TIMEOUT).Wait();
             }
         }
-
     }
 }
