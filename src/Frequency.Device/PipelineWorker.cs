@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -24,14 +25,25 @@ namespace Proton.Frequency.Device
             _readerProcess = readerProcess;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Pipeline Serial conection initialization...");
-                await _readerProcess.Initialize(stoppingToken);
-                await Task.Delay(100);
+
+                try
+                {
+                    _readerProcess.Initialize(stoppingToken).Wait(stoppingToken);
+                    Task.Delay(TimeSpan.FromSeconds(10)).Wait(stoppingToken);
+                }
+                catch (Exception e)
+                {
+                    var error = $"{e.Message}";
+                    _logger.LogInformation($"Focefully exiting current process...");
+                }
             }
+
+            return Task.CompletedTask;
         }
 
         public override async Task StopAsync(CancellationToken stoppingToken)

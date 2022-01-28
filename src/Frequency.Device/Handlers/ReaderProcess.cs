@@ -121,10 +121,15 @@ namespace Proton.Frequency.Device.Handlers
                 {
                     _serialProfile.Open();
                     if (_serialProfile.IsOpen)
-                        await StartChannel(stoppingToken);
+                        try { StartChannel(stoppingToken).Wait(stoppingToken); }
+                        catch (Exception exception)
+                        {
+                            var error = $"{exception.Message}";
+                        }
                 }
                 catch (Exception exception)
                 {
+                    if (stoppingToken.IsCancellationRequested) return;
                     var error = $"{exception.Message}";
                     var retryLogOutput = $"retrying now, {maxRetries} remaining.";
                     _logger.LogError($"Connection failed {retryLogOutput}");
@@ -152,11 +157,15 @@ namespace Proton.Frequency.Device.Handlers
                             Environment.Exit(0);
                         }
                         if (_serialProfile.IsOpen)
-                            await StartChannel(stoppingToken);
+                            try { StartChannel(stoppingToken).Wait(stoppingToken); }
+                            catch (Exception ex)
+                            {
+                                var err = $"{ex.Message}";
+                            }
                     }
                 }
                 maxRetries--;
-                Task.Delay(_config.IOT_SERIAL_CONN_TIMEOUT).Wait();
+                await Task.Delay(_config.IOT_SERIAL_CONN_TIMEOUT, stoppingToken);
             }
         }
     }
