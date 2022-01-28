@@ -44,8 +44,9 @@ namespace Proton.Frequency.Device.Handlers
         private readonly WebSync _webSync;
         private SerialPort _serialProfile;
         private IReaderProtocol _selectedProtocol;
-        private int blockLimit;
-        private int maxRetries;
+        private int _protocolDataLength;
+        private int _serialBlockLimit;
+        private int _serialMaxRetries;
 
 #if DEBUG
         private bool isDevelopment = true;
@@ -66,20 +67,61 @@ namespace Proton.Frequency.Device.Handlers
             _webSync = webSync;
             _serialProfile = _serial.BuildConnection();
             _selectedProtocol = selectedProtocol;
-            blockLimit = 100;
-            maxRetries = _config.IOT_SERIAL_CONN_RETRY - 1;
+            _protocolDataLength = _selectedProtocol.DataLength;
+            _serialBlockLimit = 2048;
+            _serialMaxRetries = _config.IOT_SERIAL_CONN_RETRY - 1;
         }
 
         private void handleAppSerialError(Exception exception)
         {
-            var error = $"{exception.Message}";
             _logger.LogError("Serial Error");
+            _logger.LogDebug($"Error: {exception}");
         }
 
         private async void raiseAppSerialDataEvent(byte[] received)
         {
-            _selectedProtocol.ReceivedData = received;
-            await Task.Factory.StartNew(() => _selectedProtocol.Log());
+            if (received.Length == _protocolDataLength)
+            {
+                try
+                {
+                    _selectedProtocol.ReceivedData = received;
+                    await Task.Factory.StartNew(() => _selectedProtocol.Log());
+                }
+                catch (Exception exception)
+                {
+                    _logger.LogError("Single scan process failed to complete..");
+                    _logger.LogDebug($"Error: {exception}");
+                }
+            }
+            else
+            {
+                int dataLength = received.Length;
+                float dataCount = (float)dataLength / (float)_protocolDataLength;
+                byte[] chunkBuffer;
+                if (received.Length % _protocolDataLength == 0)
+                {
+                    try
+                    {
+                        Task.Factory.StartNew(async () =>
+                            {
+                                for (int i = 0; i < received.Length; i += _protocolDataLength)
+                                {
+                                    chunkBuffer = new byte[_protocolDataLength];
+                                    Array.Copy(received, i, chunkBuffer, 0, _protocolDataLength);
+                                    _selectedProtocol.ReceivedData = chunkBuffer;
+                                    await _selectedProtocol.Log();
+                                    await Task.Delay(20);
+                                }
+                            }).Wait();
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.LogError("Large pool process failed to complete..");
+                        _logger.LogDebug($"Error: {exception}");
+                    }
+                }
+            }
+
         }
 
         public async Task StartChannel(CancellationToken stoppingToken)
@@ -87,7 +129,7 @@ namespace Proton.Frequency.Device.Handlers
             _logger.LogInformation("Serial port connection complete..");
             _serialProfile.DiscardInBuffer();
             _serialProfile.DiscardOutBuffer();
-            byte[] buffer = new byte[blockLimit];
+            byte[] buffer = new byte[_serialBlockLimit];
             Action? kickoffRead = null;
             kickoffRead = delegate
             {
@@ -115,7 +157,7 @@ namespace Proton.Frequency.Device.Handlers
 
         public async Task Initialize(CancellationToken stoppingToken)
         {
-            while (maxRetries > -1)
+            while (_serialMaxRetries > -1)
             {
                 try
                 {
@@ -124,17 +166,17 @@ namespace Proton.Frequency.Device.Handlers
                         try { StartChannel(stoppingToken).Wait(stoppingToken); }
                         catch (Exception exception)
                         {
-                            var error = $"{exception.Message}";
+                            _logger.LogDebug($"Error: {exception.Message}");
                         }
                 }
                 catch (Exception exception)
                 {
                     if (stoppingToken.IsCancellationRequested) return;
-                    var error = $"{exception.Message}";
-                    var retryLogOutput = $"retrying now, {maxRetries} remaining.";
+                    var retryLogOutput = $"retrying now, {_serialMaxRetries} remaining.";
                     _logger.LogError($"Connection failed {retryLogOutput}");
+                    _logger.LogDebug($"Error: {exception.Message}");
 
-                    if (isDevelopment && maxRetries == 0)
+                    if (isDevelopment && _serialMaxRetries == 0)
                     {
                         _logger.LogDebug("Switching to byte simulation mode...");
                         await Task.Run(async () =>
@@ -151,7 +193,7 @@ namespace Proton.Frequency.Device.Handlers
                     }
                     else
                     {
-                        if (maxRetries == 0)
+                        if (_serialMaxRetries == 0)
                         {
                             _logger.LogError("Max retries reached, terminating...");
                             Environment.Exit(0);
@@ -160,11 +202,11 @@ namespace Proton.Frequency.Device.Handlers
                             try { StartChannel(stoppingToken).Wait(stoppingToken); }
                             catch (Exception ex)
                             {
-                                var err = $"{ex.Message}";
+                                _logger.LogDebug($"Error: {ex.Message}");
                             }
                     }
                 }
-                maxRetries--;
+                _serialMaxRetries--;
                 await Task.Delay(_config.IOT_SERIAL_CONN_TIMEOUT, stoppingToken);
             }
         }
