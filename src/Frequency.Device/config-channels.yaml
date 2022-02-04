@@ -1,9 +1,27 @@
 ﻿Channel:
-  - Id: chafon-00
+  - Name: reader-serial-00
+    Type: Serial
     Protocol: chafon
+    Host: "/dev/ttyUSB0"
+    Attributes:
+      { Rate: 9600, DataBits: 8, Parity: None, StopBits: One, Handshake: None }
+  - Name: reader-net-00
     Type: TCP
-    Port: 17301
-  - Id: king-join-00
-    Protocol: kingJoin
+    Protocol: chafon
+    Host: "0.0.0.0"
+    Attributes: { Port: 17301 }
+  - Name: reader-net-01
     Type: UDP
-    Port: 17302
+    Protocol: king-join
+    Host: "0.0.0.0"
+    Attributes: { Port: 17302, Server: true }
+  - Name: reader-nfc-00
+    Type: TCP
+    Protocol: dev-type
+    Host: frequency.test
+    Attributes: { Port: 50020, Server: true }
+  - Name: reader-client-00
+    Type: HTTP
+    Protocol: dev-type
+    Host: frequency.test
+    Attributes: { Port: 50010 }

@@ -1,13 +1,16 @@
 ### Frequency.Device default options #####
-
-## Hub | Server | Both
-Mode: Hub
-
 Logging:
   LogLevel:
     Default: Information
     Microsoft: Information
     Microsoft.AspNetCore: Warning
+
+AllowedHosts: "*"
+
+Kestrel:
+  EndPoints:
+    Http:
+      Url: "http://localhost:5010"
 
 ## Database configuration
 Database:
@@ -17,50 +20,19 @@ Database:
   Persist: true
   PersistDuration: 86400
 
+## IOT Terminal mode
+Device:
+  Auto: false
+  Connections:
+    Retries: 5
+    Timeout: 3
+
 ## Card configuration
 Cards:
   Allowed:
     - EPC-GEN1
     - EPC-GEN2
     - ISO1800-6B
-  TruncateNumber: 0
-  MaximumLength: 24
-  SessionTimeout: 300
-
-## Central Server mode
-Server:
-  Store: true
-  Forward: false
-
-## IOT Terminal mode
-Terminal:
-  Auto: true
-  Store: true
-  Forward: true
-  Protocol: KingJoin
-  MinFrequency: 120
-  PersistDuration: 86400
-  Connections:
-    Retries: 5
-    Timeout: 3
-    ## Serial | Network | Both
-    Type: Serial
-    Serial:
-      Enable: true
-      Id: terminal-serial-00
-      ## Common serial port defaults
-      # Win: COM5 | Linux: /dev/ttyUSB0 | OsX: /dev/tty.usbserial-*
-      PortName: "/dev/ttyUSB0"
-      BaudRate: 9600
-      DataBits: 8
-      BlockLimit: 100
-    ## Hub ethernet configurations
-    Stream:
-      Enable: false
-      Id: terminal-stream-00
-      Type: TCP
-      Address: frequency.test
-      Port: 56000
 
 ## Web forwarding configuration
 Forward:
@@ -71,7 +43,7 @@ Forward:
   Auth: false
   Username: ""
   Password: ""
-  CheckFrequency: 15
+  Frequency: 15
   Timeout: 3
   Retry: 5
   Buffer: 10
@@ -79,7 +51,7 @@ Forward:
   Network:
     Verify: true
     Ping: google.com
-    Timeout: 100
+    Timeout: 5
 
 Management:
   Host: "frequency.test"

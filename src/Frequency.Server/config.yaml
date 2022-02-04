@@ -2,9 +2,10 @@
   LogLevel:
     Default: Information
     Microsoft.AspNetCore: Warning
-AllowedHosts: '*'
+
+AllowedHosts: "*"
 
 Kestrel:
   EndPoints:
     Http:
-      Url: 'http://localhost:5270'
+      Url: "http://localhost:5000"
