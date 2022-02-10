@@ -43,8 +43,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Update="config-defaults.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config-channels.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.main.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.serial.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
