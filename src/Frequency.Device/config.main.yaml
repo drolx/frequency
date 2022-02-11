@@ -1,16 +1,24 @@
 ### Frequency.Device default options #####
+
+AllowedHosts: "*"
+
 Logging:
   LogLevel:
     Default: Information
     Microsoft: Information
     Microsoft.AspNetCore: Warning
 
-AllowedHosts: "*"
-
 Kestrel:
   EndPoints:
     Http:
       Url: "http://localhost:5010"
+
+Management:
+  Host: "frequency.test/api"
+  Port: 8080
+  EndPoints:
+    Config: "management/config"
+    StateSync: "management/state"
 
 ## Database configuration
 Database:
@@ -20,7 +28,7 @@ Database:
   Persist: true
   PersistDuration: 86400
 
-## IOT Terminal mode
+## IOT Node defaults
 Device:
   Auto: false
   Connections:
@@ -28,7 +36,8 @@ Device:
     Timeout: 3
 
 ## Card configuration
-Cards:
+Card:
+  MaxLength: 256
   Allowed:
     - EPC-GEN1
     - EPC-GEN2
@@ -37,14 +46,14 @@ Cards:
 ## Web forwarding configuration
 Forward:
   Enable: true
-  ## 'http://frequency.test:40440/service/api/v1/log?id={terminal.id}&tag-id={tag.id}'
+  ## http://frequency.test:40440/service/api/v1/log?id={terminal.id}&tag-id={tag.id}
   Path: "http://frequency.test:40440/service/api/v1/log"
   Method: POST
   Auth:
     Type: Basic
     Username: test
     Password: test
-    Token: xxxxx-xxxx-xxxx
+    Token: xxxx-xxxx-xxxx-xxxx
   Frequency: 15
   Timeout: 3
   Retry: 5
@@ -54,10 +63,3 @@ Forward:
     Verify: true
     Ping: google.com
     Timeout: 5
-
-Management:
-  Host: "frequency.test/api"
-  Port: 8080
-  EndPoints:
-    Config: "management/config"
-    StateSync: "management/state"
