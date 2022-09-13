@@ -30,10 +30,6 @@ jobs:
         with:
           dotnet-version: "7.0.x"
           include-prerelease: true
-      - name: Install .NET 6.0
-        uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: "6.0.x"
 
       - name: Install dependencies
         run: dotnet restore
@@ -41,8 +37,4 @@ jobs:
       - name: Build  and test in development mode
         shell: bash
         run: |
-          dotnet tool restore
           dotnet build
-
-                #   run: dotnet test --no-restore --verbosity normal
-                #   run: dotnet test --no-restore --verbosity normal
