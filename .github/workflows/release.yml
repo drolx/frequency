@@ -41,4 +41,4 @@ jobs:
         shell: bash
         run: |
           dotnet tool restore
-          dotnet r publish
+          dotnet dotnet-releaser publish --force --github-token "${{secrets.GITHUB_TOKEN}}" dotnet-releaser.toml
