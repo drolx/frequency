@@ -22,8 +22,8 @@ jobs:
       - name: Setup required packages
         shell: bash
         run: |
-          apt-get update
-          apt-get install -y wget curl libicu-dev
+          sudo apt-get update
+          sudo apt-get install -y wget curl libicu-dev
 
       - name: Install .NET 7.0
         uses: actions/setup-dotnet@v2
