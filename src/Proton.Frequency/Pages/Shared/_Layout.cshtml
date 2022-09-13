@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Proton Frequency</title>
+    <link rel="stylesheet" href="~/lib/uikit/css/uikit.min.css" />
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Proton.Frequency.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <!-- App layouts -->
+    <div>
+        @RenderBody()
+    </div>
+    <!-- UIkit JS -->
+    <script src="~/lib/uikit/js/uikit.min.js"></script>
+    <script src="~/lib/uikit/js/uikit-icons.min.js"></script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

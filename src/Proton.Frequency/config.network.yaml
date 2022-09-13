@@ -1,0 +1,25 @@
+﻿network:
+  - Name: reader-net-00
+    Protocol: TCP
+    Server: false
+    Type: chafon
+    Host: 0.0.0.0
+    Port: 17301
+  - Name: reader-net-01
+    Protocol: UDP
+    Server: true
+    Type: king-join
+    Host: 0.0.0.0
+    Port: 17302
+  - Name: reader-nfc-00
+    Protocol: UDP
+    Server: true
+    Type: king-join
+    Host: frequency.test
+    Port: 50020
+  - Name: reader-client-00
+    Protocol: HTTP
+    Server: false
+    Type: custom-0
+    Host: frequency.test
+    Port: 8080

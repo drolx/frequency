@@ -37,10 +37,6 @@
     <Title>Proton Frequency Server</Title>
     <Description>This is a UHF RFID cli daemon for desktop OS / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Frequency.Common\Proton.Frequency.Common.csproj" />
-  </ItemGroup>
   
   <ItemGroup>
     <None Update="config.main.yaml" CopyToOutputDirectory="PreserveNewest" />

@@ -9,15 +9,15 @@ Support is available for the devices listed below with link of device details or
 ### Build for Specific OS
 
 ```bash
-dotnet publish --nologo -c Release -r linux-x64 --self-contained 
+dotnet publish --nologo -c Release -r linux-x64 --self-contained
 ```
 
 ```bash
-dotnet publish --nologo -c Release -r win-x64 --self-contained 
+dotnet publish --nologo -c Release -r win-x64 --self-contained
 ```
 
 ```bash
-dotnet publish --nologo -c Release -r osx-x64 --self-contained 
+dotnet publish --nologo -c Release -r osx-x64 --self-contained
 ```
 
 ### For Configuration override on excecution run this:
@@ -32,9 +32,19 @@ dotnet publish --nologo -c Release -r osx-x64 --self-contained
 ./proton-frequency --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
 ```
 
+## Devices/Protocol configurations
+
+### King Join Protocol
+
+##### `Prameters:`
+
+### Chafon Protocol
+
+##### `Prameters:`
+
 ## Lincense
 
-Copyright (c) 2022 Godwin peter .O
+Copyright (c) 2022 <Godwin peter .O>me@godwin.dev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction

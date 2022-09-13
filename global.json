@@ -1,0 +1,16 @@
+{
+  "sdk": {
+    "version": "7.0.100-preview.7.22377.5",
+    "rollForward": "latestPatch",
+    "allowPrerelease": true
+  },
+  "scripts": {
+    "dev": "dotnet watch --project src/Proton.Frequency/",
+    "run": "dotnet run --project src/Proton.Frequency/",
+    "build": "dotnet build --configuration Release",
+    "test": "dotnet test src/Proton.Frequency/ --configuration Release",
+    "package": "dotnet pack src/Proton.Frequency/ --configuration Release --no-build --output ./artifacts/",
+    "release": "dotnet-releaser build --force dotnet-releaser.toml",
+    "publish": "dotnet-releaser publish --force --github-token \"${{secrets.GITHUB_TOKEN}}\" dotnet-releaser.toml"
+  }
+}
