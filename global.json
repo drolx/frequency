@@ -10,7 +10,7 @@
     "build": "dotnet build --configuration Release",
     "test": "dotnet test src/Proton.Frequency/ --configuration Release",
     "package": "dotnet pack src/Proton.Frequency/ --configuration Release --no-build --output ./artifacts/",
-    "release": "dotnet-releaser build --force dotnet-releaser.toml",
-    "publish": "dotnet-releaser publish --force --github-token \"${{secrets.GITHUB_TOKEN}}\" dotnet-releaser.toml"
+    "release": "dotnet dotnet-releaser build --force dotnet-releaser.toml",
+    "publish": "dotnet dotnet-releaser publish --force --github-token \"${{secrets.GITHUB_TOKEN}}\" dotnet-releaser.toml"
   }
 }
