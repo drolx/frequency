@@ -1,0 +1,43 @@
+name: Proton.Frequency dev  branchs test
+
+on:
+  push:
+    branches: [dev-*]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: Setup required packages
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget curl libicu-dev
+
+      - name: Install .NET 7.0
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: "7.0.x"
+          include-prerelease: true
+      - name: Install .NET 6.0
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build  and test in development mode
+        shell: bash
+        run: |
+          dotnet tool restore
+          dotnet build
+
+                #   run: dotnet test --no-restore --verbosity normal
+                #   run: dotnet test --no-restore --verbosity normal
