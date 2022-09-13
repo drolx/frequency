@@ -24,7 +24,6 @@ test-results/
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -409,3 +408,6 @@ ASALocalRun/
 
 app.db*
 mono_crash.*
+*.min.js
+*.min.css
+lib

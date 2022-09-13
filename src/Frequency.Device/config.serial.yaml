@@ -1,0 +1,17 @@
+﻿serial:
+  - Name: reader-serial-00
+    Protocol: chafon
+    Type: /dev/ttyUSB0
+    Rate: 9600
+    DataBits: 8
+    Parity: None
+    StopBits: One
+    Handshake: None
+  - Name: reader-serial-01
+    Protocol: king-join
+    Type: /dev/ttyAMC0
+    Rate: 11520
+    DataBits: 8
+    Parity: None
+    StopBits: One
+    Handshake: None

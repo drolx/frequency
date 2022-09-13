@@ -1,53 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32113.165
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3D070037-5050-4D90-9B8C-D03FAB428521}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{296BE3B3-4953-426D-8F3A-2522F540057A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency.Common", "src\Frequency.Common\Proton.Frequency.Common.csproj", "{A87A9CB5-BFCD-4F28-90A9-17B062E8D912}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EFDB1A06-13EF-4991-AD6A-B4C9B0EDFD71}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency.Tests", "tests\Frequency.Tests\Proton.Frequency.Tests.csproj", "{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Server", "src\Frequency.Server\Proton.Frequency.Server.csproj", "{B207E352-7D8F-4143-A391-579C9843C92F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Device", "src\Frequency.Device\Proton.Frequency.Device.csproj", "{86F2D32C-AE99-4105-B530-1FCA5D494540}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency", "src\Proton.Frequency\Proton.Frequency.csproj", "{12303BC3-5244-446A-B2FF-2344B75521A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A87A9CB5-BFCD-4F28-90A9-17B062E8D912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A87A9CB5-BFCD-4F28-90A9-17B062E8D912}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A87A9CB5-BFCD-4F28-90A9-17B062E8D912}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A87A9CB5-BFCD-4F28-90A9-17B062E8D912}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B207E352-7D8F-4143-A391-579C9843C92F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B207E352-7D8F-4143-A391-579C9843C92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B207E352-7D8F-4143-A391-579C9843C92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B207E352-7D8F-4143-A391-579C9843C92F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86F2D32C-AE99-4105-B530-1FCA5D494540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86F2D32C-AE99-4105-B530-1FCA5D494540}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86F2D32C-AE99-4105-B530-1FCA5D494540}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86F2D32C-AE99-4105-B530-1FCA5D494540}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A87A9CB5-BFCD-4F28-90A9-17B062E8D912} = {3D070037-5050-4D90-9B8C-D03FAB428521}
-		{CC12FDC5-AFAB-4213-90BD-8CAAC7BF87C5} = {EFDB1A06-13EF-4991-AD6A-B4C9B0EDFD71}
-		{B207E352-7D8F-4143-A391-579C9843C92F} = {3D070037-5050-4D90-9B8C-D03FAB428521}
-		{86F2D32C-AE99-4105-B530-1FCA5D494540} = {3D070037-5050-4D90-9B8C-D03FAB428521}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12303BC3-5244-446A-B2FF-2344B75521A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12303BC3-5244-446A-B2FF-2344B75521A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12303BC3-5244-446A-B2FF-2344B75521A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12303BC3-5244-446A-B2FF-2344B75521A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8DDA2FCB-F056-45B5-B072-634E9D8A349B}
+	GlobalSection(NestedProjects) = preSolution
+		{12303BC3-5244-446A-B2FF-2344B75521A1} = {296BE3B3-4953-426D-8F3A-2522F540057A}
 	EndGlobalSection
 EndGlobal

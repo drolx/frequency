@@ -1,0 +1,5 @@
+[msbuild]
+project = "src/Proton.Frequency/Proton.Frequency.csproj"
+[github]
+user = "gpproton"
+repo = "Proton.Frequency"
