@@ -1,3 +1,5 @@
+artifacts_folder = ".release"
+profile = "default"
 [msbuild]
 project = "src/Proton.Frequency/Proton.Frequency.csproj"
 configuration = "Release"
@@ -10,6 +12,8 @@ SelfContained = true
 user = "gpproton"
 repo = "Proton.Frequency"
 branches = ["main"]
+[nuget]
+publish = false
 [[pack]]
 publish = true
 rid = ["linux-x64", "linux-arm", "linux-arm64"]
@@ -23,6 +27,9 @@ publish = true
 rid = ["win-x64", "win-arm64"]
 kinds = ["zip"]
 
-# Add dependencies
+# Add debian dependencies
 [[deb.depends]]
 name = ["wget", "curl", "libicu-dev"]
+
+[service]
+publish = true
