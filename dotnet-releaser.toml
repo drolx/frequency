@@ -1,5 +1,28 @@
 [msbuild]
 project = "src/Proton.Frequency/Proton.Frequency.csproj"
+configuration = "Release"
+[msbuild.properties]
+PublishReadyToRun = true
+PublishTrimmed = true
+PublishSingleFile = true
+SelfContained = true
 [github]
 user = "gpproton"
 repo = "Proton.Frequency"
+branches = ["main"]
+[[pack]]
+publish = true
+rid = ["linux-x64", "linux-arm", "linux-arm64"]
+kinds = ["deb", "tar"]
+[[pack]]
+publish = false
+rid = ["rhel-x64"]
+kinds = ["rpm"]
+[[pack]]
+publish = true
+rid = ["win-x64", "win-arm64"]
+kinds = ["zip"]
+
+# Add dependencies
+[[deb.depends]]
+name = ["wget", "curl", "libicu-dev"]
