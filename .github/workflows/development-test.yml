@@ -3,6 +3,11 @@ name: Proton.Frequency dev  branchs test
 on:
   push:
     branches: [dev-*]
+    paths-ignore:
+      - "docs/**"
+      - ".config/**"
+      - "CHANGELOG.md"
+      - "README.md"
 
 jobs:
   build:
