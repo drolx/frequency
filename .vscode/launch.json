@@ -6,10 +6,11 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Proton.Frequency/bin/Debug/net7.0/proton-frequency.dll",
+            "program": "${workspaceRoot}/src/Proton.Frequency/bin/Debug/net7.0/linux-x64/proton-frequency.dll",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceRoot}/src/Proton.Frequency/",
             "stopAtEntry": false,
+            "console": "internalConsole",
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
@@ -18,7 +19,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+                "/Views": "${workspaceRoot}/Views"
             }
         }
 
