@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/uhf_rfid_catch.csproj",
+                "${workspaceFolder}/src/Proton.Frequency/Proton.Frequency.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,19 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/uhf_rfid_catch.csproj",
+                "${workspaceFolder}/src/Proton.Frequency/Proton.Frequency.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "run",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "${workspaceFolder}/src/Proton.Frequency/Proton.Frequency.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -31,8 +43,7 @@
             "type": "process",
             "args": [
                 "watch",
-                "run",
-                "${workspaceFolder}/uhf_rfid_catch.csproj",
+                "${workspaceFolder}/src/Proton.Frequency/Proton.Frequency.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
