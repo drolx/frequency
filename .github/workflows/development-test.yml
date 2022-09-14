@@ -1,4 +1,4 @@
-name: Proton.Frequency dev  branchs test
+name: Proton.Frequency dev branchs test
 
 on:
   push:
