@@ -20,10 +20,10 @@
         "dotnet-ef"
       ]
     },
-    "dotnet-script": {
-      "version": "1.3.1",
+    "run-script": {
+      "version": "0.4.0",
       "commands": [
-        "dotnet-script"
+        "r"
       ]
     }
   }
