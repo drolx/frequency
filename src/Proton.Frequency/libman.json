@@ -3,13 +3,26 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "uikit@3.15.6",
+      "library": "bootstrap@5.2.0",
+      "destination": "wwwroot/lib/bootstrap",
       "files": [
-        "css/uikit.min.css",
-        "js/uikit.min.js",
-        "js/uikit-icons.min.js"
-      ],
-      "destination": "wwwroot/lib/uikit/"
+        "js/bootstrap.bundle.js",
+        "js/bootstrap.bundle.min.js",
+        "js/bootstrap.bundle.min.js.map",
+        "css/bootstrap.css",
+        "css/bootstrap.min.css"
+      ]
+    },
+    {
+      "library": "popper.js@2.11.6",
+      "destination": "wwwroot/lib/popper.js",
+      "files": [
+        "umd/popper.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap-icons@1.9.1",
+      "destination": "wwwroot/lib/bootstrap-icons"
     }
   ]
 }
