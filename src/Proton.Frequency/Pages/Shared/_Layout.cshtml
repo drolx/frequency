@@ -1,22 +1,32 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Proton Frequency</title>
-    <link rel="stylesheet" href="~/lib/uikit/css/uikit.min.css" />
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Proton.Frequency.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <!-- App layouts -->
-    <div>
-        @RenderBody()
+﻿@{
+    Layout = "_Root";
+}
+
+<div class="sticky-top container" style="height: 125px">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-4">Proton.Frequency</span>
+        </a>
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/login" class="nav-link">Log Out</a></li>
+        </ul>
+    </header>
+    <div class="d-flex flex-wrap justify-content-center">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Status</a></li>
+            <li class="nav-item"><a href="/event" class="nav-link">Event History</a></li>
+            <li class="nav-item"><a href="/queue" class="nav-link">Scan Queue</a></li>
+            <li class="nav-item"><a href="/terminal" class="nav-link">Terminals</a></li>
+            <li class="nav-item"><a href="/object" class="nav-link">Objects</a></li>
+            <li class="nav-item"><a href="/setting" class="nav-link">Settings</a></li>
+        </ul>
     </div>
-    <!-- UIkit JS -->
-    <script src="~/lib/uikit/js/uikit.min.js"></script>
-    <script src="~/lib/uikit/js/uikit-icons.min.js"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
+</div>
+<div class="container-fluid p-2">
+    @RenderBody()
+</div>
+
+<footer class="fixed-bottom">
+    <p class="text-center text-muted">&copy; @DateTime.Now.Year Proton.Frequency</p>
+</footer>

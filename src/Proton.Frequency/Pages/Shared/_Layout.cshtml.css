@@ -1,1 +1,14 @@
 ﻿/** Default layout styles. **/
+
+/*a {*/
+/*    text-transform: capitalize !important;*/
+/*}*/
+
+.main-menu-container {
+    border-right: 3rem !important;
+}
+
+.main-menu-item {
+    color: dodgerblue !important;
+}
+
