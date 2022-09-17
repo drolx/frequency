@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNameSpace>Proton.Frequency</RootNameSpace>
     <AssemblyName>proton-frequency</AssemblyName>
+    <PackRelease>true</PackRelease>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
     <PublishTrimmed>true</PublishTrimmed>
@@ -54,4 +55,8 @@
     <None Update="config.serial.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data" />
+    <Folder Include="Protocol" />
+  </ItemGroup>
 </Project>
