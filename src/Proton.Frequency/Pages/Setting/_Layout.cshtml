@@ -1,0 +1,28 @@
+@{
+    Layout = "Shared/_Layout";
+}
+
+<div class="row mt-4">
+    <div class="col-1 d-flex flex-column flex-shrink-0 mt-2 py-3 bg-light" style="width: 260px;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="/setting" class="nav-link active" aria-current="page">System</a>
+            </li>
+            <li>
+                <a href="/setting/admin" class="nav-link link-dark">Admin</a>
+            </li>
+            <li>
+                <a href="/setting/server" class="nav-link link-dark">Server</a>
+            </li>
+            <li>
+                <a href="/setting/logs" class="nav-link link-dark">Admin Logs</a>
+            </li>
+            <li>
+                <a href="/setting/reboot" class="nav-link link-dark">Reboot</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-4 container-fluid">
+        @RenderBody()
+    </div>
+</div>
