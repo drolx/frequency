@@ -1,8 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration
-    .AddYamlFile("config.main.yaml", optional: false, reloadOnChange: true)
-    .AddYamlFile("config.serial.yaml", optional: false, reloadOnChange: true)
-    .AddYamlFile("config.network.yaml", optional: false, reloadOnChange: true);
+var configFiles = new [] { "main", "serial", "network" };
+foreach (var configFile in configFiles)
+{
+    builder.Configuration.AddYamlFile($"config.{configFile}.yaml", optional: false, reloadOnChange: true);
+}
 builder.Services.AddRazorPages();
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
