@@ -1,5 +1,14 @@
 ﻿@{
     Layout = "_Root";
+    var links = new Dictionary<string, string>
+    {
+        { "Status", "/" },
+        { "Event History", "/event" },
+        { "Scan Queue", "/queue" },
+        { "Terminals", "/terminal" },
+        { "Objects", "/object" },
+        { "Settings", "/setting" }
+    };
 }
 
 <div class="sticky-top container" style="height: 125px">
@@ -14,12 +23,10 @@
     </header>
     <div class="d-flex flex-wrap justify-content-center">
         <ul class="nav nav-pills nav-fill">
-            <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Status</a></li>
-            <li class="nav-item"><a href="/event" class="nav-link">Event History</a></li>
-            <li class="nav-item"><a href="/queue" class="nav-link">Scan Queue</a></li>
-            <li class="nav-item"><a href="/terminal" class="nav-link">Terminals</a></li>
-            <li class="nav-item"><a href="/object" class="nav-link">Objects</a></li>
-            <li class="nav-item"><a href="/setting" class="nav-link">Settings</a></li>
+        @foreach (var (key, value) in links)
+        {
+            <li class="nav-item"><a href="@value" class="nav-link main-nav" aria-current="page">@key</a></li>
+        }
         </ul>
     </div>
 </div>
@@ -30,3 +37,11 @@
 <footer class="fixed-bottom">
     <p class="text-center text-muted">&copy; @DateTime.Now.Year Proton.Frequency</p>
 </footer>
+
+@section Scripts {
+    <script>
+        /** Active navigation selection **/
+        handleActiveNav('.main-nav');
+        handleActiveNav('.setting-nav');
+    </script>
+}
