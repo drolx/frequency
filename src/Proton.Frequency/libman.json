@@ -3,28 +3,19 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "bootstrap@5.2.0",
-      "destination": "wwwroot/lib/bootstrap",
+      "library": "font-awesome@6.2.0",
+      "destination": "wwwroot/lib/font-awesome",
       "files": [
-        "js/bootstrap.min.js",
-        "js/bootstrap.bundle.js",
-        "js/bootstrap.bundle.min.js",
-        "js/bootstrap.bundle.min.js.map",
-        "css/bootstrap.css",
-        "css/bootstrap.min.css",
-        "css/bootstrap.min.css.map"
+        "css/all.min.css"
       ]
     },
     {
-      "library": "popper.js@2.11.6",
-      "destination": "wwwroot/lib/popper.js",
+      "library": "mdb-ui-kit@5.0.0",
+      "destination": "wwwroot/lib/mdb-ui-kit",
       "files": [
-        "umd/popper.min.js"
+        "mdb.min.css",
+        "mdb.min.js"
       ]
-    },
-    {
-      "library": "bootstrap-icons@1.9.1",
-      "destination": "wwwroot/lib/bootstrap-icons"
     }
   ]
 }
