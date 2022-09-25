@@ -1,6 +1,3 @@
 namespace Proton.Frequency;
 
-public class Config
-{
-    
-}
+public class Config { }

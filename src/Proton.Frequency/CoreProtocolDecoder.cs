@@ -1,6 +1,3 @@
 namespace Proton.Frequency;
 
-public class CoreProtocolDecoder
-{
-    
-}
+public class CoreProtocolDecoder { }

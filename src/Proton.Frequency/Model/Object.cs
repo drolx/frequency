@@ -10,7 +10,7 @@ public sealed class Object : CoreModel
     public ObjectType Type { get; set; } = ObjectType.VEHICLE;
 
     public ObjectTagType Tag { get; set; } = ObjectTagType.LF_KHZ;
-    
+
     public DateTime TimeUpdated { get; set; } = DateTime.Now;
 
     public string? LastMode { get; set; }

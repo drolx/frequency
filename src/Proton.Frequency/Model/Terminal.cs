@@ -5,7 +5,7 @@ namespace Proton.Frequency.Model;
 public class Terminal : CoreModel
 {
     public string? UniqueId { get; set; }
-    
+
     public string? Name { get; set; }
 
     public string? Mode { get; set; }

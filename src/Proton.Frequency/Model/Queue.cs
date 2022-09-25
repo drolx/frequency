@@ -8,8 +8,8 @@ public class Queue : CoreModel
     public DateTime Time { get; set; } = DateTime.Now;
 
     public int? Synced { get; set; } = 0;
-    
-    public EventType? Event { get; set;  }
+
+    public EventType? Event { get; set; }
 
     public Terminal? Terminal { get; set; }
 

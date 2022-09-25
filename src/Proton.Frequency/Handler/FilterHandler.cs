@@ -1,6 +1,3 @@
 namespace Proton.Frequency.Handler;
 
-public sealed class FilterHandler
-{
-    
-}
+public sealed class FilterHandler { }
