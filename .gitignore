@@ -409,5 +409,6 @@ ASALocalRun/
 app.db*
 mono_crash.*
 *.min.js
+*.css
 *.min.css
 lib

@@ -1,10 +1,11 @@
 {
   "sdk": {
-    "version": "7.0.100-preview.7.22377.5",
+    "version": "7.0.100-rc.1.22431.12",
     "rollForward": "latestPatch",
     "allowPrerelease": true
   },
   "scripts": {
+    "lint": "dotnet csharpier .",
     "dev": "dotnet watch --project src/Proton.Frequency/",
     "run": "dotnet run --project src/Proton.Frequency/",
     "build": "dotnet build --configuration Release",

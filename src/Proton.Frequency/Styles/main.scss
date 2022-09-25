@@ -1,0 +1,15 @@
+html {
+  min-height: 100%;
+  margin: 0px;
+}
+
+@media (min-width: 768px) {
+  html {
+    margin: 0px;
+  }
+}
+
+.table-scroll{
+  width: 100%;
+  height: calc(100vh - 320px);
+}

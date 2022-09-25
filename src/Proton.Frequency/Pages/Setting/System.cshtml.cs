@@ -4,8 +4,5 @@ namespace Proton.Frequency.Pages.Setting;
 
 public class Config : PageModel
 {
-    public void OnGet()
-    {
-        
-    }
+    public void OnGet() { }
 }
