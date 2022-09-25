@@ -1,10 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
-var configFiles = new [] { "main", "serial", "network" };
-foreach (var configFile in configFiles)
-{
-    builder.Configuration.AddYamlFile($"config.{configFile}.yaml", optional: false, reloadOnChange: true);
-}
+var configs = new List<string>() { "main", "serial", "network" };
+configs.ForEach(
+    n =>
+        builder.Configuration.AddYamlFile($"config.{n}.yaml", optional: false, reloadOnChange: true)
+);
+builder.Host.UseSystemd();
 builder.Services.AddRazorPages();
+#if DEBUG
+builder.Services.AddSassCompiler();
+#endif
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
