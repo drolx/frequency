@@ -2,11 +2,16 @@
 @layout SectionLayout
 @inject NavigationManager Navigate
 
-<div>Redirecting...</div>
+<Title>System Setting</Title>
 
 @functions{
         override protected void OnInitialized() {
             base.OnInitialized();
-            Navigate.NavigateTo("/settings/system");
         }
 }
+
+
+
+<div>
+    <p>System Content</p>
+</div>

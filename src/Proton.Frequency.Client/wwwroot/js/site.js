@@ -1,4 +1,4 @@
-﻿/** Handle active navigation selection **/
+﻿/* DEPRECIATED: Old active line hak for Asp.net */
 function handleActiveNav(targetClass) {
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll(targetClass).forEach(link => {
@@ -15,5 +15,3 @@ function handleActiveNav(targetClass) {
     })
 }
 
-handleActiveNav('.main-nav');
-handleActiveNav('.setting-nav');

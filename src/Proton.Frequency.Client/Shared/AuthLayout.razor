@@ -1,3 +1,13 @@
 @inherits LayoutComponentBase
 
-<main>@Body</main>
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid d-flex align-content-center justify-content-center">
+    <a class="navbar-brand" href="#">Proton.Frequency</a>
+  </div>
+</nav>
+<div class="container">
+  <div class="d-flex align-items-center justify-content-center" style="height: calc(80vh - 64px)">
+    @Body
+  </div>
+  <AppFooter></AppFooter>
+</div>
