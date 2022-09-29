@@ -1,0 +1,17 @@
+App:
+  Proxy: false
+  Management: true
+  Api: true
+  Name: "Proton.Frequency"
+  Secret: secret
+Logging:
+  LogLevel:
+    Default: Information
+    Microsoft: Information
+    Microsoft.AspNetCore: Warning
+Database:
+  Type: Sqlite
+  Store: "Data Source=app.db;cache=shared"
+  InMemory: "DataSource=file:app.sqlite3?mode=memory&cache=shared"
+  Persist: true
+  PersistDuration: 86400
