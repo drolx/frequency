@@ -5,7 +5,9 @@ namespace Proton.Frequency.Workers;
 internal class MaintenanceWorker : BackgroundService
 {
     private readonly ILogger<MaintenanceWorker> _logger;
+
     private IServiceProvider _services { get; }
+
     private readonly IConfiguration _configuration;
 
     public MaintenanceWorker(
@@ -36,7 +38,7 @@ internal class MaintenanceWorker : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(35), stoppingToken);
         }
     }
 

@@ -1,6 +1,7 @@
+using MQTTnet.AspNetCore;
 using Proton.Frequency.Services.ConfigOptions;
 using Serilog;
-using System.Diagnostics;
+using System.Net;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Proton.Frequency.Services;
@@ -9,22 +10,21 @@ internal static class Initializer
 {
     private const string Protocol = "http://";
 
-    private static DefaultOptions? DefaultConfigOptions { get; set; }
-
-    private static ServerOptions? ServerConfigOptions { get; set; }
-
-    private static NodeOptions? NodeConfigOptions { get; set; }
-
-    internal static ILogger GetLogger()
+    internal static ILogger GetLogger<T>()
     {
-        var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-        return loggerFactory.AddSerilog().CreateLogger<Program>();
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.ClearProviders();
+            builder.AddSerilog();
+        });
+
+        return loggerFactory.CreateLogger<T>();
     }
 
     private static IConfigurationBuilder LoadConfigurations(this IConfigurationBuilder configs)
     {
         configs.AddYamlFile("config.yaml", optional: false, reloadOnChange: true);
-        var logger = GetLogger();
+        var logger = GetLogger<IConfigurationBuilder>();
         var files = new List<string> { "node", "server", "network" };
         files.ForEach(n =>
         {
@@ -76,6 +76,10 @@ internal static class Initializer
             .AddOptions<NodeOptions>()
             .Bind(config.GetSection(NodeOptions.SectionKey))
             .ValidateDataAnnotations();
+        builder.Services
+            .AddOptions<MqttOptions>()
+            .Bind(config.GetSection(MqttOptions.SectionKey))
+            .ValidateDataAnnotations();
 
         return builder;
     }
@@ -83,22 +87,39 @@ internal static class Initializer
     internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder)
     {
         var config = builder.Configuration;
-        var logger = GetLogger();
+        var logger = GetLogger<WebApplicationBuilder>();
+        var defaultOptions = new DefaultOptions();
+        var serverOptions = new ServerOptions();
+        var nodeOptions = new NodeOptions();
+        var mqttOptions = new MqttOptions();
 
-        DefaultConfigOptions = config.GetSection(DefaultOptions.SectionKey).Get<DefaultOptions>();
-        ServerConfigOptions = config.GetSection(ServerOptions.SectionKey).Get<ServerOptions>();
-        NodeConfigOptions = config.GetSection(NodeOptions.SectionKey).Get<NodeOptions>();
+        config.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
+        config.GetSection(ServerOptions.SectionKey).Bind(serverOptions);
+        config.GetSection(NodeOptions.SectionKey).Bind(nodeOptions);
+        config.GetSection(MqttOptions.SectionKey).Bind(mqttOptions);
 
-        var proxy = DefaultConfigOptions!.Proxy;
-        var url =
-            Protocol
-            + (
-                proxy
-                    ? $"{NodeConfigOptions!.Host}:{NodeConfigOptions!.Port}"
-                    : $"{ServerConfigOptions!.Host}:{ServerConfigOptions!.Port}"
-            );
-        logger.LogInformation("Setting host options..");
-        builder.WebHost.UseUrls(url);
+        var proxy = defaultOptions!.Proxy;
+        var port = proxy ? nodeOptions.Port : serverOptions.Port;
+        var host = proxy ? nodeOptions.Host : serverOptions.Host;
+
+        logger.LogInformation("Setting up host options..");
+        /* Setup MQTT instance */
+        if (mqttOptions.Enable) {
+            try {
+                builder.RegisterMqttHost();
+            } catch (Exception e) {
+                logger.LogError("MQTT is wrong or an error has occured.", e);
+            }
+        }
+        
+        builder.WebHost.UseKestrel(o =>
+        {
+            o.Limits.MaxConcurrentConnections = 1024;
+            o.Limits.MaxConcurrentUpgradedConnections = 1024;
+            o.Limits.MaxRequestBodySize = 52428800;
+            o.Listen( defaultOptions.Management ? host : IPAddress.None, port);
+        });
+        builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(30));
 
         return builder;
     }

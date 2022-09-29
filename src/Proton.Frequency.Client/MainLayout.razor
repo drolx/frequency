@@ -1,0 +1,39 @@
+﻿@inherits LayoutComponentBase
+
+@{
+    var links = new Dictionary<string, string>
+    {
+        { "Status", "/" },
+        { "Queue", "/queue" },
+        { "Event History", "/events" },
+        { "Nodes", "/nodes" },
+        { "Objects", "/objects" },
+        { "Settings", "/settings" }
+    };
+}
+
+<div class="sticky-top container">
+    <header class="d-flex flex-wrap justify-content-center py-1 mb-1 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-0 me-auto text-dark text-decoration-none">
+            <span class="fs-4">Proton.Frequency</span>
+        </a>
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/login" class="nav-link">Log Out</a></li>
+        </ul>
+    </header>
+    <div class="d-flex flex-wrap justify-content-center">
+        <ul class="nav nav-pills nav-fill">
+            @foreach (var (key, value) in links)
+            {
+                <li class="nav-item"><a href="@value" class="nav-link main-nav" aria-current="page">@key</a></li>
+            }
+        </ul>
+    </div>
+</div>
+<div class="container px-4 py-1">
+    @Body
+</div>
+
+<footer class="fixed-bottom">
+    <p class="text-center text-muted">&copy; @DateTime.Now.Year Proton.Frequency</p>
+</footer>

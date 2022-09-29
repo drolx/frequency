@@ -1,6 +1,7 @@
 AllowedHosts: "*"
 Server:
-  Host: "0.0.0.0"
+  Host: 127.0.0.1
   Port: 7001
   Queue:
-    Port: 700
+    Enable: true
+    Port: 1883

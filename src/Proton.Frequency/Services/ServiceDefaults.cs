@@ -10,17 +10,26 @@ internal static class ServiceDefaults
         this WebApplicationBuilder builder
     )
     {
+        var defaultOptions = new DefaultOptions();
+        builder.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
 #if DEBUG
         builder.Services.AddSassCompiler();
 #endif
-        var defaultOptions = new DefaultOptions();
-        builder.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
-        if (defaultOptions.Management)
-            builder.Services.AddRazorPages();
+        switch (defaultOptions.Management)
+        {
+            case false when defaultOptions.Api:
+                return builder;
+            case true:
+                builder.Services.AddRazorPages();
+                builder.Services.AddControllersWithViews();
+                break;
+        }
+
         if (defaultOptions.Api)
         {
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc(
@@ -29,9 +38,6 @@ internal static class ServiceDefaults
                 );
             });
         }
-        if (!defaultOptions.Management && defaultOptions.Api)
-            return builder;
-
         builder.Services.RegisterModules();
 
         return builder;
@@ -39,30 +45,33 @@ internal static class ServiceDefaults
 
     internal static WebApplication RegisterDefaults(this WebApplication app)
     {
-        var logger = Initializer.GetLogger();
+        var logger = Initializer.GetLogger<WebApplication>();
         var defaultOptions = new DefaultOptions();
         app.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
-        var enabled = defaultOptions.Management;
 
-        app.UseHttpsRedirection().UseAuthorization();
+        switch (defaultOptions.Management)
+        {
+            case false when !defaultOptions.Api:
+                return app;
+            case false:
+                logger.LogInformation("Web management is disabled...");
+                return app;
+        }
+        app.UseRouting().UseHttpsRedirection().UseAuthorization();
 
         if (defaultOptions.Api)
-        {
             app.RegisterEndpoints();
-        }
 
-        if (!enabled)
-        {
-            logger.LogInformation("Management is disabled...");
-            return app;
-        }
-
-        logger.LogInformation("Starting management UI...");
+        logger.LogInformation("Starting web management UI...");
+        app.UseBlazorFrameworkFiles();
+        app.UseStaticFiles();
         app.MapRazorPages();
-        app.UseStaticFiles().UseRouting();
-
+        app.MapControllers();
+        app.MapFallbackToFile("index.html");
+        
         if (!app.Environment.IsDevelopment())
             return app;
+        app.UseWebAssemblyDebugging();
         app.UseExceptionHandler("/Error");
 
         return app;

@@ -1,0 +1,12 @@
+@page "/settings"
+@layout SectionLayout
+@inject NavigationManager Navigate
+
+<div>Redirecting...</div>
+
+@functions{
+        override protected void OnInitialized() {
+            base.OnInitialized();
+            Navigate.NavigateTo("/settings/system");
+        }
+}
