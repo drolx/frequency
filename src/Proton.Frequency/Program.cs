@@ -1,17 +1,14 @@
+using Microsoft.Extensions.Options;
+using Proton.Frequency.Services;
+using Proton.Frequency.Services.ConfigOptions;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration
-    .AddYamlFile("config.main.yaml", optional: false, reloadOnChange: true)
-    .AddYamlFile("config.serial.yaml", optional: false, reloadOnChange: true)
-    .AddYamlFile("config.network.yaml", optional: false, reloadOnChange: true)
-    .AddEnvironmentVariables();
-builder.Services.AddRazorPages();
+builder.RegisterConfigurations();
+builder.RegisterHostOptions();
+builder.Services.RegisterStandardServices();
+builder.Services.RegisterWorkersServices();
+
 var app = builder.Build();
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-}
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-app.MapRazorPages();
+app.RegisterDefaults().RegisterEndpoints();
+
 app.Run();

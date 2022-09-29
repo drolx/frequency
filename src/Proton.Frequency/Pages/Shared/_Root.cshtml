@@ -1,0 +1,29 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @* <meta property="og:url" content="https://github.com/gpproton/"> *@
+    @* <meta property="og:image" content="https://github.com/gpproton/test.png"> *@
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Proton.Frequency">
+    <meta property="og:description" content="A uhf rfid system.">
+    <meta property="og:site_name" content="Proton.Frequency">
+    <title>@ViewData["Title"] - Proton Frequency</title>
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
+    <link rel="subresource" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="~/lib/mdb-ui-kit/mdb.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+</head>
+<body>
+<!-- App layouts -->
+<main>
+    @RenderBody()
+</main>
+<script src="~/lib/mdb-ui-kit/mdb.min.js" asp-append-version="true"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

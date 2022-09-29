@@ -1,0 +1,11 @@
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+# See https://github.com/dotnet/format/blob/master/docs/Supported-.editorconfig-options/index.md for reference
+[*.cs]
+csharp_new_line_before_open_brace = none
+csharp_new_line_before_catch = false
+csharp_new_line_before_else = false
+csharp_new_line_before_finally = false
+csharp_new_line_before_members_in_anonymous_types = false
+csharp_new_line_before_members_in_object_initializers = false
+csharp_new_line_between_query_expression_clauses = true

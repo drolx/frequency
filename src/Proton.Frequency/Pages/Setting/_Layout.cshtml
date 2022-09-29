@@ -1,0 +1,29 @@
+@{
+    Layout = "Shared/_Layout";
+    
+    var links = new Dictionary<string, string>
+    {
+        {"Terminal", "/setting/terminal"},
+        {"System", "/setting/system" },
+        {"Admin", "/setting/admin"},
+        {"Server", "/setting/server"},
+        {"Logs", "/setting/logs"},
+        {"Reboot", "/setting/reboot"}
+    };
+}
+
+<div class="row mt-4">
+    <div class="col-1 d-flex flex-column flex-shrink-0 mt-2 py-3 bg-light" style="width: 260px;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            @foreach (var (key, value) in links) 
+            {
+                <li class="nav-item">
+                    <a href="@value" class="nav-link setting-nav" aria-current="page">@key</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="col-4 container-fluid">
+        @RenderBody()
+    </div>
+</div>
