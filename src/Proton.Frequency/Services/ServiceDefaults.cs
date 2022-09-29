@@ -21,6 +21,7 @@ internal static class ServiceDefaults
         {
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc(
@@ -39,25 +40,25 @@ internal static class ServiceDefaults
 
     internal static WebApplication RegisterDefaults(this WebApplication app)
     {
-        var logger = Initializer.GetLogger();
+        var logger = Initializer.GetLogger<WebApplication>();
         var defaultOptions = new DefaultOptions();
         app.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
         var enabled = defaultOptions.Management;
 
-        app.UseHttpsRedirection().UseAuthorization();
-
-        if (defaultOptions.Api)
-        {
-            app.RegisterEndpoints();
+        switch (enabled){
+            case false when !defaultOptions.Api:
+                return app;
+            case false:
+                logger.LogInformation("Web management is disabled...");
+                return app;
         }
+        app.UseRouting()
+            .UseHttpsRedirection()
+            .UseAuthorization();
 
-        if (!enabled)
-        {
-            logger.LogInformation("Management is disabled...");
-            return app;
-        }
+        if (defaultOptions.Api) app.RegisterEndpoints();
 
-        logger.LogInformation("Starting management UI...");
+        logger.LogInformation("Starting web management UI...");
         app.MapRazorPages();
         app.UseStaticFiles().UseRouting();
 

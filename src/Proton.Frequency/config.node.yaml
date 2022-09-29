@@ -5,14 +5,14 @@
     - EPC-GEN2
     - ISO1800-6B
 Node:
-  Host: "0.0.0.0"
+  Host: 127.0.0.1
   Port: 7002
   Auto: false
   Retries: 5
   Timeout: 3
   Server:
-    Host: 0.0.0.0
-    Port: 5010
+    Host: "0.0.0.0"
+    Port: 1883
   Sync:
     Enable: true
     Timeout: 3
