@@ -1,3 +1,3 @@
 namespace Proton.Frequency;
 
-public class PipelineFactory { }
+internal abstract class PipelineFactory { }
