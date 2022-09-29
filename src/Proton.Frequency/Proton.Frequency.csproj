@@ -8,16 +8,18 @@
     <PackRelease>true</PackRelease>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <PublishTrimmed>true</PublishTrimmed>
+    <!--    <PublishTrimmed>true</PublishTrimmed>-->
+    <!--    <TrimmerDefaultAction>link</TrimmerDefaultAction>-->
     <SelfContained>true</SelfContained>
     <StripSymbols>true</StripSymbols>
     <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+  <PropertyGroup>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
     <RuntimeIdentifiers>linux-x64;linux-arm;linux-arm64;win-x64;win-arm;osx-x64;osx-arm64</RuntimeIdentifiers>
   </PropertyGroup>
-  <!-- Dotnet Tool Specific settings -->
   <PropertyGroup>
     <PackAsTool>false</PackAsTool>
     <IsPackable>false</IsPackable>
@@ -44,6 +46,8 @@
     <PackageReference Include="BuildBundlerMinifierPlus" Version="5.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0-rc.1.22426.10" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+    <PackageReference Include="MQTTnet" Version="4.1.0.247" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
   </ItemGroup>
   <!-- Set HUSKY to 0 in CI/CD disable this -->
   <Target Name="husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
@@ -57,15 +61,13 @@
     <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.7.22375.6" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="config.main.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.node.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.serial.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
     <Folder Include="Protocol" />
-  </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Terminal\Index.cshtml" />
   </ItemGroup>
 </Project>
