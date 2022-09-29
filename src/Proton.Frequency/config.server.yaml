@@ -3,5 +3,5 @@ Server:
   Host: 127.0.0.1
   Port: 7001
   Queue:
-    Enabled: true
+    Enable: true
     Port: 1883

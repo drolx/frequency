@@ -12,11 +12,12 @@ internal static class Initializer
 
     internal static ILogger GetLogger<T>()
     {
-        var loggerFactory = LoggerFactory.Create(builder => {
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
             builder.ClearProviders();
             builder.AddSerilog();
         });
-        
+
         return loggerFactory.CreateLogger<T>();
     }
 
@@ -91,7 +92,7 @@ internal static class Initializer
         var serverOptions = new ServerOptions();
         var nodeOptions = new NodeOptions();
         var mqttOptions = new MqttOptions();
-        
+
         config.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
         config.GetSection(ServerOptions.SectionKey).Bind(serverOptions);
         config.GetSection(NodeOptions.SectionKey).Bind(nodeOptions);
@@ -100,16 +101,23 @@ internal static class Initializer
         var proxy = defaultOptions!.Proxy;
         var port = proxy ? nodeOptions.Port : serverOptions.Port;
         var host = proxy ? nodeOptions.Host : serverOptions.Host;
-        
+
         logger.LogInformation("Setting up host options..");
         /* Setup MQTT instance */
-        if(mqttOptions.Enable) builder.RegisterMqttHost();
+        if (mqttOptions.Enable) {
+            try {
+                builder.RegisterMqttHost();
+            } catch (Exception e) {
+                logger.LogError("MQTT is wrong or an error has occured.", e);
+            }
+        }
+        
         builder.WebHost.UseKestrel(o =>
         {
             o.Limits.MaxConcurrentConnections = 1024;
             o.Limits.MaxConcurrentUpgradedConnections = 1024;
             o.Limits.MaxRequestBodySize = 52428800;
-            o.Listen(host, port);
+            o.Listen( defaultOptions.Management ? host : IPAddress.None, port);
         });
         builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(30));
 

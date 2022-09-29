@@ -10,10 +10,9 @@ internal static class MapEndpoints
         var logger = Initializer.GetLogger<WebApplication>();
         var defaultOptions = new DefaultOptions();
         app.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
-        var enabled = defaultOptions.Api;
         app.RegisterMqttEndpoints();
 
-        if (!enabled)
+        if (!defaultOptions.Api)
         {
             logger.LogInformation("API endpoints are disabled...");
             return app;

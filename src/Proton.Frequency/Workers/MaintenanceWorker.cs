@@ -5,7 +5,7 @@ namespace Proton.Frequency.Workers;
 internal class MaintenanceWorker : BackgroundService
 {
     private readonly ILogger<MaintenanceWorker> _logger;
-    
+
     private IServiceProvider _services { get; }
 
     private readonly IConfiguration _configuration;
