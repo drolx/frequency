@@ -412,3 +412,4 @@ mono_crash.*
 *.css
 *.min.css
 lib
+logs
