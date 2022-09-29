@@ -15,11 +15,11 @@
     Protocol: UDP
     Server: true
     Type: king-join
-    Host: frequency.test
-    Port: 50020
+    Host: 0.0.0.0
+    Port: 17303
   - Name: reader-client-00
     Protocol: HTTP
     Server: false
     Type: custom-0
-    Host: frequency.test
-    Port: 8080
+    Host: 0.0.0.0
+    Port: 17304
