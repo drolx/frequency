@@ -4,12 +4,12 @@
 @{
     var links = new Dictionary<string, string>
     {
-        {"Terminal", "/settings/terminal"},
-        {"System", "/settings/system" },
-        {"Admin", "/settings/admin"},
-        {"Server", "/settings/server"},
-        {"Logs", "/settings/logs"},
-        {"Reboot", "/settings/reboot"}
+        {"System", "settings" },
+        {"Terminal", "settings/terminal"},
+        {"Admin", "settings/admin"},
+        {"Server", "settings/server"},
+        {"Logs", "settings/logs"},
+        {"Reboot", "settings/reboot"}
     };
 }
 
@@ -19,7 +19,7 @@
             @foreach (var (key, value) in links) 
             {
                 <li class="nav-item">
-                    <a href="@value" class="nav-link setting-nav" aria-current="page">@key</a>
+                    <NavLink href="@value" class="nav-link" Match="NavLinkMatch.All">@key</NavLink>
                 </li>
             }
         </ul>

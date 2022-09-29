@@ -1,14 +1,13 @@
 ﻿@inherits LayoutComponentBase
-
 @{
     var links = new Dictionary<string, string>
     {
-        { "Status", "/" },
-        { "Queue", "/queue" },
-        { "Event History", "/events" },
-        { "Nodes", "/nodes" },
-        { "Objects", "/objects" },
-        { "Settings", "/settings" }
+        { "Overview", "status" },
+        { "Queue", "queue" },
+        { "Event History", "events" },
+        { "Nodes", "nodes" },
+        { "Objects", "objects" },
+        { "Settings", "settings" }
     };
 }
 
@@ -25,7 +24,7 @@
         <ul class="nav nav-pills nav-fill">
             @foreach (var (key, value) in links)
             {
-                <li class="nav-item"><a href="@value" class="nav-link main-nav" aria-current="page">@key</a></li>
+                <li class="nav-item"><NavLink href="@value" class="nav-link" Match="NavLinkMatch.Prefix">@key</NavLink></li>
             }
         </ul>
     </div>
@@ -34,6 +33,4 @@
     @Body
 </div>
 
-<footer class="fixed-bottom">
-    <p class="text-center text-muted">&copy; @DateTime.Now.Year Proton.Frequency</p>
-</footer>
+<AppFooter></AppFooter>

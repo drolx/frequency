@@ -103,7 +103,6 @@ internal static class Initializer
         var host = proxy ? nodeOptions.Host : serverOptions.Host;
 
         logger.LogInformation("Setting up host options..");
-        /* Setup MQTT instance */
         if (mqttOptions.Enable) {
             try {
                 builder.RegisterMqttHost();
