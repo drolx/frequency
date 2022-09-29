@@ -1,1 +1,0 @@
-﻿# Compatible UHF reader types

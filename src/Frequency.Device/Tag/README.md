@@ -1,1 +1,0 @@
-﻿# Compatible Card types

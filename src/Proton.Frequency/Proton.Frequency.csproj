@@ -67,7 +67,6 @@
     <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data" />
     <Folder Include="Protocol" />
   </ItemGroup>
 </Project>
