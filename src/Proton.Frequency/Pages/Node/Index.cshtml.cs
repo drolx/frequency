@@ -4,8 +4,5 @@ namespace Proton.Frequency.Pages.Node;
 
 public class Index : PageModel
 {
-    public void OnGet()
-    {
-        
-    }
+    public void OnGet() { }
 }

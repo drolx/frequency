@@ -4,8 +4,5 @@ namespace Proton.Frequency.Pages.Status;
 
 public class Logs : PageModel
 {
-    public void OnGet()
-    {
-        
-    }
+    public void OnGet() { }
 }

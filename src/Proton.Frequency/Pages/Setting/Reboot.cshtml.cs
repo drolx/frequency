@@ -4,8 +4,5 @@ namespace Proton.Frequency.Pages.Setting;
 
 public class Reboot : PageModel
 {
-    public void OnGet()
-    {
-        
-    }
+    public void OnGet() { }
 }

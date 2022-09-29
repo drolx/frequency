@@ -7,6 +7,6 @@ public class Index : PageModel
 {
     public IActionResult OnGet()
     {
-        return Redirect("~/setting/config");
+        return Redirect("~/setting/terminal");
     }
 }
