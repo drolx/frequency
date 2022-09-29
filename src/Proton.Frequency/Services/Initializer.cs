@@ -10,7 +10,7 @@ internal static class Initializer
     private const string Protocol = "http://";
 
     private static DefaultOptions? DefaultConfigOptions { get; set; }
-    
+
     private static ServerOptions? ServerConfigOptions { get; set; }
 
     private static NodeOptions? NodeConfigOptions { get; set; }
@@ -62,7 +62,7 @@ internal static class Initializer
         builder.Host.UseSystemd();
         builder.SetupLogger();
         builder.Configuration.LoadConfigurations();
-        
+
         var config = builder.Configuration;
         /* Minimal API configuration options */
         /* https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0 */
