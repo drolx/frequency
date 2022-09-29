@@ -8,7 +8,7 @@ public interface IModule
 
 public static class ModuleExtensions
 {
-    readonly static List<IModule> registeredModules = new List<IModule>();
+    private readonly static List<IModule> RegisteredModules = new List<IModule>();
 
     public static IServiceCollection RegisterModules(this IServiceCollection services)
     {
@@ -16,7 +16,7 @@ public static class ModuleExtensions
         foreach (var module in modules)
         {
             module.RegisterApiModule(services);
-            registeredModules.Add(module);
+            RegisteredModules.Add(module);
         }
 
         return services;
@@ -24,7 +24,7 @@ public static class ModuleExtensions
 
     public static WebApplication RegisterApiEndpoints(this WebApplication app)
     {
-        foreach (var module in registeredModules)
+        foreach (var module in RegisteredModules)
         {
             module.MapEndpoints(app);
         }
