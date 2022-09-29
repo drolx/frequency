@@ -1,5 +1,3 @@
-namespace Proton.Frequency.Data; 
+namespace Proton.Frequency.Data;
 
-public class AppContext {
-    
-}
+public class AppContext { }
