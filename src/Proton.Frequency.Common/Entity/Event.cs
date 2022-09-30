@@ -1,6 +1,4 @@
-using Proton.Frequency.Enums;
-
-namespace Proton.Frequency.Model;
+namespace Proton.Frequency.Common.Entity;
 
 public class Event : CoreModel
 {

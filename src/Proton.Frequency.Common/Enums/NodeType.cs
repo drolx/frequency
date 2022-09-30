@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Enums;
+namespace Proton.Frequency.Common.Enums;
 
 internal enum NodeType
 {

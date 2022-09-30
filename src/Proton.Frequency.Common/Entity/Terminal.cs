@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Proton.Frequency.Model;
+namespace Proton.Frequency.Common.Entity;
 
 public class Terminal : CoreModel
 {

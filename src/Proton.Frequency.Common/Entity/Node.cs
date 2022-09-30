@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Model;
+namespace Proton.Frequency.Common.Entity;
 
 public sealed class Node : CoreModel
 {

@@ -1,7 +1,6 @@
-using System.ComponentModel.DataAnnotations;
-using Proton.Frequency.Enums;
+using Proton.Frequency.Common.Enums;
 
-namespace Proton.Frequency.Model;
+namespace Proton.Frequency.Common.Entity;
 
 public class Queue : CoreModel
 {
