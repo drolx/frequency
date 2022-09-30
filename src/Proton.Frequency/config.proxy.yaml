@@ -4,7 +4,9 @@
     - EPC-GEN1
     - EPC-GEN2
     - ISO1800-6B
-Node:
+Proxy:
+  Id: 123
+  Channel: default
   Host: 127.0.0.1
   Port: 7002
   Auto: false

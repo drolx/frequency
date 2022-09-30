@@ -3,9 +3,9 @@ using System.Net;
 
 namespace Proton.Frequency.Services.ConfigOptions;
 
-public class NodeOptions
+public class ProxyOptions
 {
-    public const string SectionKey = "Node";
+    public const string SectionKey = "Proxy";
 
     public IPAddress Host { get; set; } = IPAddress.Any;
 

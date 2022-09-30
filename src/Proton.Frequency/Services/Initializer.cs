@@ -8,8 +8,6 @@ namespace Proton.Frequency.Services;
 
 internal static class Initializer
 {
-    private const string Protocol = "http://";
-
     internal static ILogger GetLogger<T>()
     {
         var loggerFactory = LoggerFactory.Create(builder =>
@@ -25,7 +23,7 @@ internal static class Initializer
     {
         configs.AddYamlFile("config.yaml", optional: false, reloadOnChange: true);
         var logger = GetLogger<IConfigurationBuilder>();
-        var files = new List<string> { "node", "server", "network" };
+        var files = new List<string> { "proxy", "server", "protocol" };
         files.ForEach(n =>
         {
             var file = $"config.{n}.yaml";
@@ -73,8 +71,8 @@ internal static class Initializer
             .Bind(config.GetSection(ServerOptions.SectionKey))
             .ValidateDataAnnotations();
         builder.Services
-            .AddOptions<NodeOptions>()
-            .Bind(config.GetSection(NodeOptions.SectionKey))
+            .AddOptions<ProxyOptions>()
+            .Bind(config.GetSection(ProxyOptions.SectionKey))
             .ValidateDataAnnotations();
         builder.Services
             .AddOptions<MqttOptions>()
@@ -90,12 +88,12 @@ internal static class Initializer
         var logger = GetLogger<WebApplicationBuilder>();
         var defaultOptions = new DefaultOptions();
         var serverOptions = new ServerOptions();
-        var nodeOptions = new NodeOptions();
+        var nodeOptions = new ProxyOptions();
         var mqttOptions = new MqttOptions();
 
         config.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
         config.GetSection(ServerOptions.SectionKey).Bind(serverOptions);
-        config.GetSection(NodeOptions.SectionKey).Bind(nodeOptions);
+        config.GetSection(ProxyOptions.SectionKey).Bind(nodeOptions);
         config.GetSection(MqttOptions.SectionKey).Bind(mqttOptions);
 
         var proxy = defaultOptions!.Proxy;

@@ -64,9 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.node.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.protocol.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Proton.Frequency.Common\Proton.Frequency.Common.csproj" />
