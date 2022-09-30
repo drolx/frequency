@@ -103,14 +103,6 @@ internal static class Initializer
         var host = proxy ? nodeOptions.Host : serverOptions.Host;
 
         logger.LogInformation("Setting up host options..");
-        if (mqttOptions.Enable) {
-            try {
-                builder.RegisterMqttHost();
-            } catch (Exception e) {
-                logger.LogError("MQTT is wrong or an error has occured.", e);
-            }
-        }
-        
         builder.WebHost.UseKestrel(o =>
         {
             o.Limits.MaxConcurrentConnections = 1024;
@@ -118,6 +110,7 @@ internal static class Initializer
             o.Limits.MaxRequestBodySize = 52428800;
             o.Listen( defaultOptions.Management ? host : IPAddress.None, port);
         });
+        builder.RegisterMqttHost();
         builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(30));
 
         return builder;

@@ -1,11 +1,12 @@
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
+using Proton.Frequency.Queue;
 using Proton.Frequency.Services.ConfigOptions;
 using System.Net;
 
 namespace Proton.Frequency.Services;
 
-internal static class MqttInstance
+internal static class MqttInitializer
 {
     internal static WebApplicationBuilder RegisterMqttHost(this WebApplicationBuilder builder)
     {
@@ -15,6 +16,9 @@ internal static class MqttInstance
 
         config.GetSection(MqttOptions.SectionKey).Bind(configOptions);
         config.GetSection(ServerOptions.SectionKey).Bind(serverOptions);
+        
+        if (!configOptions.Enable) return builder;
+        
         builder.Services
             .AddHostedMqttServer(options =>
             {
@@ -28,35 +32,25 @@ internal static class MqttInstance
             .AddConnections();
         builder.WebHost.UseKestrel(o =>
         {
-            o.Listen(configOptions.Enable ? serverOptions.Host : IPAddress.None, configOptions.Port, l => l.UseMqtt());
+            o.Listen(serverOptions.Host, configOptions.Port, l => l.UseMqtt());
         });
 
         return builder;
     }
 
-    internal static WebApplication RegisterMqttEndpoints(this WebApplication app)
-    {
+    internal static WebApplication RegisterMqttEndpoints(this WebApplication app) {
+        var config = app.Configuration;
+        var configOptions = new MqttOptions();
+        config.GetSection(MqttOptions.SectionKey).Bind(configOptions);
+
+        if (!configOptions.Enable) return app;
         app.MapMqtt("/queue-server");
         app.UseMqttServer(server =>
         {
-            server.ValidatingConnectionAsync += ValidateConnection;
-            server.ClientConnectedAsync += OnClientConnected;
+            server.ValidatingConnectionAsync += QueueController.ValidateConnection;
+            server.ClientConnectedAsync += QueueController.OnClientConnected;
         });
 
         return app;
-    }
-
-    private static Task OnClientConnected(ClientConnectedEventArgs eventArgs)
-    {
-        var logger = Initializer.GetLogger<WebApplication>();
-        logger.LogInformation("Client '{id}' connected.", eventArgs.ClientId);
-        return Task.CompletedTask;
-    }
-
-    private static Task ValidateConnection(ValidatingConnectionEventArgs eventArgs)
-    {
-        var logger = Initializer.GetLogger<WebApplication>();
-        logger.LogInformation("Client '{id}' ants to connect. Accepting!", eventArgs.ClientId);
-        return Task.CompletedTask;
     }
 }

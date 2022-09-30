@@ -4,8 +4,9 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <!-- <StripSymbols>true</StripSymbols>
-        <InvariantGlobalization>true</InvariantGlobalization> -->
+        <StripSymbols>true</StripSymbols>
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     </PropertyGroup>
     <ItemGroup>
