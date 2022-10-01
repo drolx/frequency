@@ -2,17 +2,14 @@ using Proton.Frequency.Common.Enums;
 
 namespace Proton.Frequency.Common.Entity;
 
-public class Queue : CoreModel
+public sealed class Action : BaseModel
 {
     public DateTime Time { get; set; } = DateTime.Now;
-
-    public int? Synced { get; set; } = 0;
-
-    public EventType? Event { get; set; }
-
+    public bool Synced { get; set; } = false;
     public Terminal? Terminal { get; set; }
-
+    public string? TerminalId { get; set; }
     public Object? Object { get; set; }
-
+    public string? ObjectId { get; set; }
     public Node? Node { get; set; }
+    public string? NodeId { get; set; }
 }

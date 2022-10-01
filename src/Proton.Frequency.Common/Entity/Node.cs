@@ -1,14 +1,11 @@
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Node : CoreModel
+public sealed class Node : BaseModel
 {
     public string? UniqueId { get; set; }
-
-    public DateTime TimeUpdated { get; set; } = DateTime.Now;
-
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
     public Guid ReaderId { get; set; }
-
     public Terminal? Terminal { get; set; }
-
-    public ICollection<Queue>? Queues { get; set; }
+    public string? TerminalId { get; set; }
+    public ICollection<Action>? Queues { get; set; }
 }
