@@ -1,0 +1,41 @@
+@inherits LayoutComponentBase
+@layout MainLayout
+
+@code{
+    private bool SideBar { get; set; } = true;
+    
+    readonly Dictionary<string, string> _links = new()
+    {
+        {"System", "settings" },
+        {"Locations", "settings/locations"},
+        {"Channels", "settings/channels"},
+        {"Terminal", "settings/terminal"},
+        {"Admin", "settings/admin"},
+        {"Server", "settings/server"},
+        {"Logs", "settings/logs"},
+        {"Reboot", "settings/reboot"}
+    };
+}
+<div class="clearfix">
+    <button type="button" class="btn btn-outline-primary" @onclick="() => SideBar = !SideBar">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+</div>
+<div class="row mt-1">
+    @if (SideBar){
+    <div class="col-1 d-flex flex-column flex-shrink-0" style="width: 210px;">
+        <div class="list-group list-group-light list-group-small">
+            @foreach (var (key, value) in _links){
+                <NavLink
+                    Match="NavLinkMatch.All"
+                    href="@value"
+                    class="list-group-item list-group-item-action p-2 mt-2 border-0"
+                    aria-current="true">@key</NavLink>
+            }
+        </div>
+    </div>
+    }
+    <div class="col-4 container-fluid">
+        @Body
+    </div>
+</div>

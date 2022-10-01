@@ -2,26 +2,32 @@
 
 <Title>Overview</Title>
 
-
 <div class="row pt-1  indigo lighten-4">
     <div class="col-sm">
-        <div class="card">
-            <div class="progress mx-3 my-4 rounded"  style="height: 20px;">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        <div class="card dashboard">
+            <DashboardCardHeader Title="System resources" Icon="fas fa-boxes-stacked" Color="dodgerblue" />
+            <div class="card-body px-0">
+            <!-- Resource percentage section -->
+            <div class="resource px-2 vstack gap-3">
+                <ResourceBar Value="25" Icon="fas fa-microchip" Text="0.3MHZ" />
+                <ResourceBar Value="45" Icon="fas fa-memory" Text="1.6G" />
+                <ResourceBar Value="15" Icon="fas fa-hdd" Text="7.2GB free" />
             </div>
-            <ul class="list-group list-group-light list-group-small my-2 px-3">
-                <li class="list-group-item py-2 border-bottom d-flex justify-content-between align-items-start">
-                    <div class="me-auto">
-                        <div class="fw-bold">Subheading</div>
-                        Item One
-                    </div>
-                    <span class="badge badge-primary rounded p-2">14</span>
+            <div class="text-center">
+                <hr class="hr"/>
+            </div>
+            <!-- List text -->
+            <ul class="list-group list-group-light list-group-small px-3 py-0 mt-0">
+                <li class="list-group-item py-1 border-bottom hstack">
+                    <div class="float-left me-4" style="width: 100px">Host Address</div>
+                    <div class="text-secondary">localhost.local</div>
                 </li>
-                @* <hr class="hr" /> *@
-                <li class="list-group-item py-2 border-bottom">Item Two</li>
-                @* <hr class="hr" /> *@
-                <li class="list-group-item py-2">Item Three</li>
+                <li class="list-group-item py-1 border-bottom hstack">
+                    <div class="float-left me-4" style="width: 100px">Up Time</div>
+                    <div class="text-secondary"><span class="badge badge-primary rounded p-2">3</span> Hours</div>
+                </li>
             </ul>
+            </div>
         </div>
     </div>
     <div class="col-sm">
@@ -30,6 +36,7 @@
                 <li class="list-group-item">Item One</li>
                 <li class="list-group-item">Item Two</li>
                 <li class="list-group-item">Item Three</li>
+                @* <li class="list-group-item">Item Four</li> *@
             </ul>
         </div>
     </div>
