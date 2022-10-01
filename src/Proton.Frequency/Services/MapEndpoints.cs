@@ -21,15 +21,12 @@ internal static class MapEndpoints
         app.MapControllers();
         app.RegisterApiEndpoints();
 
-        /* Basic endpoints */
-        // app.MapGet("/api/health", () => 200);
-
         if (!app.Environment.IsDevelopment())
             return app;
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{defaultOptions.Name} Api");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{defaultOptions.Name}");
         });
 
         return app;
