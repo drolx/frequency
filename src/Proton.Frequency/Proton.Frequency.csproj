@@ -8,8 +8,8 @@
     <PackRelease>true</PackRelease>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <!--    <PublishTrimmed>true</PublishTrimmed>-->
-    <!--    <TrimmerDefaultAction>link</TrimmerDefaultAction>-->
+    <DebuggerSupport>true</DebuggerSupport>
+    <CopyOutputSymbolsToPublishDirectory>true</CopyOutputSymbolsToPublishDirectory>
     <SelfContained>true</SelfContained>
     <StripSymbols>true</StripSymbols>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -54,9 +54,7 @@
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.7.22375.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="MQTTnet" Version="4.1.0.247" />
     <PackageReference Include="MQTTnet.AspNetCore" Version="4.1.0.247" />
-    <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.1.0.247" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
@@ -64,9 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.node.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.protocol.yaml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Proton.Frequency.Common\Proton.Frequency.Common.csproj" />
@@ -74,23 +72,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Protocol" />
-  </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\css\main.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\main.css.map" />
-    <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\site.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\js\site.min.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\css\all.min.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-brands-400.ttf" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-brands-400.woff2" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-regular-400.ttf" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-regular-400.woff2" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-solid-900.ttf" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-solid-900.woff2" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-v4compatibility.ttf" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\font-awesome\webfonts\fa-v4compatibility.woff2" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\mdb-ui-kit\mdb.min.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\lib\mdb-ui-kit\mdb.min.js" />
   </ItemGroup>
 </Project>

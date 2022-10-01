@@ -34,7 +34,7 @@ internal static class ServiceDefaults
             {
                 options.SwaggerDoc(
                     "v1",
-                    new OpenApiInfo { Title = $"{defaultOptions.Name} Api", Version = "v1" }
+                    new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
                 );
             });
         }

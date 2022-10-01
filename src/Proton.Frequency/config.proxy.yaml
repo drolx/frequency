@@ -1,0 +1,42 @@
+﻿Tag:
+  MaxLength: 256
+  Allowed:
+    - EPC-GEN1
+    - EPC-GEN2
+    - ISO1800-6B
+Proxy:
+  Id: 123
+  Channel: default
+  Host: 127.0.0.1
+  Port: 7002
+  Auto: false
+  Retries: 5
+  Timeout: 3
+  Server:
+    Host: "0.0.0.0"
+    Port: 1883
+  Sync:
+    Enable: true
+    Timeout: 3
+    Retry: 5
+    Mode: MQTT # || HTTP
+    Path: "iot-topics" # HTTP - /<root-path>/{events,objects,status}
+  Devices:
+    - Name: reader-serial-00
+      Auto: false
+      Protocol: chafon
+      Type: /dev/ttyUSB0
+      Rate: 9600
+      DataBits: 8
+      Parity: None
+      StopBits: One
+      Handshake: None
+    - Name: reader-serial-01
+      Auto: true
+      Protocol: king-join
+      Type: /dev/ttyAMC0
+      Rate: 11520
+      DataBits: 8
+      Parity: None
+      StopBits: One
+      Handshake: None

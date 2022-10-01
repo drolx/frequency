@@ -1,0 +1,28 @@
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = "Title";
+
+    [Parameter]
+    public string Icon { get; set; } = "fas fa-square";
+
+    [Parameter]
+    public string Color { get; set; } = "var(--color-primary)";
+
+    [Parameter]
+    public string? Path { get; set; }
+}
+
+<div class="card-header" style="border-bottom: 0.3rem solid @Color">
+    <span class="badge rounded align-middle align-items-center float-start heading-icon p-2" style="background-color: @Color">
+        <i class="@Icon" style="color: #fff"></i>
+    </span>
+    <span class="ms-2 text-uppercase align-middle">@Title</span>
+    @if (Path != null) {
+        <NavLink href="@Path">
+            <span class="badge rounded align-middle align-items-center float-end heading-icon p-2" style="border: 0.01rem solid @Color;">
+                <i class="fa-solid fa-ellipsis-vertical" style="color: @Color"></i>
+            </span>
+        </NavLink>
+    }
+</div>

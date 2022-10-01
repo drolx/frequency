@@ -6,7 +6,7 @@
   },
   "scripts": {
     "lint": "dotnet csharpier .",
-    "dev": "dotnet watch --project src/Proton.Frequency/",
+    "dev": "dotnet watch run --project src/Proton.Frequency/",
     "run": "dotnet run --project src/Proton.Frequency/",
     "build": "dotnet build --configuration Release",
     "test": "dotnet test src/Proton.Frequency/ --configuration Release",

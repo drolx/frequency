@@ -1,4 +1,4 @@
-App:
+Service:
   Proxy: false
   Management: true
   Api: true

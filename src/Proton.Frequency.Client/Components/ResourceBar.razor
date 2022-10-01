@@ -1,0 +1,37 @@
+@code {
+    [Parameter]
+    public int Value { get; set; } = 35;
+    
+    [Parameter]
+    public int MinValue { get; set; } = 15;
+
+    [Parameter]
+    public string Icon { get; set; } = "fas fa-memory";
+
+    [Parameter]
+    public string Text { get; set; } = "Item";
+
+    private string Color {
+        get
+        {
+            return Value switch
+            {
+                25 => "#198754",
+                > 26 and <= 55 => "steelblue",
+                > 56 and <= 75 => "ffc107",
+                > 76 => "#dc3545",
+                _ => "#7f7f7f"
+            };
+        }
+    }
+
+}
+
+<div class="hstack gap-2">
+    <i class="me-1 @Icon"></i>
+    <div class="progress rounded w-100" style="height: 22px;">
+        <div class="progress-bar" role="progressbar" style="width: @Value%; background-color: @Color" aria-valuenow="@Value" aria-valuemin="@MinValue" aria-valuemax="100">
+            <span class="mx-2 resource-text">@Value% - @Text</span>
+        </div>
+    </div>
+</div>

@@ -2,7 +2,7 @@ namespace Proton.Frequency.Services.ConfigOptions;
 
 public class DefaultOptions
 {
-    public const string SectionKey = "App";
+    public const string SectionKey = "Service";
 
     public string Name { get; set; } = "UHF RFID";
 
