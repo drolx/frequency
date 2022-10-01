@@ -1,19 +1,21 @@
+@using Proton.Frequency.Common.Enums
 @inherits LayoutComponentBase
 @layout MainLayout
 
 @code{
+
+    private record Link(string Title, string Path, string? Icon, Permission Permission = Permission.STANDARD);
     private bool SideBar { get; set; } = true;
-    
-    readonly Dictionary<string, string> _links = new()
+    readonly List<Link> _links = new()
     {
-        {"System", "settings" },
-        {"Locations", "settings/locations"},
-        {"Channels", "settings/channels"},
-        {"Terminal", "settings/terminal"},
-        {"Admin", "settings/admin"},
-        {"Server", "settings/server"},
-        {"Logs", "settings/logs"},
-        {"Reboot", "settings/reboot"}
+        new Link("Users", "settings/users", "fa-solid fa-users", Permission.ADMIN),
+        new Link("Locations", "settings/locations", "fa-solid fa-location-dot"),
+        new Link("Channels", "settings/channels", "fa-solid fa-road", Permission.ADMIN),
+        new Link("Category", "settings/category", "fa-regular fa-object-group"),
+        new Link("Terminals", "settings/terminals", "fa-solid fa-terminal", Permission.ADMIN),
+        new Link("System", "settings/device", "fa-solid fa-server", Permission.SYSTEM),
+        new Link("Logs", "settings/logs", "fa-regular fa-clipboard", Permission.SYSTEM),
+        new Link("Reboot", "settings/reboot", "fa-solid fa-power-off", Permission.SYSTEM)
     };
 }
 <div class="clearfix">
@@ -25,12 +27,17 @@
     @if (SideBar){
     <div class="col-1 d-flex flex-column flex-shrink-0" style="width: 210px;">
         <div class="list-group list-group-light list-group-small">
-            @foreach (var (key, value) in _links){
+            @foreach (var link in _links){
                 <NavLink
                     Match="NavLinkMatch.All"
-                    href="@value"
-                    class="list-group-item list-group-item-action p-2 mt-2 border-0"
-                    aria-current="true">@key</NavLink>
+                    href="@link.Path"
+                    class="list-group-item list-group-item-action py-2 px-3 mt-2 border-0"
+                    aria-current="true">
+                    <span class="me-3">
+                        <i class="@link.Icon"></i>
+                    </span>
+                    <span>@link.Title</span>
+                </NavLink>
             }
         </div>
     </div>

@@ -6,7 +6,7 @@
     <div class="col-sm">
         <div class="card dashboard">
             <DashboardCardHeader Title="System resources" Icon="fas fa-boxes-stacked" Color="dodgerblue" />
-            <div class="card-body px-0">
+            <div class="card-body px-0 pb-2">
             <!-- Resource percentage section -->
             <div class="resource px-2 vstack gap-3">
                 <ResourceBar Value="25" Icon="fas fa-microchip" Text="0.3MHZ" />
@@ -20,13 +20,33 @@
             <ul class="list-group list-group-light list-group-small px-3 py-0 mt-0">
                 <li class="list-group-item py-1 border-bottom hstack">
                     <div class="float-left me-4" style="width: 100px">Host Address</div>
-                    <div class="text-secondary">localhost.local</div>
+                    <div class="text-secondary">192.168.77.213</div>
                 </li>
                 <li class="list-group-item py-1 border-bottom hstack">
                     <div class="float-left me-4" style="width: 100px">Up Time</div>
                     <div class="text-secondary"><span class="badge badge-primary rounded p-2">3</span> Hours</div>
                 </li>
+                <li class="list-group-item py-1 border-bottom hstack">
+                    <div class="float-left me-4" style="width: 100px">Proxy</div>
+                    <div class="text-secondary">Off</div>
+                </li>
             </ul>
+            <div class="hstack gap-3 rounded mx-2 mt-2 p-2" style="background-color: #ededed">
+                <!-- Temperature Item -->
+                <div class="text-secondary">
+                    <span class="badge bg-primary rounded p-2">
+                        <i class="fa-solid fa-temperature-low text-white"></i>
+                    </span>
+                    <span>56&deg;C</span>
+                </div>
+                <!-- Node counts -->
+                <div class="text-secondary">
+                    <span class="badge bg-success rounded p-2">
+                        5
+                    </span>
+                    <span>Active Nodes</span>
+                </div>
+            </div>
             </div>
         </div>
     </div>
