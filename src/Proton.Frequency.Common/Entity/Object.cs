@@ -5,7 +5,7 @@ namespace Proton.Frequency.Common.Entity;
 public sealed class Object : BaseModel
 {
     public string? TagId { get; set; }
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
     public ObjectTagType TagType { get; set; } = ObjectTagType.LF_KHZ;
     public ObjectType Type { get; set; } = ObjectType.VEHICLE;
     public DateTime? UpdatedAt { get; set; }
