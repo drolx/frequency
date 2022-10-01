@@ -7,4 +7,6 @@ public enum EventType
     LEFT,
     ATTACHED,
     DETACHED,
+    PARKED,
+    DOCKED,
 }
