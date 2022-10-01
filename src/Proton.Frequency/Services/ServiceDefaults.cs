@@ -25,20 +25,18 @@ internal static class ServiceDefaults
                 break;
         }
 
-        if (defaultOptions.Api)
-        {
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc(
-                    "v1",
-                    new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
-                );
-            });
-        }
+        if (!defaultOptions.Api) return builder;
+        builder.Services.AddControllers();
         builder.Services.RegisterModules();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc(
+            "v1",
+            new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
+            );
+        });
 
         return builder;
     }
@@ -57,7 +55,9 @@ internal static class ServiceDefaults
                 logger.LogInformation("Web management is disabled...");
                 return app;
         }
-        app.UseRouting().UseHttpsRedirection().UseAuthorization();
+        app.UseRouting();
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
 
         if (defaultOptions.Api)
             app.RegisterEndpoints();
