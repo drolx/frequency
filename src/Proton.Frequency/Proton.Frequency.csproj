@@ -8,8 +8,8 @@
     <PackRelease>true</PackRelease>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRun>true</PublishReadyToRun>
-    <!--    <PublishTrimmed>true</PublishTrimmed>-->
-    <!--    <TrimmerDefaultAction>link</TrimmerDefaultAction>-->
+    <DebuggerSupport>true</DebuggerSupport>
+    <CopyOutputSymbolsToPublishDirectory>true</CopyOutputSymbolsToPublishDirectory>
     <SelfContained>true</SelfContained>
     <StripSymbols>true</StripSymbols>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -54,9 +54,7 @@
     <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.7.22375.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="MQTTnet" Version="4.1.0.247" />
     <PackageReference Include="MQTTnet.AspNetCore" Version="4.1.0.247" />
-    <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.1.0.247" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
