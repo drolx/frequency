@@ -26,4 +26,8 @@
     <ItemGroup>
         <ProjectReference Include="..\Proton.Frequency.Common\Proton.Frequency.Common.csproj" />
     </ItemGroup>
+<!--    <Target Name="PreBuild" BeforeTargets="BeforeBuild">-->
+<!--        <Exec Command="npm i -g goog-webfont-dl" WorkingDirectory="$(ProjectDir)" />-->
+<!--        <Exec Command="goog-webfont-dl &#45;&#45;woff2 Roboto" WorkingDirectory="$(ProjectDir)wwwroot/fonts" />-->
+<!--    </Target>-->
 </Project>
