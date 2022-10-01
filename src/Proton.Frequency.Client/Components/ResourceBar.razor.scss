@@ -1,7 +1,11 @@
 .resource {
-  .fas {
-    font-size: var(--icon-loading-size);
-    color: var(--color-grey)
+  .icon {
+    width: 32px;
+    height: 32px;
+    i {
+      font-size: var(--icon-loading-size);
+      color: var(--color-grey)
+    }
   }
   .resource-text {
     color: #fff;
