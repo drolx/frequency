@@ -2,16 +2,12 @@
 @layout _Layout
 @inject NavigationManager Navigate
 
-<Title>System Setting</Title>
+<Title>Setting</Title>
 
 @functions{
-        override protected void OnInitialized() {
-            base.OnInitialized();
-        }
+    override protected void OnInitialized() {
+        Navigate.NavigateTo("settings/users");
+    }
 }
 
-
-
-<div>
-    <p>System Content</p>
-</div>
+<div>...</div>

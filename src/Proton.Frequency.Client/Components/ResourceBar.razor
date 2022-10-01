@@ -28,7 +28,9 @@
 }
 
 <div class="hstack gap-2">
-    <i class="me-1 @Icon"></i>
+    <div class="icon p-1 me-1">
+        <i class="@Icon"></i>
+    </div>
     <div class="progress rounded w-100" style="height: 22px;">
         <div class="progress-bar" role="progressbar" style="width: @Value%; background-color: @Color" aria-valuenow="@Value" aria-valuemin="@MinValue" aria-valuemax="100">
             <span class="mx-2 resource-text">@Value% - @Text</span>
