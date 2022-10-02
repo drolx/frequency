@@ -1,48 +1,32 @@
 # Proton Frequency
 
-is a UHF RFID Reader application for linux / IOT devices. It is able to identify commercial EPC Gen2 and ISO RFID Tags, and extract their card/reader details.
+Proton Frequency is RFID Reader daemon intended for IOT devices. It is able to identify commercial 125KHZ, 13.56MHZ, EPC Gen2 and ISO RFID Tags, reading, storing or forwarding details to API, MQTT or database.
 
-## Devices supported
+![Managment UI View](./docs/images/rfid-defualt-page.png)
 
-Support is available for the devices listed below with link of device details or purchase store.
+## Devices models and protocols supported
 
-### Build for Specific OS
+Support status, company and resources for the devices are listed below.
+NOTE: See product link or store url in docs folder.
 
-```bash
-dotnet publish --nologo -c Release -r linux-x64 --self-contained
-```
+| Name                    | Model     | Channels        | Port | Status      | Manufacturer         | Docs      |
+| ----------------------- | --------- | --------------- | ---- | ----------- | -------------------- | --------- |
+| Chafon (ISO18000-6B/6C) | CF-RU5102 | Serial, Network | 1731 | In Progress | Shenzhen Chafon Tech | In Folder |
+| Generic - (king-join)   | -         | Serial, Network | 1732 | In Progress | Shenzhen KingJoin    | In Folder |
+|                         |           |                 |      |             |                      |           |
+|                         |           |                 |      |             |                      |           |
 
-```bash
-dotnet publish --nologo -c Release -r win-x64 --self-contained
-```
+## Roadmap for Proton Frequqncy
 
-```bash
-dotnet publish --nologo -c Release -r osx-x64 --self-contained
-```
-
-### For Configuration override on excecution run this:
-
-```bash
-./proton-frequency --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
-```
-
-#### Or run for mac and linux
-
-```bash
-./proton-frequency --ConnectionStrings:DefaultConnection app.db --Logging:Enabled True --Logging:LogLevel Info
-```
-
-## Devices/Protocol configurations
-
-### King Join Protocol
-
-##### `Prameters:`
-
-### Chafon Protocol
-
-##### `Prameters:`
-
-## Lincense
+- [ ] IOT management UI initial version.
+- [ ] Complete v1 of API endpoints.
+- [ ] Complete current protocol implementation.
+- [ ] implementation of MQTT state synchronization.
+- [ ] Add proper documentation setup and usage.
+- [ ] Add script for Raspberry Pi and Orange Pi.
+- [ ] Add proper documentation for API endpoints.
+- [ ] Complete and documentation serial channel.
+- [ ] Complete network channel implementation.
 
 Copyright (c) 2022 <Godwin peter .O>me@godwin.dev
 
