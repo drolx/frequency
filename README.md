@@ -9,12 +9,10 @@ Proton Frequency is RFID Reader daemon intended for IOT devices. It is able to i
 Support status, company and resources for the devices are listed below.
 NOTE: See product link or store url in docs folder.
 
-| Name                    | Model     | Channels        | Port | Status      | Manufacturer         | Docs      |
-| ----------------------- | --------- | --------------- | ---- | ----------- | -------------------- | --------- |
-| Chafon (ISO18000-6B/6C) | CF-RU5102 | Serial, Network | 1731 | In Progress | Shenzhen Chafon Tech | In Folder |
-| Generic - (king-join)   | -         | Serial, Network | 1732 | In Progress | Shenzhen KingJoin    | In Folder |
-|                         |           |                 |      |             |                      |           |
-|                         |           |                 |      |             |                      |           |
+| Name                | Model     | Channels    | Port | Status | Manufacturer         | Docs      |
+| ------------------- | --------- | ----------- | ---- | ------ | -------------------- | --------- |
+| Chafon              | CF-RU5102 | Serial      | 1731 | []     | Shenzhen Chafon Tech | In Folder |
+| Generic (king-join) | None      | Serial, TCP | 1732 | []     | Shenzhen KingJoin    | In Folder |
 
 ## Roadmap for Proton Frequqncy
 
@@ -27,6 +25,8 @@ NOTE: See product link or store url in docs folder.
 - [ ] Add proper documentation for API endpoints.
 - [ ] Complete and documentation serial channel.
 - [ ] Complete network channel implementation.
+
+## License
 
 Copyright (c) 2022 <Godwin peter .O>me@godwin.dev
 
