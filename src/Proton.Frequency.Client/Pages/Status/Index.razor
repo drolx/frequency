@@ -1,66 +1,107 @@
 @page "/status"
+@using Proton.Frequency.Common.Enums
 
 <Title>Overview</Title>
 
-<div class="row pt-1  indigo lighten-4">
-    <div class="col-sm">
+<style>
+.dashboard-status {
+    height: 420px;
+}
+</style>
+
+@code {
+    private record EventList(string Object, DateTime CreatedAt, EventType Type = EventType.LEFT, string Location = "Parking Hub");
+
+    private readonly List<EventList> _events = new()
+    {
+        new EventList("AAA 767 XH", DateTime.Now, EventType.ENTERED, "Eric Moore"),
+        new EventList("KJA 907 XE", DateTime.Now, EventType.LEFT),
+        new EventList("KTU 205 XC", DateTime.Now, EventType.DOCKED, "Lagos Gate 01"),
+        new EventList("GGE 454 XF", DateTime.Now, EventType.PARKED)
+    };
+
+}
+
+<div class="row pt-1 indigo lighten-4">
+    <div class="col-4 dashboard-status">
         <div class="card dashboard">
             <DashboardCardHeader Title="System resources" Icon="fas fa-boxes-stacked" Color="dodgerblue" />
             <div class="card-body px-0 pb-2">
-            <!-- Resource percentage section -->
-            <div class="resource px-2 vstack gap-3">
-                <ResourceBar Value="25" Icon="fas fa-microchip" Text="0.3MHZ" />
-                <ResourceBar Value="45" Icon="fas fa-memory" Text="1.6G" />
-                <ResourceBar Value="15" Icon="fas fa-hdd" Text="7.2GB free" />
-            </div>
-            <div class="text-center">
-                <hr class="hr"/>
-            </div>
-            <!-- List text -->
-            <ul class="list-group list-group-light list-group-small px-3 py-0 mt-0">
-                <li class="list-group-item py-1 border-bottom hstack">
-                    <div class="float-left me-4" style="width: 100px">Host Address</div>
-                    <div class="text-secondary">192.168.77.213</div>
-                </li>
-                <li class="list-group-item py-1 border-bottom hstack">
-                    <div class="float-left me-4" style="width: 100px">Up Time</div>
-                    <div class="text-secondary"><span class="badge badge-primary rounded p-2">3</span> Hours</div>
-                </li>
-                <li class="list-group-item py-1 border-bottom hstack">
-                    <div class="float-left me-4" style="width: 100px">Proxy</div>
-                    <div class="text-secondary">Off</div>
-                </li>
-            </ul>
-            <div class="hstack gap-3 rounded mx-2 mt-2 p-2" style="background-color: #ededed">
-                <!-- Temperature Item -->
-                <div class="text-secondary">
-                    <span class="badge bg-primary rounded p-2">
-                        <i class="fa-solid fa-temperature-low text-white"></i>
-                    </span>
-                    <span>56&deg;C</span>
+                <!-- Resource percentage section -->
+                <div class="resource px-2 vstack gap-3">
+                    <ResourceBar Value="25" Icon="fas fa-microchip" Text="0.3MHZ" />
+                    <ResourceBar Value="45" Icon="fas fa-memory" Text="1.6G" />
+                    <ResourceBar Value="15" Icon="fas fa-hdd" Text="7.2GB free" />
                 </div>
-                <!-- Node counts -->
-                <div class="text-secondary">
-                    <span class="badge bg-success rounded p-2">
-                        5
-                    </span>
-                    <span>Active Nodes</span>
+                <div class="text-center">
+                    <hr class="hr"/>
                 </div>
-            </div>
+                <!-- List text -->
+                <ul class="list-group list-group-light list-group-small px-3 py-0 mt-0">
+                    <li class="list-group-item py-1 border-bottom hstack">
+                        <div class="float-left me-4" style="width: 100px">Host Address</div>
+                        <div class="text-secondary">192.168.77.213</div>
+                    </li>
+                    <li class="list-group-item py-1 border-bottom hstack">
+                        <div class="float-left me-4" style="width: 100px">Up Time</div>
+                        <div class="text-secondary"><span class="badge badge-primary rounded p-2">3</span> Hours</div>
+                    </li>
+                    <li class="list-group-item py-1 border-bottom hstack">
+                        <div class="float-left me-4" style="width: 100px">Proxy</div>
+                        <div class="text-secondary">Off</div>
+                    </li>
+                </ul>
+                <div class="hstack gap-3 rounded mx-2 mt-2 p-2" style="background-color: #ededed">
+                    <!-- Temperature Item -->
+                    <div class="text-secondary">
+                        <span class="badge bg-primary rounded p-2">
+                            <i class="fa-solid fa-temperature-low text-white"></i>
+                        </span>
+                        <span>56&deg;C</span>
+                    </div>
+                    <!-- Object Count -->
+                    <div class="text-secondary">
+                        <span class="badge bg-info rounded p-2">
+                            <i class="fa-solid fa-tags text-white"></i>
+                        </span>
+                        <span>107</span>
+                    </div>
+                    <!-- Node counts -->
+                    <div class="text-secondary">
+                        <span class="badge bg-success rounded p-2">
+                            5
+                        </span>
+                        <span>Nodes</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm">
-        <div class="card">
-            <ul class="list-group border-0">
-                <li class="list-group-item">Item One</li>
-                <li class="list-group-item">Item Two</li>
-                <li class="list-group-item">Item Three</li>
-                @* <li class="list-group-item">Item Four</li> *@
-            </ul>
+    <div class="col-8">
+        <div class="card pb-3 dashboard-status">
+            <DashboardCardHeader Title="Object Events" Icon="fa-solid fa-calendar" Color="orange" Path="/events">
+                <div>
+                    <select class="form-select form-select-sm" aria-label=".form-select-lg">
+                        <option selected>Last 15</option>
+                        <option value="1">Last 25</option>
+                        <option value="2">Last 50</option>
+                    </select>
+                </div>
+            </DashboardCardHeader>
+            <table class="table table-sm">
+                <tbody>
+                
+                @foreach(var item in _events)
+                {
+                    <tr>
+                        <td>@item.Object</td>
+                        <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td class="text-capitalize">@item.Type</td>
+                        <td>@item.Location</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="col-sm">
-        One of three columns
     </div>
 </div>

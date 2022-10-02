@@ -1,10 +1,10 @@
-using MQTTnet.AspNetCore;
-using Proton.Frequency.Services.ConfigOptions;
+using Proton.Frequency.Extensions;
+using Proton.Frequency.Config;
 using Serilog;
 using System.Net;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
+using ILogger=Microsoft.Extensions.Logging.ILogger;
 
-namespace Proton.Frequency.Services;
+namespace Proton.Frequency;
 
 internal static class Initializer
 {
@@ -65,40 +65,39 @@ internal static class Initializer
         /* Minimal API configuration options */
         /* https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0 */
 
-        builder.Services.Configure<DefaultOptions>(config.GetSection(DefaultOptions.SectionKey));
+        builder.Services.Configure<DefaultConfig>(config.GetSection(DefaultConfig.Key));
         builder.Services
-            .AddOptions<ServerOptions>()
-            .Bind(config.GetSection(ServerOptions.SectionKey))
+            .AddOptions<ServerConfig>()
+            .Bind(config.GetSection(ServerConfig.Key))
             .ValidateDataAnnotations();
         builder.Services
-            .AddOptions<ProxyOptions>()
-            .Bind(config.GetSection(ProxyOptions.SectionKey))
+            .AddOptions<ProxyConfig>()
+            .Bind(config.GetSection(ProxyConfig.Key))
             .ValidateDataAnnotations();
         builder.Services
-            .AddOptions<MqttOptions>()
-            .Bind(config.GetSection(MqttOptions.SectionKey))
+            .AddOptions<QueueConfig>()
+            .Bind(config.GetSection(QueueConfig.Key))
             .ValidateDataAnnotations();
 
         return builder;
     }
 
-    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder)
-    {
+    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder) {
         var config = builder.Configuration;
         var logger = GetLogger<WebApplicationBuilder>();
-        var defaultOptions = new DefaultOptions();
-        var serverOptions = new ServerOptions();
-        var nodeOptions = new ProxyOptions();
-        var mqttOptions = new MqttOptions();
+        var defaultOptions = new DefaultConfig();
+        var serverOptions = new ServerConfig();
+        var proxyOptions = new ProxyConfig();
+        var queueOptions = new QueueConfig();
 
-        config.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
-        config.GetSection(ServerOptions.SectionKey).Bind(serverOptions);
-        config.GetSection(ProxyOptions.SectionKey).Bind(nodeOptions);
-        config.GetSection(MqttOptions.SectionKey).Bind(mqttOptions);
+        config.GetSection(DefaultConfig.Key).Bind(defaultOptions);
+        config.GetSection(ServerConfig.Key).Bind(serverOptions);
+        config.GetSection(ProxyConfig.Key).Bind(proxyOptions);
+        config.GetSection(QueueConfig.Key).Bind(queueOptions);
 
         var proxy = defaultOptions!.Proxy;
-        var port = proxy ? nodeOptions.Port : serverOptions.Port;
-        var host = proxy ? nodeOptions.Host : serverOptions.Host;
+        var port = proxy ? proxyOptions.Port : serverOptions.Port;
+        var host = proxy ? proxyOptions.Host : serverOptions.Host;
 
         logger.LogInformation("Setting up host options..");
         builder.WebHost.UseKestrel(o =>

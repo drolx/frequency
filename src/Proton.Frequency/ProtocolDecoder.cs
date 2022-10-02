@@ -1,3 +1,3 @@
 namespace Proton.Frequency;
 
-internal abstract class ProtocolDecoder { }
+internal abstract class ProtocolDecoder : ObjectDecoder { }

@@ -1,13 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Proton.Frequency.Services.ConfigOptions;
+namespace Proton.Frequency.Config;
 
-public class MqttOptions
+public sealed class QueueConfig
 {
-    public const string SectionKey = "Server:Queue";
-
+    public const string Key = "server:queue";
     public bool Enable { get; set; }
-
     [Range(0, 65535, ErrorMessage = "Port number invalid.")]
     public int Port { get; set; } = 1883;
 }

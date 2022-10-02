@@ -1,8 +1,8 @@
 using Proton.Frequency.Workers;
 
-namespace Proton.Frequency.Services;
+namespace Proton.Frequency.Extensions;
 
-internal static class WorkerInstances
+internal static class WorkerExtension
 {
     internal static IServiceCollection RegisterWorkersServices(this IServiceCollection services)
     {

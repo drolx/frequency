@@ -1,21 +1,21 @@
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
+using Proton.Frequency.Config;
 using Proton.Frequency.Queue;
-using Proton.Frequency.Services.ConfigOptions;
 using System.Net;
 
-namespace Proton.Frequency.Services;
+namespace Proton.Frequency.Extensions;
 
-internal static class MqttInitializer
+internal static class QueueExtension
 {
     internal static WebApplicationBuilder RegisterMqttHost(this WebApplicationBuilder builder)
     {
         var config = builder.Configuration;
-        var configOptions = new MqttOptions();
-        var serverOptions = new ServerOptions();
+        var configOptions = new QueueConfig();
+        var serverOptions = new ServerConfig();
 
-        config.GetSection(MqttOptions.SectionKey).Bind(configOptions);
-        config.GetSection(ServerOptions.SectionKey).Bind(serverOptions);
+        config.GetSection(QueueConfig.Key).Bind(configOptions);
+        config.GetSection(ServerConfig.Key).Bind(serverOptions);
         
         if (!configOptions.Enable) return builder;
         
@@ -40,8 +40,8 @@ internal static class MqttInitializer
 
     internal static WebApplication RegisterMqttEndpoints(this WebApplication app) {
         var config = app.Configuration;
-        var configOptions = new MqttOptions();
-        config.GetSection(MqttOptions.SectionKey).Bind(configOptions);
+        var configOptions = new QueueConfig();
+        config.GetSection(QueueConfig.Key).Bind(configOptions);
 
         if (!configOptions.Enable) return app;
         app.MapMqtt("/queue-server");

@@ -1,25 +1,13 @@
-﻿network:
-  - Name: reader-net-00
-    Protocol: TCP
-    Server: false
-    Type: chafon
-    Host: 0.0.0.0
-    Port: 17301
-  - Name: reader-net-01
-    Protocol: UDP
-    Server: true
-    Type: king-join
-    Host: 0.0.0.0
-    Port: 17302
-  - Name: reader-nfc-00
-    Protocol: UDP
-    Server: true
-    Type: king-join
-    Host: 0.0.0.0
-    Port: 17303
-  - Name: reader-client-00
-    Protocol: HTTP
-    Server: false
-    Type: custom-0
-    Host: 0.0.0.0
-    Port: 17304
+﻿networks:
+  - name: reader-00
+    protocol: chafon
+    port: 1731
+  - name: reader-01
+    protocol: king-join
+    port: 1732
+  - name: nfc-00
+    protocol: king-join
+    port: 1733
+  - name: client-00
+    protocol: custom-0
+    Port: 1734

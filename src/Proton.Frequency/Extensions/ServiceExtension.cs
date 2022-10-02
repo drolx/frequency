@@ -1,17 +1,17 @@
 using Microsoft.OpenApi.Models;
 using Proton.Frequency.Api;
-using Proton.Frequency.Services.ConfigOptions;
+using Proton.Frequency.Config;
 
-namespace Proton.Frequency.Services;
+namespace Proton.Frequency.Extensions;
 
-internal static class ServiceDefaults
+internal static class ServiceExtension
 {
     internal static WebApplicationBuilder RegisterStandardServices(
         this WebApplicationBuilder builder
     )
     {
-        var defaultOptions = new DefaultOptions();
-        builder.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
+        var defaultOptions = new DefaultConfig();
+        builder.Configuration.GetSection(DefaultConfig.Key).Bind(defaultOptions);
 #if DEBUG
         builder.Services.AddSassCompiler();
 #endif
@@ -25,29 +25,27 @@ internal static class ServiceDefaults
                 break;
         }
 
-        if (defaultOptions.Api)
-        {
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc(
-                    "v1",
-                    new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
-                );
-            });
-        }
+        if (!defaultOptions.Api) return builder;
+        builder.Services.AddControllers();
         builder.Services.RegisterModules();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc(
+            "v1",
+            new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
+            );
+        });
 
         return builder;
     }
 
-    internal static WebApplication RegisterDefaults(this WebApplication app)
+    internal static WebApplication RegisterAppServices(this WebApplication app)
     {
         var logger = Initializer.GetLogger<WebApplication>();
-        var defaultOptions = new DefaultOptions();
-        app.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
+        var defaultOptions = new DefaultConfig();
+        app.Configuration.GetSection(DefaultConfig.Key).Bind(defaultOptions);
 
         switch (defaultOptions.Management)
         {
@@ -57,7 +55,9 @@ internal static class ServiceDefaults
                 logger.LogInformation("Web management is disabled...");
                 return app;
         }
-        app.UseRouting().UseHttpsRedirection().UseAuthorization();
+        app.UseRouting();
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
 
         if (defaultOptions.Api)
             app.RegisterEndpoints();

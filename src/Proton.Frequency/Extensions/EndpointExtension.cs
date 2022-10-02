@@ -1,15 +1,15 @@
 using Proton.Frequency.Api;
-using Proton.Frequency.Services.ConfigOptions;
+using Proton.Frequency.Config;
 
-namespace Proton.Frequency.Services;
+namespace Proton.Frequency.Extensions;
 
-internal static class MapEndpoints
+internal static class EndpointExtension
 {
     internal static WebApplication RegisterEndpoints(this WebApplication app)
     {
         var logger = Initializer.GetLogger<WebApplication>();
-        var defaultOptions = new DefaultOptions();
-        app.Configuration.GetSection(DefaultOptions.SectionKey).Bind(defaultOptions);
+        var defaultOptions = new DefaultConfig();
+        app.Configuration.GetSection(DefaultConfig.Key).Bind(defaultOptions);
         app.RegisterMqttEndpoints();
 
         if (!defaultOptions.Api)

@@ -22,12 +22,12 @@ public static class ModuleExtensions
         return services;
     }
 
-    public static WebApplication RegisterApiEndpoints(this WebApplication app)
-    {
+    public static WebApplication RegisterApiEndpoints(this WebApplication app) {
         foreach (var module in RegisteredModules)
         {
             module.MapEndpoints(app);
         }
+        
         return app;
     }
 

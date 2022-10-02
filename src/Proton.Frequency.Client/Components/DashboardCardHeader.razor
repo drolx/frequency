@@ -1,28 +1,32 @@
 @code {
-
+        private const string ButtonClasses = "align-middle align-items-center ms-2";
     [Parameter]
     public string Title { get; set; } = "Title";
-
     [Parameter]
     public string Icon { get; set; } = "fas fa-square";
-
     [Parameter]
     public string Color { get; set; } = "var(--color-primary)";
-
     [Parameter]
     public string? Path { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
 }
 
-<div class="card-header" style="border-bottom: 0.3rem solid @Color">
-    <span class="badge rounded align-middle align-items-center float-start heading-icon p-2" style="background-color: @Color">
-        <i class="@Icon" style="color: #fff"></i>
-    </span>
-    <span class="ms-2 text-uppercase align-middle">@Title</span>
-    @if (Path != null) {
-        <NavLink href="@Path">
-            <span class="badge rounded align-middle align-items-center float-end heading-icon p-2" style="border: 0.01rem solid @Color;">
-                <i class="fa-solid fa-ellipsis-vertical" style="color: @Color"></i>
-            </span>
-        </NavLink>
-    }
+<div class="card-header clearfix" style="border-bottom: 0.3rem solid @Color">
+    <div class="align-middle float-start">
+        <span class="badge rounded align-middle align-items-center heading-icon p-2" style="background-color: @Color">
+            <i class="@Icon" style="color: #fff"></i>
+        </span>
+        <span class="ms-2 text-uppercase align-middle">@Title</span>
+    </div>
+    <div class="float-end align-middle hstack">
+        @ChildContent
+        @if (Path != null) {
+            <NavLink href="@Path" class="@ButtonClasses">
+                <span class="badge rounded heading-icon p-2 @ButtonClasses" style="border: 0.01rem solid @Color;">
+                    <i class="fa-solid fa-ellipsis-vertical" style="color: @Color"></i>
+                </span>
+            </NavLink>
+        }
+    </div>
 </div>
