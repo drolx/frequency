@@ -1,3 +1,3 @@
 namespace Proton.Frequency.Handler;
 
-internal sealed class QueueHandler : Handler { }
+internal sealed class QueueHandler : DataHandler { }

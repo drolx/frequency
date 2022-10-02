@@ -1,5 +1,5 @@
 namespace Proton.Frequency.Handler.Event; 
 
-internal abstract class EventHandler : Handler {
+internal abstract class EventHandler : DataHandler {
     
 }
