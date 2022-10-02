@@ -1,6 +1,5 @@
 namespace Proton.Frequency.Handler.Event;
 
-public sealed class LocationEventHandler
-{
-    // Events - Crossed, Arrived, Left
+internal sealed class LocationEventHandler : EventHandler {
+    /* Events - Crossed, Arrived, Left */
 }
