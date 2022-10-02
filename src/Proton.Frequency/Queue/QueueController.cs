@@ -1,5 +1,5 @@
 using MQTTnet.Server;
-using Proton.Frequency.Services;
+using Proton.Frequency.Extensions;
 
 namespace Proton.Frequency.Queue; 
 
