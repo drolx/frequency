@@ -1,6 +1,5 @@
-using Microsoft.Extensions.Options;
-using Proton.Frequency.Services;
-using Proton.Frequency.Services.ConfigOptions;
+using Proton.Frequency;
+using Proton.Frequency.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.RegisterConfigurations();
