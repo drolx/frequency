@@ -8,6 +8,6 @@ builder.RegisterStandardServices();
 builder.Services.RegisterWorkersServices();
 
 var app = builder.Build();
-app.RegisterDefaults().RegisterEndpoints();
+app.RegisterAppServices();
 
 app.Run();

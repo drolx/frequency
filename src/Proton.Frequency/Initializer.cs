@@ -82,8 +82,7 @@ internal static class Initializer
         return builder;
     }
 
-    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder)
-    {
+    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder) {
         var config = builder.Configuration;
         var logger = GetLogger<WebApplicationBuilder>();
         var defaultOptions = new DefaultConfig();

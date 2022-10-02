@@ -41,7 +41,7 @@ internal static class ServiceExtension
         return builder;
     }
 
-    internal static WebApplication RegisterDefaults(this WebApplication app)
+    internal static WebApplication RegisterAppServices(this WebApplication app)
     {
         var logger = Initializer.GetLogger<WebApplication>();
         var defaultOptions = new DefaultConfig();
