@@ -1,7 +1,7 @@
-AllowedHosts: "*"
-Server:
-  Host: 127.0.0.1
-  Port: 7001
-  Queue:
-    Enable: true
-    Port: 1883
+allowedHosts: "*"
+server:
+  host: 127.0.0.1
+  port: 7001
+  queue:
+    enable: true
+    port: 1883
