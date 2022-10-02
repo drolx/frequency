@@ -1,26 +1,27 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Proton.Frequency.Config;
 
-namespace Proton.Frequency.Api.Action.Endpoints; 
+namespace Proton.Frequency.Api.Action.Endpoints;
 
-public class ActionManagement {
-    private ILogger<ActionManagement> _logger { get; set; }
-    private IOptions<DefaultConfig> _config { get; set; }
-    
-    public ActionManagement(ILogger<ActionManagement> logger, IOptions<DefaultConfig> config) {
-        _logger = logger;
-        _config = config;
+public class ActionManagement
+{
+    public ActionManagement(ILogger<ActionManagement> logger, IOptions<List<NetworkConfig>> config)
+    {
+        Logger = logger;
+        Config = config.Value;
     }
-    
+
+    private ILogger<ActionManagement> Logger { get; }
+    private List<NetworkConfig> Config { get; }
+
     public IResult Get()
     {
-        return Results.Ok("Action");
+        Logger.LogInformation("-------------------------- {name} ---------------", Config.Count);
+        return Results.Ok(Config);
     }
-    
+
     public IResult GetById(int id)
     {
         return Results.Ok(id);
     }
-
 }

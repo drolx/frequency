@@ -25,7 +25,8 @@ internal static class ServiceExtension
                 break;
         }
 
-        if (!defaultOptions.Api) return builder;
+        if (!defaultOptions.Api)
+            return builder;
         builder.Services.AddControllers();
         builder.Services.RegisterModules();
         builder.Services.AddEndpointsApiExplorer();
@@ -33,8 +34,8 @@ internal static class ServiceExtension
         builder.Services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc(
-            "v1",
-            new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
+                "v1",
+                new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
             );
         });
 
@@ -68,7 +69,7 @@ internal static class ServiceExtension
         app.MapRazorPages();
         app.MapControllers();
         app.MapFallbackToFile("index.html");
-        
+
         if (!app.Environment.IsDevelopment())
             return app;
         app.UseWebAssemblyDebugging();

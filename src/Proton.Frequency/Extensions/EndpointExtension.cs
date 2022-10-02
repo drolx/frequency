@@ -10,7 +10,7 @@ internal static class EndpointExtension
         var logger = Initializer.GetLogger<WebApplication>();
         var defaultOptions = new DefaultConfig();
         app.Configuration.GetSection(DefaultConfig.Key).Bind(defaultOptions);
-        app.RegisterMqttEndpoints();
+        app.RegisterQueueEndpoints();
 
         if (!defaultOptions.Api)
         {

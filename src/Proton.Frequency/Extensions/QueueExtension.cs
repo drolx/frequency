@@ -1,14 +1,12 @@
 using MQTTnet.AspNetCore;
-using MQTTnet.Server;
 using Proton.Frequency.Config;
 using Proton.Frequency.Queue;
-using System.Net;
 
 namespace Proton.Frequency.Extensions;
 
 internal static class QueueExtension
 {
-    internal static WebApplicationBuilder RegisterMqttHost(this WebApplicationBuilder builder)
+    internal static WebApplicationBuilder RegisterQueueHost(this WebApplicationBuilder builder)
     {
         var config = builder.Configuration;
         var configOptions = new QueueConfig();
@@ -16,9 +14,10 @@ internal static class QueueExtension
 
         config.GetSection(QueueConfig.Key).Bind(configOptions);
         config.GetSection(ServerConfig.Key).Bind(serverOptions);
-        
-        if (!configOptions.Enable) return builder;
-        
+
+        if (!configOptions.Enable)
+            return builder;
+
         builder.Services
             .AddHostedMqttServer(options =>
             {
@@ -32,18 +31,20 @@ internal static class QueueExtension
             .AddConnections();
         builder.WebHost.UseKestrel(o =>
         {
-            o.Listen(serverOptions.Host, configOptions.Port, l => l.UseMqtt());
+            o.Listen(serverOptions.Host, configOptions.Port, configure: l => l.UseMqtt());
         });
 
         return builder;
     }
 
-    internal static WebApplication RegisterMqttEndpoints(this WebApplication app) {
+    internal static WebApplication RegisterQueueEndpoints(this WebApplication app)
+    {
         var config = app.Configuration;
         var configOptions = new QueueConfig();
         config.GetSection(QueueConfig.Key).Bind(configOptions);
 
-        if (!configOptions.Enable) return app;
+        if (!configOptions.Enable)
+            return app;
         app.MapMqtt("/queue-server");
         app.UseMqttServer(server =>
         {
