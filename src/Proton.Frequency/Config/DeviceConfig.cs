@@ -2,12 +2,9 @@ using System.IO.Ports;
 
 namespace Proton.Frequency.Config;
 
-public sealed class DeviceConfig : IConfig
-{
-    public static string Key { get; set; } = "devices";
-    private static bool List { get; set; } = true;
-    public string Identifier => Key;
-    public bool IsList => List;
+public sealed class DeviceConfig : IConfig {
+    public const string Key = "devices";
+    public const bool IsList = true;
     public string Name { get; set; } = "node-00";
     public string Port { get; set; } = "/dev/ttyUSB0";
     public int Rate { get; set; } = 9600;
