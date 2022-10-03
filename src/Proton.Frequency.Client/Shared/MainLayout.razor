@@ -4,9 +4,9 @@
     {
         { "Overview", "status" },
         { "Queue", "queue" },
+        { "Objects", "objects" },
         { "Event History", "events" },
         { "Nodes", "nodes" },
-        { "Objects", "objects" },
         { "Settings", "settings" }
     };
 }
@@ -32,9 +32,10 @@
     </header>
     <div class="d-flex flex-wrap justify-content-center">
         <ul class="nav nav-pills nav-fill">
-            @foreach (var (key, value) in links)
-            {
-                <li class="nav-item"><NavLink href="@value" class="nav-link" Match="NavLinkMatch.Prefix">@key</NavLink></li>
+            @foreach (var (key, value) in links){
+                <li class="nav-item">
+                    <NavLink href="@value" class="nav-link" Match="NavLinkMatch.Prefix">@key</NavLink>
+                </li>
             }
         </ul>
     </div>
