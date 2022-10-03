@@ -58,9 +58,6 @@
     <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AspNetCore.SassCompiler" Version="1.55.0" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
     <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />

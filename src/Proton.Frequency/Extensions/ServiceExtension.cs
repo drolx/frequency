@@ -12,9 +12,6 @@ internal static class ServiceExtension
     {
         var defaultOptions = new DefaultConfig();
         builder.Configuration.GetSection(DefaultConfig.Key).Bind(defaultOptions);
-#if DEBUG
-        builder.Services.AddSassCompiler();
-#endif
         switch (defaultOptions.Management)
         {
             case false when defaultOptions.Api:
