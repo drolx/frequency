@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <StripSymbols>true</StripSymbols>
-        <InvariantGlobalization>true</InvariantGlobalization>
+<!--        <InvariantGlobalization>true</InvariantGlobalization>-->
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     </PropertyGroup>
