@@ -3,6 +3,77 @@
 
 <Title>Users</Title>
 
-<div>
-    <p>Users Content</p>
+@code {
+
+}
+<div class="pt-1">
+    <div class="row px-2">
+        <div class="col-4">
+            <div class="input-group">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                <button type="button" class="btn btn-primary rounded ms-1">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col d-inline-flex flex-nowrap justify-content-end">
+            <select class="form-select" style="max-width: 200px" aria-label="Terminal State">
+                <option value="0" selected>Active</option>
+                <option value="1">Disabled</option>
+                <option value="2">Archived</option>
+            </select>
+            <a type="button" class="btn btn-success ms-2" href="/objects/create">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+    </div>
+    <div class="table-wrapper-scroll-y table-scroll mt-2 px-3">
+        <table class="table table-sm table-hover table-responsive text-nowrap text-center align-middle">
+            <thead>
+            <tr class="text-black-50">
+                <th scope="col">FULL NAME</th>
+                <th scope="col">GROUP</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>
+                    <a type="button" class="btn btn-primary" href="#">
+                        <i class="fas fa-ellipsis"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>
+                    <a type="button" class="btn btn-primary" href="#">
+                        <i class="fas fa-ellipsis"></i>
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>x</td>
+                <td>
+                    <a type="button" class="btn btn-primary" href="#">
+                        <i class="fas fa-ellipsis"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <TableNavigation></TableNavigation>
 </div>
