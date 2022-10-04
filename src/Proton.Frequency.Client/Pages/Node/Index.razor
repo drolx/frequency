@@ -2,4 +2,80 @@
 
 <Title>Nodes</Title>
 
-<div>Nodes content</div>
+
+@code {
+    private record ObjectList(string Name, DateTime Time, string Location = "(New Site) Logbara, Ogun", string Terminal = "Lagos-01");
+    private readonly List<ObjectList> _objects = new()
+    {
+        new ObjectList("Agege Gate 2", DateTime.Now, "Eric Moore", "Ogun Branch"),
+        new ObjectList("Ikeja Gate 1", DateTime.Now),
+        new ObjectList("Warehouse north", DateTime.Now, "Lagos Gate 01", "Magboro"),
+        new ObjectList("Store house 00", DateTime.Now )
+    };
+}
+
+<div class="row">
+    <div class="col-5">
+        <Card Style="height: calc(100vh - 220px)">
+            <CardBody Class="p-2">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                    <button type="button" class="btn btn-secondary rounded ms-1">
+                        <i class="fa-solid fa-sliders"></i>
+                    </button>
+                </div>
+                <div>
+                    <ListGroup Class="pt-3" Flush>
+                        <!-- Start object item -->
+                        @foreach (var item in _objects){
+                            <ListGroupItem Class="px-2 rounded list-group-item list-group-item-action">
+                                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Size="HeadingSize.Is6" Class="mb-1 hstack">
+                                        <span class="text-secondary">@item.Name</span>
+                                        
+                                    </Heading>
+                                    <Small Class="hstack" TextColor="TextColor.Secondary">
+                                        <span class="badge bg-success badge-dot"></span>
+                                        <span class="ms-3">Online</span>
+                                    </Small>
+                                </Div>
+                                <Paragraph Class="mb-1 clearfix">
+                                    <span class="me-2 float-start">
+                                        <i class="fa-solid fa-location-crosshairs"></i>
+                                        <span>@item.Location</span>
+                                    </span>
+                                    <Badge Color="Color.Secondary" class="ms-4 p-1 bg-secondary text-white float-end">
+                                        <i class="fa-solid fa-torii-gate me-2"></i>
+                                        <span>@item.Terminal</span>
+                                    </Badge>
+                                </Paragraph>
+                            </ListGroupItem>
+                        }
+                    </ListGroup>
+                </div>
+            </CardBody>
+        </Card>
+    </div>
+    <div class="col-7">
+        <Card Style="height: calc(100vh - 220px)">
+            <CardHeader Class="clearfix">
+                <div class="float-start">
+                    <span>Details</span>
+                </div>
+                <div class="float-end">
+                    <Button Color="Color.Danger">
+                        <Icon Name="IconName.Archive"></Icon>
+                    </Button>
+                    <Button Color="Color.Secondary" class="ms-2">
+                        <Icon Name="IconName.PaperPlane"></Icon>
+                    </Button>
+                </div>
+            </CardHeader>
+            <CardBody>
+                <div class="p-2 text-center">
+                    <img src="images/no-data.svg" style="height: 240px" alt="No Data" />
+                </div>
+            </CardBody>
+        </Card>
+    </div>
+</div>
