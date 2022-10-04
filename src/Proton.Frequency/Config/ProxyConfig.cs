@@ -3,7 +3,8 @@ using System.Net;
 
 namespace Proton.Frequency.Config;
 
-public sealed class ProxyConfig : IConfig {
+public sealed class ProxyConfig : IConfig
+{
     public const string Key = "proxy";
     public const bool IsList = false;
     public IPAddress Host { get; set; } = IPAddress.Any;

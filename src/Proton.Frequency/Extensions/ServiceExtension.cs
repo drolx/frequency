@@ -4,13 +4,16 @@ using Proton.Frequency.Config;
 
 namespace Proton.Frequency.Extensions;
 
-internal static class ServiceExtension {
+internal static class ServiceExtension
+{
     internal static WebApplicationBuilder RegisterStandardServices(
         this WebApplicationBuilder builder
-    ) {
+    )
+    {
         var defaultOptions = new ServiceConfig();
         builder.Configuration.GetSection(ServiceConfig.Key).Bind(defaultOptions);
-        switch (defaultOptions.Management) {
+        switch (defaultOptions.Management)
+        {
             case false when defaultOptions.Api:
                 return builder;
             case true:
@@ -25,22 +28,25 @@ internal static class ServiceExtension {
         builder.Services.RegisterModules();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddSwaggerGen(options => {
+        builder.Services.AddSwaggerGen(options =>
+        {
             options.SwaggerDoc(
-            "v1",
-            new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
+                "v1",
+                new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
             );
         });
 
         return builder;
     }
 
-    internal static WebApplication RegisterAppServices(this WebApplication app) {
+    internal static WebApplication RegisterAppServices(this WebApplication app)
+    {
         var logger = Initializer.GetLogger<WebApplication>();
         var defaultOptions = new ServiceConfig();
         app.Configuration.GetSection(ServiceConfig.Key).Bind(defaultOptions);
 
-        switch (defaultOptions.Management) {
+        switch (defaultOptions.Management)
+        {
             case false when !defaultOptions.Api:
                 return app;
             case false:

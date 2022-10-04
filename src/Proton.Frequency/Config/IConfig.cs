@@ -1,3 +1,3 @@
 namespace Proton.Frequency.Config;
 
-internal interface IConfig {}
+internal interface IConfig { }

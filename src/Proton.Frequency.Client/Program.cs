@@ -12,10 +12,10 @@ builder.Services.AddSassCompiler();
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services
-    .AddBlazorise( options =>
+    .AddBlazorise(options =>
     {
         options.Immediate = true;
-    } )
+    })
     .AddBootstrap5Providers()
     .AddFontAwesomeIcons();
 builder.Services.AddHttpClient(

@@ -3,7 +3,8 @@ using System.Net;
 
 namespace Proton.Frequency.Config;
 
-public sealed class ServerConfig : IConfig {
+public sealed class ServerConfig : IConfig
+{
     public const string Key = "server";
     public const bool IsList = false;
     public IPAddress Host { get; set; } = IPAddress.Any;
