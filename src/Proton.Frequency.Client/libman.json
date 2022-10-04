@@ -17,6 +17,13 @@
         "mdb.min.css",
         "mdb.min.js"
       ]
+    },
+    {
+      "library": "Chart.js@3.9.1",
+      "destination": "wwwroot/lib/Chart.js",
+      "files": [
+        "chart.min.js"
+      ]
     }
   ]
 }

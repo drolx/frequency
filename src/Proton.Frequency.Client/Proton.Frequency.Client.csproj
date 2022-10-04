@@ -11,6 +11,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Blazorise.Bootstrap5" Version="1.1.1" />
+        <PackageReference Include="Blazorise.Charts" Version="1.1.1" />
         <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-rc.1.22427.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-rc.1.22427.2" PrivateAssets="all" />
