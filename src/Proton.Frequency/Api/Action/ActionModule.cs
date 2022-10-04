@@ -14,10 +14,10 @@ public class ActionModule : IModule
 
     public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("/api/actions", (ActionManagement actions) => actions.Get());
+        endpoints.MapGet("/api/v1/actions", handler: (ActionManagement actions) => actions.Get());
         endpoints.MapGet(
-            "/api/actions/{id:int}",
-            (ActionManagement actions, [FromRoute] int id) => actions.GetById(id)
+            "/api/actions/v1/{id:int}",
+            handler: (ActionManagement actions, [FromRoute] int id) => actions.GetById(id)
         );
 
         return endpoints;
