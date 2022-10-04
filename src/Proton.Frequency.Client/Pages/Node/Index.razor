@@ -2,86 +2,80 @@
 
 <Title>Nodes</Title>
 
-<div class="card mt-1 px-1 pt-3">
-  <div class="row px-2">
-    <div class="col">
-      <div class="input-group">
-        <div class="form-outline">
-          <input type="search" style="width: 300px" id="form1" class="form-control"/>
-          <label class="form-label" for="form1">Search</label>
-        </div>
-        <button type="button" class="btn btn-primary ms-1">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
+
+@code {
+    private record ObjectList(string Name, DateTime Time, string Location = "(New Site) Logbara, Ogun", string Terminal = "Lagos-01");
+    private readonly List<ObjectList> _objects = new()
+    {
+        new ObjectList("Agege Gate 2", DateTime.Now, "Eric Moore", "Ogun Branch"),
+        new ObjectList("Ikeja Gate 1", DateTime.Now),
+        new ObjectList("Warehouse north", DateTime.Now, "Lagos Gate 01", "Magboro"),
+        new ObjectList("Store house 00", DateTime.Now )
+    };
+}
+
+<div class="row">
+    <div class="col-5">
+        <Card Style="height: calc(100vh - 220px)">
+            <CardBody Class="p-2">
+                <div class="input-group">
+                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+                    <button type="button" class="btn btn-secondary rounded ms-1">
+                        <i class="fa-solid fa-sliders"></i>
+                    </button>
+                </div>
+                <div>
+                    <ListGroup Class="pt-3" Flush>
+                        <!-- Start object item -->
+                        @foreach (var item in _objects){
+                            <ListGroupItem Class="px-2 rounded list-group-item list-group-item-action">
+                                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Size="HeadingSize.Is6" Class="mb-1 hstack">
+                                        <span class="text-secondary">@item.Name</span>
+                                        
+                                    </Heading>
+                                    <Small Class="hstack" TextColor="TextColor.Secondary">
+                                        <span class="badge bg-success badge-dot"></span>
+                                        <span class="ms-3">Online</span>
+                                    </Small>
+                                </Div>
+                                <Paragraph Class="mb-1 clearfix">
+                                    <span class="me-2 float-start">
+                                        <i class="fa-solid fa-location-crosshairs"></i>
+                                        <span>@item.Location</span>
+                                    </span>
+                                    <Badge Color="Color.Secondary" class="ms-4 p-1 bg-secondary text-white float-end">
+                                        <i class="fa-solid fa-torii-gate me-2"></i>
+                                        <span>@item.Terminal</span>
+                                    </Badge>
+                                </Paragraph>
+                            </ListGroupItem>
+                        }
+                    </ListGroup>
+                </div>
+            </CardBody>
+        </Card>
     </div>
-    <div class="col d-inline-flex flex-nowrap justify-content-end">
-      <select class="form-select" style="max-width: 200px" aria-label="Terminal State">
-        <option value="0" selected>Active</option>
-        <option value="1">Disabled</option>
-        <option value="2">Archived</option>
-      </select>
-      <button type="button" class="btn btn-success ms-2"><i class="fas fa-plus"></i></button>
+    <div class="col-7">
+        <Card Style="height: calc(100vh - 220px)">
+            <CardHeader Class="clearfix">
+                <div class="float-start">
+                    <span>Details</span>
+                </div>
+                <div class="float-end">
+                    <Button Color="Color.Danger">
+                        <Icon Name="IconName.Archive"></Icon>
+                    </Button>
+                    <Button Color="Color.Secondary" class="ms-2">
+                        <Icon Name="IconName.PaperPlane"></Icon>
+                    </Button>
+                </div>
+            </CardHeader>
+            <CardBody>
+                <div class="p-2 text-center">
+                    <img src="images/no-data.svg" style="height: 240px" alt="No Data" />
+                </div>
+            </CardBody>
+        </Card>
     </div>
-  </div>
-  <div class="table-wrapper-scroll-y table-scroll mt-2 px-3">
-    <table class="table table-sm table-hover table-responsive text-nowrap text-center align-middle">
-      <thead>
-      <tr class="text-black-50">
-        <th scope="col">NAME</th>
-        <th scope="col">STATUS</th>
-        <th scope="col">TERMINAL</th>
-        <th scope="col">LAST UPDATED</th>
-        <th scope="col"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>x</td>
-        <td><span class="badge bg-success badge-dot"></span></td>
-        <td>x</td>
-        <td>x</td>
-        <td>
-          <span>
-            <button type="button" class="btn btn-warning me-2"><i class="fas fa-pen"></i></button>
-            <button type="button" class="btn btn-primary"><i class="fas fa-ellipsis"></i></button>
-          </span>
-        </td>
-      </tr>
-      <tr>
-        <td>x</td>
-        <td><span class="badge bg-danger badge-dot"></span></td>
-        <td>x</td>
-        <td>x</td>
-        <td>
-          <span>
-            <button type="button" class="btn btn-warning me-2"><i class="fas fa-pen"></i></button>
-            <button type="button" class="btn btn-primary"><i class="fa-solid fa-ellipsis"></i></button>
-          </span>
-        </td>
-      </tr>
-      <tr>
-        <td>x</td>
-        <td><span class="badge bg-success badge-dot"></span></td>
-        <td>x</td>
-        <td>x</td>
-        <td>
-          <span>
-            <button type="button" class="btn btn-warning me-2"><i class="fas fa-pen"></i></button>
-            <button type="button" class="btn btn-primary"><i class="fas fa-ellipsis"></i></button>
-          </span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    </div>
-  <nav aria-label="Table pagination">
-    <ul class="pagination pagination-md justify-content-center">
-      <li class="page-item disabled"><a class="page-link"><i class="fas fa-angle-left"></i></a></li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link"><i class="fas fa-angle-right"></i></a></li>
-    </ul>
-  </nav>
 </div>

@@ -1,3 +1,5 @@
+using Proton.Frequency.Common.Helpers;
+
 namespace Proton.Frequency.Api;
 
 public interface IModule
@@ -8,7 +10,7 @@ public interface IModule
 
 public static class ModuleExtensions
 {
-    private readonly static List<IModule> RegisteredModules = new List<IModule>();
+    private readonly static List<IModule> RegisteredModules = new();
 
     public static IServiceCollection RegisterModules(this IServiceCollection services)
     {
@@ -22,21 +24,16 @@ public static class ModuleExtensions
         return services;
     }
 
-    public static WebApplication RegisterApiEndpoints(this WebApplication app) {
+    public static WebApplication RegisterApiEndpoints(this WebApplication app)
+    {
         foreach (var module in RegisteredModules)
-        {
             module.MapEndpoints(app);
-        }
-        
+
         return app;
     }
 
     private static IEnumerable<IModule> DiscoverModules()
     {
-        return typeof(IModule).Assembly
-            .GetTypes()
-            .Where(p => p.IsClass && p.IsAssignableTo(typeof(IModule)))
-            .Select(Activator.CreateInstance)
-            .Cast<IModule>();
+        return FactoryLoader.LoadClassInstance<IModule>();
     }
 }

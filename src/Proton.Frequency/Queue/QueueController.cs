@@ -1,11 +1,14 @@
 using MQTTnet.Server;
 
-namespace Proton.Frequency.Queue; 
+namespace Proton.Frequency.Queue;
 
-internal class QueueController {
-    public static QueueController CreateInstance() {
+internal class QueueController
+{
+    public static QueueController CreateInstance()
+    {
         return new QueueController();
     }
+
     internal static Task OnClientConnected(ClientConnectedEventArgs eventArgs)
     {
         var logger = Initializer.GetLogger<WebApplication>();

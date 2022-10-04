@@ -1,8 +1,8 @@
-using Proton.Frequency.Extensions;
 using Proton.Frequency.Config;
+using Proton.Frequency.Extensions;
 using Serilog;
 using System.Net;
-using ILogger=Microsoft.Extensions.Logging.ILogger;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Proton.Frequency;
 
@@ -62,35 +62,29 @@ internal static class Initializer
         builder.Configuration.LoadConfigurations();
 
         var config = builder.Configuration;
-        /* Minimal API configuration options */
-        /* https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0 */
-
-        builder.Services.Configure<DefaultConfig>(config.GetSection(DefaultConfig.Key));
+        builder.Services.AddOptions<ServiceConfig>().Bind(config.GetSection(ServiceConfig.Key));
+        builder.Services.AddOptions<ServerConfig>().Bind(config.GetSection(ServerConfig.Key));
+        builder.Services.AddOptions<ProxyConfig>().Bind(config.GetSection(ProxyConfig.Key));
+        builder.Services.AddOptions<QueueConfig>().Bind(config.GetSection(QueueConfig.Key));
+        builder.Services.AddOptions<DatabaseConfig>().Bind(config.GetSection(DatabaseConfig.Key));
+        builder.Services.AddOptions<List<DeviceConfig>>().Bind(config.GetSection(DeviceConfig.Key));
         builder.Services
-            .AddOptions<ServerConfig>()
-            .Bind(config.GetSection(ServerConfig.Key))
-            .ValidateDataAnnotations();
-        builder.Services
-            .AddOptions<ProxyConfig>()
-            .Bind(config.GetSection(ProxyConfig.Key))
-            .ValidateDataAnnotations();
-        builder.Services
-            .AddOptions<QueueConfig>()
-            .Bind(config.GetSection(QueueConfig.Key))
-            .ValidateDataAnnotations();
+            .AddOptions<List<NetworkConfig>>()
+            .Bind(config.GetSection(NetworkConfig.Key));
 
         return builder;
     }
 
-    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder) {
+    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder)
+    {
         var config = builder.Configuration;
         var logger = GetLogger<WebApplicationBuilder>();
-        var defaultOptions = new DefaultConfig();
+        var defaultOptions = new ServiceConfig();
         var serverOptions = new ServerConfig();
         var proxyOptions = new ProxyConfig();
         var queueOptions = new QueueConfig();
 
-        config.GetSection(DefaultConfig.Key).Bind(defaultOptions);
+        config.GetSection(ServiceConfig.Key).Bind(defaultOptions);
         config.GetSection(ServerConfig.Key).Bind(serverOptions);
         config.GetSection(ProxyConfig.Key).Bind(proxyOptions);
         config.GetSection(QueueConfig.Key).Bind(queueOptions);
@@ -105,9 +99,9 @@ internal static class Initializer
             o.Limits.MaxConcurrentConnections = 1024;
             o.Limits.MaxConcurrentUpgradedConnections = 1024;
             o.Limits.MaxRequestBodySize = 52428800;
-            o.Listen( defaultOptions.Management ? host : IPAddress.None, port);
+            o.Listen(defaultOptions.Management ? host : IPAddress.None, port);
         });
-        builder.RegisterMqttHost();
+        builder.RegisterQueueHost();
         builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(30));
 
         return builder;

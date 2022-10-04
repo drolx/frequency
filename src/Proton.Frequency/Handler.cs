@@ -1,5 +1,3 @@
-namespace Proton.Frequency.Handler; 
+namespace Proton.Frequency.Handler;
 
-internal abstract class Handler {
-    
-}
+internal abstract class Handler { }
