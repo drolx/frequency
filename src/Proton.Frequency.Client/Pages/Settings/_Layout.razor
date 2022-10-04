@@ -16,6 +16,7 @@
         new Link("Category", "settings/category", "fa-regular fa-object-group"),
         new Link("Terminals", "settings/terminals", "fa-solid fa-terminal", Permission.ADMIN),
         new Link("System", "settings/device", "fa-solid fa-server", Permission.SYSTEM),
+        new Link("Services", "settings/services", "fa-solid fa-gears", Permission.SYSTEM),
         new Link("Logs", "settings/logs", "fa-regular fa-clipboard", Permission.SYSTEM),
         new Link("Reboot", "settings/reboot", "fa-solid fa-power-off", Permission.SYSTEM)
     };
@@ -32,10 +33,10 @@
                         href="@link.Path"
                         class="list-group-item list-group-item-action py-2 px-3 border-0"
                         aria-current="true">
-                        <span class="me-3">
-                            <i class="@link.Icon"></i>
+                        <span>
+                            <i style="width: 24px; height: 24px" class="@link.Icon"></i>
                         </span>
-                        <span>@link.Title</span>
+                        <span class="ms-3">@link.Title</span>
                     </NavLink>
                 }
             </div>
