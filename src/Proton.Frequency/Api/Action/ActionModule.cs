@@ -16,7 +16,7 @@ public class ActionModule : IModule
     {
         endpoints.MapGet("/api/v1/actions", handler: (ActionManagement actions) => actions.Get());
         endpoints.MapGet(
-            "/api/actions/v1/{id:int}",
+            "/api/v1/actions/{id:int}",
             handler: (ActionManagement actions, [FromRoute] int id) => actions.GetById(id)
         );
 
