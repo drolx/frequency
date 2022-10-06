@@ -1,14 +1,13 @@
 @page "/"
 @layout EmptyLayout
-@inject NavigationManager Navigate
+@inject NavigationManager Nav
 
 <Title>Status</Title>
 
 @functions{
-        private const string StatusPage = "status";
         override protected void OnInitialized() {
             base.OnInitialized();
-            Navigate.NavigateTo(StatusPage);
+            Nav.NavigateTo("app/status");
         }
 }
 

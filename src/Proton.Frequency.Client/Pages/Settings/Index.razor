@@ -1,12 +1,11 @@
-@page "/settings"
-@layout _Layout
+@page "/app/settings"
 @inject NavigationManager Navigate
 
 <Title>Setting</Title>
 
 @functions{
     override protected void OnInitialized() {
-        Navigate.NavigateTo("settings/users");
+        Navigate.NavigateTo("app/settings/users");
     }
 }
 

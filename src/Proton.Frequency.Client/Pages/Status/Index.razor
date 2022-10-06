@@ -1,4 +1,4 @@
-@page "/status"
+@page "/app/status"
 @using Proton.Frequency.Common.Enums
 @inject NavigationManager Nav
 
@@ -29,14 +29,6 @@
             EventType.DOCKED => Color.Info,
             _ => Color.Secondary
             };
-    }
-
-
-    DoughnutChart<double> GetDataset() {
-        return new DoughnutChart<double>
-        {
-    // Data = data,
-        };
     }
 }
 
