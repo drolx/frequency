@@ -10,11 +10,14 @@ internal static class ServiceExtension
         this WebApplicationBuilder builder
     )
     {
-        var defaultOptions = new ServiceConfig();
-        builder.Configuration.GetSection(ServiceConfig.Key).Bind(defaultOptions);
-        switch (defaultOptions.Management)
+        var serviceOptions = new ServiceConfig();
+        var serverOptions = new ServerConfig();
+        
+        builder.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
+        builder.Configuration.GetSection(ServerConfig.Key).Bind(serverOptions);
+        switch (serviceOptions.Management)
         {
-            case false when defaultOptions.Api:
+            case false when serviceOptions.Api:
                 return builder;
             case true:
                 builder.Services.AddRazorPages();
@@ -22,7 +25,7 @@ internal static class ServiceExtension
                 break;
         }
 
-        if (!defaultOptions.Api)
+        if (!serviceOptions.Api)
             return builder;
         builder.Services.AddControllers();
         builder.Services.RegisterModules();
@@ -32,7 +35,7 @@ internal static class ServiceExtension
         {
             options.SwaggerDoc(
                 "v1",
-                new OpenApiInfo { Title = $"{defaultOptions.Name}", Version = "v1" }
+                new OpenApiInfo { Title = $"{serverOptions.Name}", Version = "v1" }
             );
         });
 
@@ -42,12 +45,12 @@ internal static class ServiceExtension
     internal static WebApplication RegisterAppServices(this WebApplication app)
     {
         var logger = Initializer.GetLogger<WebApplication>();
-        var defaultOptions = new ServiceConfig();
-        app.Configuration.GetSection(ServiceConfig.Key).Bind(defaultOptions);
+        var serviceOptions = new ServiceConfig();
+        app.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
 
-        switch (defaultOptions.Management)
+        switch (serviceOptions.Management)
         {
-            case false when !defaultOptions.Api:
+            case false when !serviceOptions.Api:
                 return app;
             case false:
                 logger.LogInformation("Web management is disabled...");
@@ -57,7 +60,7 @@ internal static class ServiceExtension
         app.UseHttpsRedirection();
         app.UseAuthorization();
 
-        if (defaultOptions.Api)
+        if (serviceOptions.Api)
             app.RegisterEndpoints();
 
         logger.LogInformation("Starting web management UI...");

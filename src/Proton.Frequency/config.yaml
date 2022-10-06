@@ -1,10 +1,10 @@
 service:
-  name: "Proton.Frequency"
   management: true
   api: true
   proxy: false
   network: false
   secret: secret
+  event: true
 database:
   type: sqlite
   store: "Data Source=app.sqlite3;cache=shared"

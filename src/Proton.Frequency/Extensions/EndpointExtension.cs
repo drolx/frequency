@@ -8,11 +8,14 @@ internal static class EndpointExtension
     internal static WebApplication RegisterEndpoints(this WebApplication app)
     {
         var logger = Initializer.GetLogger<WebApplication>();
-        var defaultOptions = new ServiceConfig();
-        app.Configuration.GetSection(ServiceConfig.Key).Bind(defaultOptions);
+        var serviceOptions = new ServiceConfig();
+        var serverOptions = new ServerConfig();
+        
+        app.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
+        app.Configuration.GetSection(ServerConfig.Key).Bind(serverOptions);
         app.RegisterQueueEndpoints();
 
-        if (!defaultOptions.Api)
+        if (!serviceOptions.Api)
         {
             logger.LogInformation("API endpoints are disabled...");
             return app;
@@ -26,7 +29,7 @@ internal static class EndpointExtension
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{defaultOptions.Name}");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{serverOptions.Name}");
         });
 
         return app;

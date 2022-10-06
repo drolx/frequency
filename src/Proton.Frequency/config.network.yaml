@@ -11,3 +11,4 @@
   - name: client-00
     protocol: custom-0
     Port: 1734
+    server: true

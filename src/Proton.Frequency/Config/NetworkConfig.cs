@@ -7,4 +7,5 @@ public class NetworkConfig : IConfig
     public string Name { get; set; } = "device-0";
     public string Protocol { get; set; } = "chafon";
     public int Port { get; set; } = 1730;
+    public bool Server { get; set; } = false;
 }
