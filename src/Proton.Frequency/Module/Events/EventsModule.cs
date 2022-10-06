@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Api.Events;
+namespace Proton.Frequency.Module.Events;
 
 public class EventsModule : IModule
 {

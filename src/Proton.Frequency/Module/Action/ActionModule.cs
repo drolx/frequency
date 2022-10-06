@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Proton.Frequency.Api.Action.Endpoints;
+using Proton.Frequency.Module.Action.Endpoints;
 
-namespace Proton.Frequency.Api.Action;
+namespace Proton.Frequency.Module.Action;
 
 public class ActionModule : IModule
 {

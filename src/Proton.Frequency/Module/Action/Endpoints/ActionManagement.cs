@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Options;
 using Proton.Frequency.Config;
 
-namespace Proton.Frequency.Api.Action.Endpoints;
+namespace Proton.Frequency.Module.Action.Endpoints;
 
 public class ActionManagement
 {
