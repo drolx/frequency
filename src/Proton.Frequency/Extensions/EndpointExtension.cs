@@ -1,5 +1,5 @@
-using Proton.Frequency.Api;
 using Proton.Frequency.Config;
+using Proton.Frequency.Module;
 
 namespace Proton.Frequency.Extensions;
 
