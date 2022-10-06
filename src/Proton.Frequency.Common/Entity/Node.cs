@@ -1,11 +1,14 @@
+using Proton.Frequency.Common.Common;
+
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Node : BaseModel
+public sealed class Node : TimedEntity
 {
-    public string? UniqueId { get; set; }
-    public DateTime UpdatedAt { get; set; } = DateTime.Now;
-    public Guid ReaderId { get; set; }
+    public string? Identifier { get; set; }
+    public Channel Channel { get; set; } = null!;
+    public Guid ChannelId { get; set; }
     public Terminal? Terminal { get; set; }
-    public string? TerminalId { get; set; }
-    public ICollection<Action>? Queues { get; set; }
+    public Guid? TerminalId { get; set; }
+    public ICollection<Log>? Logs { get; set; }
+    public string? Protocol { get; set; }
 }

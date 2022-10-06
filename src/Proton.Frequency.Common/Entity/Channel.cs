@@ -1,11 +1,8 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Channel
+public sealed class Channel : Common.Entity
 {
-    [Key]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public bool Default { get; set; } = false;
     public string Name { get; set; } = string.Empty;
-    public string identifier { get; set; } = string.Empty;
+    public string Identifier { get; set; } = string.Empty;
 }
