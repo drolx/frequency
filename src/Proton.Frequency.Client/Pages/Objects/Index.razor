@@ -1,4 +1,5 @@
 @page "/app/objects"
+@page "/app/objects/ObjectId:Guid"
 @using Proton.Frequency.Common.Enums
 @inherits LayoutComponentBase
 @layout MainLayout
@@ -6,7 +7,11 @@
 <Title>Objects</Title>
 
 @code {
-    private record ObjectList(string Name, DateTime Time, ObjectType Type = ObjectType.VEHICLE, EventType Event = EventType.LEFT, string Location = "(New Site) Logbara, Ogun", string Node = "Gate-01");
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "id")]
+    public Guid? ObjectId { get; set; } = null;
+    private record ObjectList(string Name, DateTime Time, ObjectType Type = ObjectType.VEHICLE, EventType Event = EventType.LEFT, string Location = "[New Site] Logbara, Ogun", string Node = "Gate-01");
     private readonly List<ObjectList> _objects = new()
     {
         new ObjectList("AAA 767 XH", DateTime.Now, ObjectType.VEHICLE, EventType.ENTERED, "Eric Moore"),
@@ -36,9 +41,9 @@
                         @foreach (var item in _objects){
                             <ListGroupItem Class="px-2 rounded list-group-item list-group-item-action">
                                 <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                                    <Heading Size="HeadingSize.Is6" Class="mb-1 hstack">
-                                        <span class="text-secondary text-uppercase text-nowrap">@item.Name</span>
-                                        <Badge Color="Color.Info" class="ms-4 p-1 bg-secondary text-white">
+                                    <Heading Size="HeadingSize.Is6" Class="mb-1 hstack text-nowrap">
+                                        <span style="width: 110px" class="text-secondary text-nowrap text-uppercase text-nowrap">@item.Name</span>
+                                        <Badge Style="width: 85px" Color="Color.Info" class="ms-4 p-1 bg-secondary text-white text-nowrap text-uppercase">
                                             <i class="fa-solid fa-torii-gate ms-2"></i>
                                             <span>@item.Node</span>
                                         </Badge>
@@ -50,7 +55,7 @@
                                 </Div>
                                 <Paragraph Class="mb-1 hstack">
                                     <span class="me-2">
-                                        <i class="fa-solid fa-location-crosshairs"></i>
+                                        <i class="fa-solid fa-location-crosshairs" style="font-size: 1.1rem"></i>
                                     </span>
                                     <span>@item.Location</span>
                                 </Paragraph>
@@ -78,15 +83,24 @@
                     <span>Details</span>
                 </div>
                 <div class="float-end">
-                    <Button Color="Color.Warning">
+                    <Button Color="Color.Secondary">
+                        <Icon Name="IconName.PaperPlane"></Icon>
+                        <span class="ms-1">Command</span>
+                    </Button>
+                    <Button Color="Color.Warning" class="ms-2">
                         <Icon Name="IconName.Pen"></Icon>
                     </Button>
                 </div>
             </CardHeader>
             <CardBody>
-                <div class="p-2 text-center">
-                    <img src="images/no-data.svg" style="height: 240px" alt="No Data" />
-                </div>
+                @if (ObjectId == null){
+                    <div class="p-2 text-center">
+                        <img src="images/no-data.svg" style="height: 240px" alt="No Data"/>
+                    </div>
+                }
+                else{
+                    <Detail ObjectId="ObjectId" />
+                }
             </CardBody>
         </Card>
     </div>
