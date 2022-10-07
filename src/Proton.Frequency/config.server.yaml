@@ -1,7 +1,9 @@
 allowedHosts: "*"
 server:
+  name: "Proton.Frequency"
   host: 127.0.0.1
   port: 7001
+  resources: false
   queue:
     enable: true
     port: 1883

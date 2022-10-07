@@ -1,4 +1,4 @@
-@page "/nodes"
+@page "/app/nodes"
 
 <Title>Nodes</Title>
 
@@ -26,12 +26,11 @@
                 </div>
                 <div>
                     <ListGroup Class="pt-3" Flush>
-                        <!-- Start object item -->
                         @foreach (var item in _objects){
                             <ListGroupItem Class="px-2 rounded list-group-item list-group-item-action">
                                 <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Size="HeadingSize.Is6" Class="mb-1 hstack">
-                                        <span class="text-secondary">@item.Name</span>
+                                        <span class="text-secondary text-uppercase text-nowrap">@item.Name</span>
                                         
                                     </Heading>
                                     <Small Class="hstack" TextColor="TextColor.Secondary">
@@ -41,12 +40,12 @@
                                 </Div>
                                 <Paragraph Class="mb-1 clearfix">
                                     <span class="me-2 float-start">
-                                        <i class="fa-solid fa-location-crosshairs"></i>
-                                        <span>@item.Location</span>
+                                        <i class="fa-solid fa-location-crosshairs" style="font-size: 1.1rem"></i>
+                                        <span class="text-nowrap">@item.Location</span>
                                     </span>
-                                    <Badge Color="Color.Secondary" class="ms-4 p-1 bg-secondary text-white float-end">
+                                    <Badge Style="width: 120px" Color="Color.Secondary" class="ms-4 p-1 bg-secondary text-white text-uppercase float-end">
                                         <i class="fa-solid fa-torii-gate me-2"></i>
-                                        <span>@item.Terminal</span>
+                                        <span class="text-nowrap">@item.Terminal</span>
                                     </Badge>
                                 </Paragraph>
                             </ListGroupItem>
@@ -68,6 +67,7 @@
                     </Button>
                     <Button Color="Color.Secondary" class="ms-2">
                         <Icon Name="IconName.PaperPlane"></Icon>
+                        <span class="ms-1">Command</span>
                     </Button>
                 </div>
             </CardHeader>

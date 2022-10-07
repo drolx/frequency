@@ -23,7 +23,7 @@ internal static class Initializer
     {
         configs.AddYamlFile("config.yaml", optional: false, reloadOnChange: true);
         var logger = GetLogger<IConfigurationBuilder>();
-        var files = new List<string> { "proxy", "server", "protocol" };
+        var files = new List<string> { "proxy", "server", "network" };
         files.ForEach(n =>
         {
             var file = $"config.{n}.yaml";

@@ -1,6 +1,6 @@
 using Proton.Frequency.Common.Helpers;
 
-namespace Proton.Frequency.Api;
+namespace Proton.Frequency.Module;
 
 public interface IModule
 {

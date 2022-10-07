@@ -1,6 +1,6 @@
-namespace Proton.Frequency.Api.Objects;
+namespace Proton.Frequency.Module.Status;
 
-public class ObjectsModule : IModule
+public class StatusModule : IModule
 {
     public IServiceCollection RegisterApiModule(IServiceCollection services)
     {
