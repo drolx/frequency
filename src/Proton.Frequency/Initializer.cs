@@ -60,6 +60,7 @@ internal static class Initializer
         builder.Host.UseSystemd();
         builder.SetupLogger();
         builder.Configuration.LoadConfigurations();
+        builder.Services.AddAutoMapper(typeof(Program));
 
         var config = builder.Configuration;
         builder.Services.AddOptions<ServiceConfig>().Bind(config.GetSection(ServiceConfig.Key));

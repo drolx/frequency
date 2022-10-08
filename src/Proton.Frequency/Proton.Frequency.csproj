@@ -1,73 +1,74 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <RootNameSpace>Proton.Frequency</RootNameSpace>
-    <AssemblyName>proton-frequency</AssemblyName>
-    <PackRelease>true</PackRelease>
-    <PublishSingleFile>true</PublishSingleFile>
-    <PublishReadyToRun>true</PublishReadyToRun>
-    <DebuggerSupport>true</DebuggerSupport>
-    <CopyOutputSymbolsToPublishDirectory>true</CopyOutputSymbolsToPublishDirectory>
-    <SelfContained>true</SelfContained>
-    <StripSymbols>true</StripSymbols>
-    <InvariantGlobalization>true</InvariantGlobalization>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
-    <RuntimeIdentifiers>linux-x64;linux-arm;linux-arm64;win-x64;win-arm;osx-x64;osx-arm64</RuntimeIdentifiers>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PackAsTool>false</PackAsTool>
-    <IsPackable>false</IsPackable>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-  </PropertyGroup>
-  <PropertyGroup>
-    <Version>0.3.0</Version>
-    <Company>Opensource</Company>
-    <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
-    <Product>Proton Frequency</Product>
-    <Copyright>Godwin peter .O</Copyright>
-    <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
-    <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
-    <RepositoryType>Opensource</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <IsPackable>true</IsPackable>
-    <Title>Proton Frequency</Title>
-    <Description>A uhf rfid daemon for IOT devices.</Description>
-  </PropertyGroup>
-  <!-- Set HUSKY to 0 in CI/CD disable this -->
-  <Target Name="husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
-    <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
-    <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory="../../" />
-  </Target>
-  <!-- Application packages -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.7.22376.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0-rc.1.22426.10" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0-rc.1.22427.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0-rc.1.22427.2" />
-    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
-    <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.7.22375.6" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="MQTTnet.AspNetCore" Version="4.1.0.247" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.protocol.yaml" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Proton.Frequency.Common\Proton.Frequency.Common.csproj" />
-    <ProjectReference Include="..\Proton.Frequency.Client\Proton.Frequency.Client.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Protocol" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNameSpace>Proton.Frequency</RootNameSpace>
+        <AssemblyName>freq</AssemblyName>
+        <PackRelease>true</PackRelease>
+        <PublishSingleFile>true</PublishSingleFile>
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <DebuggerSupport>true</DebuggerSupport>
+        <CopyOutputSymbolsToPublishDirectory>true</CopyOutputSymbolsToPublishDirectory>
+        <SelfContained>true</SelfContained>
+        <StripSymbols>true</StripSymbols>
+        <InvariantGlobalization>true</InvariantGlobalization>
+    </PropertyGroup>
+    <PropertyGroup>
+        <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
+        <RuntimeIdentifiers>linux-x64;linux-arm;linux-arm64;win-x64;win-arm;osx-x64;osx-arm64</RuntimeIdentifiers>
+    </PropertyGroup>
+    <PropertyGroup>
+        <PackAsTool>false</PackAsTool>
+        <IsPackable>false</IsPackable>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    </PropertyGroup>
+    <PropertyGroup>
+        <Version>0.3.0</Version>
+        <Company>Opensource</Company>
+        <Authors>Godwin peter .O &lt;me@godwin.dev&gt;</Authors>
+        <Product>Proton Frequency</Product>
+        <Copyright>Godwin peter .O</Copyright>
+        <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
+        <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
+        <RepositoryType>Opensource</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IsPackable>true</IsPackable>
+        <Title>Proton Frequency</Title>
+        <Description>A uhf rfid daemon for IOT devices.</Description>
+    </PropertyGroup>
+    <!-- Set HUSKY to 0 in CI/CD disable this -->
+    <Target Name="husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
+        <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
+        <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory="../../" />
+    </Target>
+    <!-- Application packages -->
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.7.22376.2" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0-rc.1.22426.10" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0-rc.1.22427.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0-rc.1.22427.2" />
+        <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
+        <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.7.22375.6" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="MQTTnet.AspNetCore" Version="4.1.0.247" />
+        <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Proton.Frequency.Common\Proton.Frequency.Common.csproj" />
+        <ProjectReference Include="..\Proton.Frequency.Client\Proton.Frequency.Client.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Protocol" />
+    </ItemGroup>
 </Project>
