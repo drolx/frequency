@@ -11,7 +11,6 @@
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
     public Guid? ObjectId { get; set; } = null;
-    private bool IsDetailActive => ObjectId is null;
     private record ObjectList(string Name, DateTime Time, ObjectType Type = ObjectType.VEHICLE, EventType Event = EventType.LEFT, string Location = "[New Site] Logbara, Ogun", string Node = "Gate-01");
     private readonly List<ObjectList> _objects = new()
     {
@@ -88,13 +87,13 @@
                         <Icon Name="IconName.PaperPlane"></Icon>
                         <span class="ms-1">Command</span>
                     </Button>
-                    <Button Disabled="IsDetailActive" Color="Color.Warning" class="ms-2">
-                        <Icon Name="IconName.Pen" />
+                    <Button Color="Color.Warning" class="ms-2">
+                        <Icon Name="IconName.Pen"></Icon>
                     </Button>
                 </div>
             </CardHeader>
             <CardBody>
-                @if (ObjectId is null){
+                @if (ObjectId == null){
                     <div class="p-2 text-center">
                         <img src="images/no-data.svg" style="height: 240px" alt="No Data"/>
                     </div>
