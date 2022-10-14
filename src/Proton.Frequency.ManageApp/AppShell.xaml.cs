@@ -1,9 +1,7 @@
-﻿namespace Proton.Frequency.ManageApp;
-
-public partial class AppShell : Shell
-{
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+﻿namespace Proton.Frequency.ManageApp {
+    public partial class AppShell : Shell {
+        public AppShell() {
+            InitializeComponent();
+        }
+    }
 }

@@ -1,11 +1,9 @@
-﻿namespace Proton.Frequency.ManageApp;
+﻿namespace Proton.Frequency.ManageApp {
+    public partial class App : Application {
+        public App() {
+            InitializeComponent();
 
-public partial class App : Application
-{
-	public App()
-	{
-		InitializeComponent();
-
-		MainPage = new AppShell();
-	}
+            MainPage = new AppShell();
+        }
+    }
 }
