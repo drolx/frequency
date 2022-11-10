@@ -9,6 +9,14 @@
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="bundleconfig.json.backup" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="bundleconfig.json.backup" />
+    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Blazorise.Bootstrap5" Version="1.1.1" />
         <PackageReference Include="Blazorise.Charts" Version="1.1.1" />
