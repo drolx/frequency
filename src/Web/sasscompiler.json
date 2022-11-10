@@ -1,5 +1,10 @@
 {
-  "ScopedCssFolders": ["Layouts", "Pages", "Components", "Shared"],
+  "ScopedCssFolders": [
+    "Layouts",
+    "Pages",
+    "Components",
+    "Shared"
+  ],
   "GenerateScopedCss": true,
   "Arguments": "--style=compressed",
   "Configurations": {

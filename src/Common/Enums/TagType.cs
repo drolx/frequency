@@ -1,7 +1,6 @@
 namespace Proton.Frequency.Common.Enums;
 
-public enum ObjectTagType
-{
+public enum ObjectTagType {
     UNSPECIFIED,
     LF_KHZ,
     NFC_MHZ,

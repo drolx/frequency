@@ -1,7 +1,6 @@
 namespace Proton.Frequency.Common.Enums;
 
-internal enum NodeType
-{
+internal enum NodeType {
     SERVER,
     TERMINAL,
     MIXED

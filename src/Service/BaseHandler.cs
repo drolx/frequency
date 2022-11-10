@@ -1,3 +1,3 @@
-﻿namespace Proton.Frequency {
-    internal abstract class BaseHandler { }
-}
+﻿namespace Proton.Frequency; 
+
+internal abstract class BaseHandler { }

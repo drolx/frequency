@@ -1,6 +1,6 @@
 using Proton.Frequency.Common.Common;
 
-namespace Proton.Frequency.Common.Entity; 
+namespace Proton.Frequency.Common.Entity;
 
 public class Group : TimedEntity {
     public bool Default { get; set; } = false;

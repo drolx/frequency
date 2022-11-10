@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Common.Enums; 
+namespace Proton.Frequency.Common.Enums;
 
 public enum ActivityStatus {
     ONLINE,

@@ -4,19 +4,16 @@ using Proton.Frequency.Module;
 
 namespace Proton.Frequency.Extensions;
 
-internal static class ServiceExtension
-{
+internal static class ServiceExtension {
     internal static WebApplicationBuilder RegisterStandardServices(
         this WebApplicationBuilder builder
-    )
-    {
+    ) {
         var serviceOptions = new ServiceConfig();
         var serverOptions = new ServerConfig();
-        
+
         builder.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
         builder.Configuration.GetSection(ServerConfig.Key).Bind(serverOptions);
-        switch (serviceOptions.Management)
-        {
+        switch (serviceOptions.Management) {
             case false when serviceOptions.Api:
                 return builder;
             case true:
@@ -31,8 +28,7 @@ internal static class ServiceExtension
         builder.Services.RegisterModules();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddSwaggerGen(options =>
-        {
+        builder.Services.AddSwaggerGen(options => {
             options.SwaggerDoc(
                 "v1",
                 new OpenApiInfo { Title = $"{serverOptions.Name}", Version = "v1" }
@@ -42,20 +38,19 @@ internal static class ServiceExtension
         return builder;
     }
 
-    internal static WebApplication RegisterAppServices(this WebApplication app)
-    {
+    internal static WebApplication RegisterAppServices(this WebApplication app) {
         var logger = Initializer.GetLogger<WebApplication>();
         var serviceOptions = new ServiceConfig();
         app.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
 
-        switch (serviceOptions.Management)
-        {
+        switch (serviceOptions.Management) {
             case false when !serviceOptions.Api:
                 return app;
             case false:
                 logger.LogInformation("Web management is disabled...");
                 return app;
         }
+
         app.UseRouting();
         app.UseHttpsRedirection();
         app.UseAuthorization();

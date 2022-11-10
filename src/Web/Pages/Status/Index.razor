@@ -14,8 +14,7 @@
 
     private record EventList(string Object, DateTime CreatedAt, EventType Type = EventType.LEFT, string Location = "Parking Hub");
 
-    private readonly List<EventList> _events = new()
-    {
+    private readonly List<EventList> _events = new() {
         new EventList("AAA 767 XH", DateTime.Now, EventType.ENTERED, "Eric Moore"),
         new EventList("KJA 907 XE", DateTime.Now),
         new EventList("KTU 205 XC", DateTime.Now, EventType.DOCKED, "Lagos Gate 01"),
@@ -30,6 +29,7 @@
             _ => Color.Secondary
             };
     }
+
 }
 
 <div>
@@ -101,7 +101,7 @@
                 </DashboardCardHeader>
                 <Table Narrow Hoverable>
                     <TableBody>
-                        @foreach (var item in _events){
+                        @foreach (var item in _events) {
                             <TableRow>
                                 <TableRowCell>@item.Object</TableRowCell>
                                 <TableRowCell>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</TableRowCell>

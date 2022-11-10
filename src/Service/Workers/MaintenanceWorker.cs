@@ -1,28 +1,22 @@
-using System.Diagnostics;
-
 namespace Proton.Frequency.Workers;
 
-internal class MaintenanceWorker : BackgroundService
-{
-    private readonly ILogger<MaintenanceWorker> _logger;
-
-    private IServiceProvider _services { get; }
-
+internal class MaintenanceWorker : BackgroundService {
     private readonly IConfiguration _configuration;
+    private readonly ILogger<MaintenanceWorker> _logger;
 
     public MaintenanceWorker(
         IServiceProvider services,
         ILogger<MaintenanceWorker> logger,
         IConfiguration configuration
-    )
-    {
+    ) {
         _services = services;
         _logger = logger;
         _configuration = configuration;
     }
 
-    private async Task DoWork(CancellationToken stoppingToken)
-    {
+    private IServiceProvider _services { get; }
+
+    private async Task DoWork(CancellationToken stoppingToken) {
         _logger.LogInformation("Starting Service process...");
 
         /*
@@ -35,21 +29,18 @@ internal class MaintenanceWorker : BackgroundService
              await scopedProcessingService.DoWork(stoppingToken);
          }
          */
-        while (!stoppingToken.IsCancellationRequested)
-        {
+        while (!stoppingToken.IsCancellationRequested) {
             _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             await Task.Delay(TimeSpan.FromSeconds(35), stoppingToken);
         }
     }
 
-    override protected async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
+    protected async override Task ExecuteAsync(CancellationToken stoppingToken) {
         _logger.LogInformation("Consume Scoped Service Hosted Service running.");
         await DoWork(stoppingToken);
     }
 
-    public override Task StopAsync(CancellationToken stoppingToken)
-    {
+    public override Task StopAsync(CancellationToken stoppingToken) {
         _logger.LogInformation("Performing some important cleanup...");
 
         base.StopAsync(stoppingToken);

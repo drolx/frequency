@@ -1,10 +1,8 @@
 using Proton.Frequency.Common.Common;
-using System.ComponentModel.DataAnnotations;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Location : GroupedEntity
-{
+public sealed class Location : GroupedEntity {
     public bool Default { get; set; } = false;
     public string? Name { get; set; }
     public string? Description { get; set; }

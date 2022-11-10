@@ -1,28 +1,23 @@
 namespace Proton.Frequency;
 
-internal abstract class Protocol : IProtocol
-{
+internal abstract class Protocol : IProtocol {
     private readonly string _name;
 
     // SupportedCommands
 
-    internal Protocol()
-    {
-        _name = this.GetName();
+    internal Protocol() {
+        _name = GetName();
     }
 
-    public string GetName()
-    {
+    public string GetName() {
         return _name;
     }
 
-    public IEnumerable<string> GetSupportedCommands()
-    {
+    public IEnumerable<string> GetSupportedCommands() {
         throw new NotImplementedException();
     }
 
-    public void SendCommands()
-    {
+    public void SendCommands() {
         throw new NotImplementedException();
     }
 }

@@ -1,12 +1,11 @@
 namespace Proton.Frequency.Common.Enums;
 
-public enum EventType
-{
+public enum EventType {
     UNKNOWN,
     ENTERED,
     LEFT,
     ATTACHED,
     DETACHED,
     PARKED,
-    DOCKED,
+    DOCKED
 }

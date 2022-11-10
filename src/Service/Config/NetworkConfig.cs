@@ -1,7 +1,6 @@
 namespace Proton.Frequency.Config;
 
-public class NetworkConfig : IConfig
-{
+public class NetworkConfig : IConfig {
     public const string Key = "networks";
     public const bool IsList = true;
     public string Name { get; set; } = "device-0";

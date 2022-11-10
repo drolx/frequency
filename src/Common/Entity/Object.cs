@@ -3,8 +3,7 @@ using Proton.Frequency.Common.Enums;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Object : GroupedEntity
-{
+public sealed class Object : GroupedEntity {
     public string? Identifier { get; set; }
     public Guid? ObjectId { get; set; }
     public ICollection<Object>? Children { get; set; }
@@ -16,7 +15,6 @@ public sealed class Object : GroupedEntity
     public Guid? LogId { get; set; }
     public ICollection<Log>? Logs { get; set; }
     public Object? Parent { get; set; }
-    
 }
 
 // TODO: Use var hierarchy = db.Hierarchy.Include(e => e.Children).ToList();

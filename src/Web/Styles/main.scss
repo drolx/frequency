@@ -3,7 +3,7 @@
   --color-primary: dodgerblue;
   --color-secondary: #6c757d;
   --color-grey: #7f7f7f;
-  
+
   /** Typography variables */
   --text-heading-size: 1.3rem;
   --icon-loading-size: 1.4rem;
@@ -12,6 +12,7 @@
 html {
   min-height: 100%;
   margin: 0px;
+
   body {
     font-weight: 300;
     font-family: 'Roboto', sans-serif, serif;
@@ -24,7 +25,7 @@ html {
   }
 }
 
-.table-scroll{
+.table-scroll {
   width: 100%;
   height: calc(100vh - 320px);
 }
