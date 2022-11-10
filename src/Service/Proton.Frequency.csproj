@@ -75,5 +75,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Protocol" />
+        <Folder Include="wwwroot\js\" />
     </ItemGroup>
 </Project>
