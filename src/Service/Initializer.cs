@@ -1,17 +1,14 @@
+using System.Net;
 using Proton.Frequency.Config;
 using Proton.Frequency.Extensions;
 using Serilog;
-using System.Net;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Proton.Frequency;
 
-internal static class Initializer
-{
-    internal static ILogger GetLogger<T>()
-    {
-        var loggerFactory = LoggerFactory.Create(builder =>
-        {
+internal static class Initializer {
+    internal static ILogger GetLogger<T>() {
+        var loggerFactory = LoggerFactory.Create(builder => {
             builder.ClearProviders();
             builder.AddSerilog();
         });
@@ -19,20 +16,15 @@ internal static class Initializer
         return loggerFactory.CreateLogger<T>();
     }
 
-    private static IConfigurationBuilder LoadConfigurations(this IConfigurationBuilder configs)
-    {
-        configs.AddYamlFile("config.yaml", optional: false, reloadOnChange: true);
+    private static IConfigurationBuilder LoadConfigurations(this IConfigurationBuilder configs) {
+        configs.AddYamlFile("config.yaml", false, true);
         var logger = GetLogger<IConfigurationBuilder>();
         var files = new List<string> { "proxy", "server", "network" };
-        files.ForEach(n =>
-        {
+        files.ForEach(n => {
             var file = $"config.{n}.yaml";
-            try
-            {
-                configs.AddYamlFile(file, optional: true, reloadOnChange: true);
-            }
-            catch (Exception e)
-            {
+            try {
+                configs.AddYamlFile(file, true, true);
+            } catch (Exception e) {
                 logger.LogError("Configuration contains error: {error}", e);
                 throw;
             }
@@ -41,8 +33,7 @@ internal static class Initializer
         return configs;
     }
 
-    private static WebApplicationBuilder SetupLogger(this WebApplicationBuilder builder)
-    {
+    private static WebApplicationBuilder SetupLogger(this WebApplicationBuilder builder) {
         Log.Logger = new LoggerConfiguration().WriteTo
             .Console()
             .WriteTo.File("logs/app.log", rollingInterval: RollingInterval.Day)
@@ -55,8 +46,7 @@ internal static class Initializer
         return builder;
     }
 
-    internal static WebApplicationBuilder RegisterConfigurations(this WebApplicationBuilder builder)
-    {
+    internal static WebApplicationBuilder RegisterConfigurations(this WebApplicationBuilder builder) {
         builder.Host.UseSystemd();
         builder.SetupLogger();
         builder.Configuration.LoadConfigurations();
@@ -76,8 +66,7 @@ internal static class Initializer
         return builder;
     }
 
-    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder)
-    {
+    internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder) {
         var config = builder.Configuration;
         var logger = GetLogger<WebApplicationBuilder>();
         var defaultOptions = new ServiceConfig();
@@ -95,8 +84,7 @@ internal static class Initializer
         var host = proxy ? proxyOptions.Host : serverOptions.Host;
 
         logger.LogInformation("Setting up host options..");
-        builder.WebHost.UseKestrel(o =>
-        {
+        builder.WebHost.UseKestrel(o => {
             o.Limits.MaxConcurrentConnections = 1024;
             o.Limits.MaxConcurrentUpgradedConnections = 1024;
             o.Limits.MaxRequestBodySize = 52428800;

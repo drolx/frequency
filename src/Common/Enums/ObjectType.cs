@@ -1,7 +1,6 @@
 namespace Proton.Frequency.Common.Enums;
 
-public enum ObjectType
-{
+public enum ObjectType {
     VEHICLE,
     TRAILER,
     TANK,

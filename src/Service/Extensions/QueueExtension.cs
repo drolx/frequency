@@ -4,10 +4,8 @@ using Proton.Frequency.Queue;
 
 namespace Proton.Frequency.Extensions;
 
-internal static class QueueExtension
-{
-    internal static WebApplicationBuilder RegisterQueueHost(this WebApplicationBuilder builder)
-    {
+internal static class QueueExtension {
+    internal static WebApplicationBuilder RegisterQueueHost(this WebApplicationBuilder builder) {
         var config = builder.Configuration;
         var configOptions = new QueueConfig();
         var serverOptions = new ServerConfig();
@@ -19,8 +17,7 @@ internal static class QueueExtension
             return builder;
 
         builder.Services
-            .AddHostedMqttServer(options =>
-            {
+            .AddHostedMqttServer(options => {
                 options
                     .WithPersistentSessions()
                     .WithDefaultEndpoint()
@@ -29,16 +26,12 @@ internal static class QueueExtension
             })
             .AddMqttConnectionHandler()
             .AddConnections();
-        builder.WebHost.UseKestrel(o =>
-        {
-            o.Listen(serverOptions.Host, configOptions.Port, configure: l => l.UseMqtt());
-        });
+        builder.WebHost.UseKestrel(o => { o.Listen(serverOptions.Host, configOptions.Port, l => l.UseMqtt()); });
 
         return builder;
     }
 
-    internal static WebApplication RegisterQueueEndpoints(this WebApplication app)
-    {
+    internal static WebApplication RegisterQueueEndpoints(this WebApplication app) {
         var config = app.Configuration;
         var configOptions = new QueueConfig();
         config.GetSection(QueueConfig.Key).Bind(configOptions);
@@ -46,8 +39,7 @@ internal static class QueueExtension
         if (!configOptions.Enable)
             return app;
         app.MapMqtt("/queue-server");
-        app.UseMqttServer(server =>
-        {
+        app.UseMqttServer(server => {
             server.ValidatingConnectionAsync += QueueController.ValidateConnection;
             server.ClientConnectedAsync += QueueController.OnClientConnected;
         });

@@ -2,8 +2,7 @@ using System.IO.Ports;
 
 namespace Proton.Frequency.Config;
 
-public sealed class DeviceConfig : IConfig
-{
+public sealed class DeviceConfig : IConfig {
     public const string Key = "devices";
     public const bool IsList = true;
     public string Name { get; set; } = "node-00";

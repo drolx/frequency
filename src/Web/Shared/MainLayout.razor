@@ -1,7 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @{
-    var links = new Dictionary<string, string>
-    {
+    var links = new Dictionary<string, string> {
         { "Overview", "app/status" },
         { "Logs", "app/logs" },
         { "Objects", "app/objects" },
@@ -32,7 +31,7 @@
     </header>
     <div class="d-flex flex-wrap justify-content-center">
         <ul class="nav nav-pills nav-fill">
-            @foreach (var (key, value) in links){
+            @foreach (var (key, value) in links) {
                 <li class="nav-item">
                     <NavLink href="@value" class="nav-link" Match="NavLinkMatch.Prefix">@key</NavLink>
                 </li>

@@ -1,10 +1,8 @@
 using Proton.Frequency.Common.Common;
-using Proton.Frequency.Common.Enums;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Log : TimedEntity
-{
+public sealed class Log : TimedEntity {
     public DateTime Time { get; set; } = DateTime.Now;
     public bool Synchronized { get; set; } = false;
     public Terminal? Terminal { get; set; }

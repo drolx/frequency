@@ -10,15 +10,15 @@
     <div class="row px-2">
         <div class="col-4">
             <Addons>
-                 <Addon AddonType="AddonType.Body">
-                     <DatePicker Placeholder="Select Range" @ref="@_datePicker" TValue="DateTime?" InputMode="DateInputMode.Date" SelectionMode="DateInputSelectionMode.Range" TimeAs24hr />
-                 </Addon>
-                 <Addon AddonType="AddonType.End">
-                     <Button Color="Color.Secondary" Clicked="@(()=>_datePicker.ToggleAsync())">
-                         <Icon Name="IconName.CalendarDay" />
-                     </Button>
-                 </Addon>
-             </Addons>
+                <Addon AddonType="AddonType.Body">
+                    <DatePicker Placeholder="Select Range" @ref="@_datePicker" TValue="DateTime?" InputMode="DateInputMode.Date" SelectionMode="DateInputSelectionMode.Range" TimeAs24hr/>
+                </Addon>
+                <Addon AddonType="AddonType.End">
+                    <Button Color="Color.Secondary" Clicked="@(() => _datePicker.ToggleAsync())">
+                        <Icon Name="IconName.CalendarDay"/>
+                    </Button>
+                </Addon>
+            </Addons>
         </div>
         <div class="col d-inline-flex flex-nowrap justify-content-end">
             <button type="button" class="btn btn-danger ms-2" href="#">

@@ -3,8 +3,7 @@ using Proton.Frequency.Common.Enums;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Terminal : GroupedEntity
-{
+public sealed class Terminal : GroupedEntity {
     public string? Identifier { get; set; }
     public string? Name { get; set; }
     public ActivityStatus Status { get; set; }

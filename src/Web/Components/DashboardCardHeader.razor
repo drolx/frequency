@@ -1,15 +1,21 @@
 @code {
         private const string ButtonClasses = "align-middle align-items-center ms-2";
+
     [Parameter]
     public string Title { get; set; } = "Title";
+
     [Parameter]
     public string Icon { get; set; } = "fas fa-square";
+
     [Parameter]
     public string Color { get; set; } = "var(--color-primary)";
+
     [Parameter]
     public string? Path { get; set; }
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
+
 }
 
 <div class="card-header clearfix" style="border-bottom: 0.3rem solid @Color">

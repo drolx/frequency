@@ -5,32 +5,40 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <StripSymbols>true</StripSymbols>
-<!--        <InvariantGlobalization>true</InvariantGlobalization>-->
+        <!--        <InvariantGlobalization>true</InvariantGlobalization>-->
         <EnablePreviewFeatures>True</EnablePreviewFeatures>
         <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
     </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Blazorise.Bootstrap5" Version="1.1.1" />
-        <PackageReference Include="Blazorise.Charts" Version="1.1.1" />
-        <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-rc.1.22427.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-rc.1.22427.2" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.1.22426.10" />
+        <None Remove="bundleconfig.json.backup"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="bundleconfig.json.backup"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Blazorise.Bootstrap5" Version="1.1.1"/>
+        <PackageReference Include="Blazorise.Charts" Version="1.1.1"/>
+        <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.1.1"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0-rc.1.22427.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0-rc.1.22427.2" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.1.22426.10"/>
     </ItemGroup>
     <!-- Development packages -->
     <ItemGroup>
-        <PackageReference Include="AspNetCore.SassCompiler" Version="1.55.0" />
-        <PackageReference Include="BuildBundlerMinifierPlus" Version="5.2.0" />
-        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+        <PackageReference Include="AspNetCore.SassCompiler" Version="1.55.0"/>
+        <PackageReference Include="BuildBundlerMinifierPlus" Version="5.2.0"/>
+        <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175"/>
     </ItemGroup>
     <ItemGroup>
-        <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+        <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js"/>
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj" />
+        <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj"/>
     </ItemGroup>
-<!--    <Target Name="PreBuild" BeforeTargets="BeforeBuild">-->
-<!--        <Exec Command="npm i -g goog-webfont-dl" WorkingDirectory="$(ProjectDir)" />-->
-<!--        <Exec Command="goog-webfont-dl &#45;&#45;woff2 Roboto" WorkingDirectory="$(ProjectDir)wwwroot/fonts" />-->
-<!--    </Target>-->
+    <!--    <Target Name="PreBuild" BeforeTargets="BeforeBuild">-->
+    <!--        <Exec Command="npm i -g goog-webfont-dl" WorkingDirectory="$(ProjectDir)" />-->
+    <!--        <Exec Command="goog-webfont-dl &#45;&#45;woff2 Roboto" WorkingDirectory="$(ProjectDir)wwwroot/fonts" />-->
+    <!--    </Target>-->
 </Project>

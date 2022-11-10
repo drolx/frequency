@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Common.Dto; 
+namespace Proton.Frequency.Common.Dto;
 
 public class SampleDto {
     public string Name { get; set; } = string.Empty;

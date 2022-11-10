@@ -8,8 +8,7 @@
 
     private bool SideBar { get; set; } = true;
 
-    readonly List<Link> _links = new()
-    {
+    readonly List<Link> _links = new() {
         new Link("Users", "app/settings/users", "fa-solid fa-users", Permission.ADMIN),
         new Link("Locations", "app/settings/locations", "fa-solid fa-location-dot"),
         new Link("Channels", "app/settings/channels", "fa-solid fa-road", Permission.ADMIN),
@@ -24,10 +23,10 @@
 }
 
 <div class="row mt-1">
-    @if (SideBar){
+    @if (SideBar) {
         <div class="col-1 d-flex flex-column flex-shrink-0" style="width: 210px;">
             <div class="list-group list-group-light list-group-small">
-                @foreach (var link in _links){
+                @foreach (var link in _links) {
                     <NavLink
                         Match="NavLinkMatch.All"
                         href="@link.Path"

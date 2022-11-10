@@ -10,15 +10,17 @@
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "id")]
-    public Guid? ObjectId { get; set; } = null;
+    public Guid? ObjectId { get; set; }
+
     private record ObjectList(string Name, DateTime Time, ObjectType Type = ObjectType.VEHICLE, EventType Event = EventType.LEFT, string Location = "[New Site] Logbara, Ogun", string Node = "Gate-01");
-    private readonly List<ObjectList> _objects = new()
-    {
+
+    private readonly List<ObjectList> _objects = new() {
         new ObjectList("AAA 767 XH", DateTime.Now, ObjectType.VEHICLE, EventType.ENTERED, "Eric Moore"),
         new ObjectList("KJA 907 XE", DateTime.Now),
         new ObjectList("KTU 205 XC", DateTime.Now, ObjectType.VEHICLE, EventType.DOCKED, "Lagos Gate 01"),
         new ObjectList("GGE 454 XF", DateTime.Now, ObjectType.VEHICLE, EventType.PARKED)
     };
+
 }
 
 @Body
@@ -38,7 +40,7 @@
                 <div>
                     <ListGroup Class="pt-3" Flush>
                         <!-- Start object item -->
-                        @foreach (var item in _objects){
+                        @foreach (var item in _objects) {
                             <ListGroupItem Class="px-2 rounded list-group-item list-group-item-action">
                                 <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                                     <Heading Size="HeadingSize.Is6" Class="mb-1 hstack text-nowrap">
@@ -93,13 +95,13 @@
                 </div>
             </CardHeader>
             <CardBody>
-                @if (ObjectId == null){
+                @if (ObjectId == null) {
                     <div class="p-2 text-center">
                         <img src="images/no-data.svg" style="height: 240px" alt="No Data"/>
                     </div>
                 }
-                else{
-                    <Detail ObjectId="ObjectId" />
+                else {
+                    <Detail ObjectId="ObjectId"/>
                 }
             </CardBody>
         </Card>

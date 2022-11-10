@@ -1,7 +1,6 @@
 namespace Proton.Frequency;
 
-internal interface IProtocol
-{
+internal interface IProtocol {
     string GetName();
 
     IEnumerable<string> GetSupportedCommands();
