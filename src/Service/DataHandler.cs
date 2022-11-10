@@ -1,3 +1,3 @@
-namespace Proton.Frequency.Handler;
+namespace Proton.Frequency;
 
 internal class DataHandler : IHandler { }
