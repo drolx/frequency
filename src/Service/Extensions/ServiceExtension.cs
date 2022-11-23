@@ -1,6 +1,6 @@
 using Microsoft.OpenApi.Models;
 using Proton.Frequency.Config;
-using Proton.Frequency.Module;
+using Proton.Frequency.Resources;
 
 namespace Proton.Frequency.Extensions;
 

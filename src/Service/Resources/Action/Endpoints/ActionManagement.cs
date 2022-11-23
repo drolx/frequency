@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Proton.Frequency.Common.Dto;
 using Proton.Frequency.Config;
 
-namespace Proton.Frequency.Module.Action.Endpoints;
+namespace Proton.Frequency.Resources.Action.Endpoints;
 
 public class ActionManagement {
     public ActionManagement(ILogger<ActionManagement> logger, IOptions<List<NetworkConfig>> config, IMapper mapper) {

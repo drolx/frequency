@@ -1,6 +1,6 @@
-namespace Proton.Frequency.Module.Objects;
+namespace Proton.Frequency.Resources.Events;
 
-public class ObjectsModule : IModule {
+public class EventsModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {
         return services;
     }

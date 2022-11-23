@@ -1,6 +1,6 @@
 using Proton.Frequency.Common.Helpers;
 
-namespace Proton.Frequency.Module;
+namespace Proton.Frequency.Resources;
 
 public interface IModule {
     IServiceCollection RegisterApiModule(IServiceCollection services);
