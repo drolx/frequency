@@ -2,7 +2,7 @@ using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Location : GroupedBaseEntity {
+public sealed class Location : GroupedEntity {
     public bool Default { get; set; } = false;
     public string? Name { get; set; }
     public string? Description { get; set; }

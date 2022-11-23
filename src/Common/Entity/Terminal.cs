@@ -3,7 +3,7 @@ using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Terminal : GroupedBaseEntity {
+public sealed class Terminal : GroupedEntity {
     public string? Identifier { get; set; }
     public string? Name { get; set; }
     public bool Active { get; set; }
@@ -14,5 +14,5 @@ public sealed class Terminal : GroupedBaseEntity {
     public Guid? LocationId { get; set; }
     public bool Proxy { get; set; } = true;
     public ICollection<Node>? Nodes { get; set; }
-    public ICollection<Log>? Logs { get; set; }
+    public ICollection<ObjectLog>? Logs { get; set; }
 }

@@ -3,17 +3,17 @@ using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Object : GroupedBaseEntity {
+public sealed class Object : GroupedEntity {
     public string? Identifier { get; set; }
     public Guid? ObjectId { get; set; }
     public ICollection<Object>? Children { get; set; }
-    public ObjectTagType TagType { get; set; } = ObjectTagType.UNSPECIFIED;
-    public ObjectType Type { get; set; } = ObjectType.VEHICLE;
+    public FrequencyType TagType { get; set; } = FrequencyType.Unspecified;
+    public ObjectType Type { get; set; } = ObjectType.Unknown;
     public Category? Category { get; set; }
     public string? CategoryId { get; set; }
-    public Log? Log { get; set; }
+    public ObjectLog? Log { get; set; }
     public Guid? LogId { get; set; }
-    public ICollection<Log>? Logs { get; set; }
+    public ICollection<ObjectLog>? Logs { get; set; }
     public Object? Parent { get; set; }
 }
 
