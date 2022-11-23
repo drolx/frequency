@@ -6,11 +6,12 @@
   },
   "scripts": {
     "lint": "dotnet csharpier .",
-    "dev": "dotnet watch run --project src/Proton.Frequency/",
-    "run": "dotnet run --project src/Proton.Frequency/",
+    "dev": "dotnet watch run --project src/Service/",
+    "dev:ui": "dotnet watch run --project src/Web/",
+    "run": "dotnet run --project src/Service/",
     "build": "dotnet build --configuration Release",
-    "test": "dotnet test src/Proton.Frequency/ --configuration Release",
-    "package": "dotnet pack src/Proton.Frequency/ --configuration Release --no-build --output ./artifacts/",
+    "test": "dotnet test src/Service/ --configuration Release",
+    "package": "dotnet pack src/Service/ --configuration Release --no-build --output ./artifacts/",
     "release": "dotnet dotnet-releaser build --force dotnet-releaser.toml",
     "publish": "dotnet dotnet-releaser publish --force --github-token \"${{secrets.GITHUB_TOKEN}}\" dotnet-releaser.toml"
   }
