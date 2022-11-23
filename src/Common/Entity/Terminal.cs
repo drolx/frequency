@@ -6,6 +6,7 @@ namespace Proton.Frequency.Common.Entity;
 public sealed class Terminal : GroupedBaseEntity {
     public string? Identifier { get; set; }
     public string? Name { get; set; }
+    public bool Active { get; set; }
     public ActivityStatus Status { get; set; }
     public Channel Channel { get; set; } = null!;
     public Guid ChannelId { get; set; }
