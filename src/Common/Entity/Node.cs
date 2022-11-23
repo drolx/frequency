@@ -1,8 +1,8 @@
-using Proton.Frequency.Common.Common;
+using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Node : TimedEntity {
+public sealed class Node : TimedBaseEntity {
     public string? Identifier { get; set; }
     public Channel Channel { get; set; } = null!;
     public Guid ChannelId { get; set; }

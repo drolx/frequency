@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Proton.Frequency.Common.Common;
+namespace Proton.Frequency.Common.Shared;
 
-public abstract class Entity {
+public abstract class BaseEntity {
     [Key] public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime ArchivedAt { get; set; }

@@ -1,8 +1,8 @@
-using Proton.Frequency.Common.Common;
+using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Log : TimedEntity {
+public sealed class Log : TimedBaseEntity {
     public DateTime Time { get; set; } = DateTime.Now;
     public bool Synchronized { get; set; } = false;
     public Terminal? Terminal { get; set; }

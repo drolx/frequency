@@ -1,9 +1,9 @@
-using Proton.Frequency.Common.Common;
 using Proton.Frequency.Common.Enums;
+using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Object : GroupedEntity {
+public sealed class Object : GroupedBaseEntity {
     public string? Identifier { get; set; }
     public Guid? ObjectId { get; set; }
     public ICollection<Object>? Children { get; set; }

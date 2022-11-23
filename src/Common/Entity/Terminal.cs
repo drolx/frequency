@@ -1,9 +1,9 @@
-using Proton.Frequency.Common.Common;
 using Proton.Frequency.Common.Enums;
+using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public sealed class Terminal : GroupedEntity {
+public sealed class Terminal : GroupedBaseEntity {
     public string? Identifier { get; set; }
     public string? Name { get; set; }
     public ActivityStatus Status { get; set; }
