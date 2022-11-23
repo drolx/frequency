@@ -1,9 +1,13 @@
 namespace Proton.Frequency.Common.Enums;
 
 public enum ObjectType {
-    VEHICLE,
-    TRAILER,
-    TANK,
-    TRACKTOR,
-    ATTCHAMENT
+    Unknown,
+    Car,
+    Bus,
+    Sedan,
+    Trailer,
+    Tanker,
+    Tractor,
+    Tyre,
+    Attachment
 }
