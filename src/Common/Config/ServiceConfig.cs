@@ -1,8 +1,9 @@
-namespace Proton.Frequency.Config;
+using Proton.Frequency.Common.Interfaces;
+
+namespace Proton.Frequency.Common.Config;
 
 public sealed class ServiceConfig : IConfig {
     public const string Key = "service";
-    public const bool IsList = false;
     public bool Proxy { get; set; } = false;
     public bool Management { get; set; } = true;
     public bool Api { get; set; } = false;

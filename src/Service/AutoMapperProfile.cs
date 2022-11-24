@@ -1,6 +1,6 @@
 using AutoMapper;
+using Proton.Frequency.Common.Config;
 using Proton.Frequency.Common.Dto;
-using Proton.Frequency.Config;
 
 namespace Proton.Frequency;
 

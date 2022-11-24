@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.Extensions.Options;
+using Proton.Frequency.Common.Config;
 using Proton.Frequency.Common.Dto;
-using Proton.Frequency.Config;
 
 namespace Proton.Frequency.Resources.Action.Endpoints;
 

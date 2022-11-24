@@ -1,5 +1,5 @@
 using MQTTnet.AspNetCore;
-using Proton.Frequency.Config;
+using Proton.Frequency.Common.Config;
 using Proton.Frequency.Queue;
 
 namespace Proton.Frequency.Extensions;

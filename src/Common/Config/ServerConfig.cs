@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using Proton.Frequency.Common.Interfaces;
 
-namespace Proton.Frequency.Config;
+namespace Proton.Frequency.Common.Config;
 
 public sealed class ServerConfig : IConfig {
     public const string Key = "server";
-    public const bool IsList = false;
     public string Name { get; set; } = "RFID Service";
     public IPAddress Host { get; set; } = IPAddress.Any;
 
