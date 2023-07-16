@@ -1,4 +1,4 @@
-using Proton.Frequency.Common.Config;
+using Frequency.Common.Config;
 using Proton.Frequency.Resources;
 
 namespace Proton.Frequency.Extensions;

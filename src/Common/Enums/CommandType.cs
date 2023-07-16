@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Common.Enums;
+namespace Frequency.Common.Enums;
 
 internal enum CommandType {
     CheckTerminalStatus,

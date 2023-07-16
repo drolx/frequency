@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Caching.Memory;
-using Proton.Frequency.Common.Entity;
+using Frequency.Common.Entity;
 
 namespace Proton.Frequency.Data;
 

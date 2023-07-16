@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using Proton.Frequency.Common.Interfaces;
+using Frequency.Common.Interfaces;
 
-namespace Proton.Frequency.Common.Config;
+namespace Frequency.Common.Config;
 
 public sealed class TerminalConfig : IConfig {
     public const string Key = "terminal";

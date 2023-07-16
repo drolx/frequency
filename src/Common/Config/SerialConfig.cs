@@ -1,6 +1,6 @@
-using Proton.Frequency.Common.Interfaces;
+using Frequency.Common.Interfaces;
 
-namespace Proton.Frequency.Common.Config;
+namespace Frequency.Common.Config;
 
 public class SerialConfig : IConfig {
     public const string Key = "serial";

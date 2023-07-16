@@ -1,7 +1,7 @@
-using Proton.Frequency.Common.Enums;
-using Proton.Frequency.Common.Shared;
+using Frequency.Common.Enums;
+using Frequency.Common.Shared;
 
-namespace Proton.Frequency.Common.Entity;
+namespace Frequency.Common.Entity;
 
 public sealed class User : GroupedEntity {
     public string FullName { get; set; } = string.Empty;

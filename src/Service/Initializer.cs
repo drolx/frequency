@@ -1,5 +1,5 @@
 using System.Net;
-using Proton.Frequency.Common.Config;
+using Frequency.Common.Config;
 using Proton.Frequency.Extensions;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;

@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj" />
+    <ProjectReference Include="..\Common\Frequency.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Proton.Frequency.Common.Interfaces;
+using Frequency.Common.Interfaces;
 
-namespace Proton.Frequency.Common.Config;
+namespace Frequency.Common.Config;
 
 public sealed class QueueConfig : IConfig {
     public const string Key = "system:queue";

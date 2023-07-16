@@ -1,6 +1,6 @@
-using Proton.Frequency.Common.Entity;
+using Frequency.Common.Entity;
 
-namespace Proton.Frequency.Common.Shared;
+namespace Frequency.Common.Shared;
 
 public abstract class GroupedEntity : TimedEntity {
     public Group? Group { get; set; }

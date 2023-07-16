@@ -1,6 +1,6 @@
-using Proton.Frequency.Common.Interfaces;
+using Frequency.Common.Interfaces;
 
-namespace Proton.Frequency.Common.Config;
+namespace Frequency.Common.Config;
 
 public sealed class DatabaseConfig : IConfig {
     public const string Key = "database";

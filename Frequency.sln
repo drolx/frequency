@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency", "src\Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency.Client", "src\Web\Proton.Frequency.Client.csproj", "{C71A97F5-3248-45FC-8E4E-F3B4C62E99E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency.Common", "src\Common\Proton.Frequency.Common.csproj", "{1B4C7CFF-B1B9-4C91-B611-C200559047F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frequency.Common", "src\Common\Frequency.Common.csproj", "{1B4C7CFF-B1B9-4C91-B611-C200559047F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proton.Frequency.Device", "src\Device\Proton.Frequency.Device.csproj", "{7011E8BA-BBD6-44CA-9F7F-207D40475039}"
 EndProject

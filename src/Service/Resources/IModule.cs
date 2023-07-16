@@ -1,4 +1,4 @@
-using Proton.Frequency.Common.Helpers;
+using Frequency.Common.Helpers;
 
 namespace Proton.Frequency.Resources;
 
