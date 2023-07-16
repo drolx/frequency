@@ -26,7 +26,7 @@ More standard will be added later
 
 ## Roadmap for Proton Frequqncy
 
-- [ ] Mmanagement UI initial version.
+- [ ] Management UI initial version.
 - [ ] V1 of API endpoints.
 - [ ] Basic protocols implementation.
 - [ ] MQTT state synchronization.
