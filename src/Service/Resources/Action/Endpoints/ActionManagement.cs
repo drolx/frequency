@@ -6,14 +6,14 @@ using Proton.Frequency.Common.Dto;
 namespace Proton.Frequency.Resources.Action.Endpoints;
 
 public class ActionManagement {
-    public ActionManagement(ILogger<ActionManagement> logger, IOptions<List<NetworkConfig>> config, IMapper mapper) {
+    public ActionManagement(ILogger<ActionManagement> logger, IOptions<List<NetConfig>> config, IMapper mapper) {
         Logger = logger;
         Config = config.Value;
         Mapper = mapper;
     }
 
     private ILogger<ActionManagement> Logger { get; }
-    private List<NetworkConfig> Config { get; }
+    private List<NetConfig> Config { get; }
     private IMapper Mapper { get; }
 
     public IResult Get() {

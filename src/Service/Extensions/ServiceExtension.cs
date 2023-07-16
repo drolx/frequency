@@ -8,12 +8,12 @@ internal static class ServiceExtension {
     internal static WebApplicationBuilder RegisterStandardServices(
         this WebApplicationBuilder builder
     ) {
-        var serviceOptions = new ServiceConfig();
+        var serviceOptions = new SystemConfig();
         var serverOptions = new ServerConfig();
 
-        builder.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
+        builder.Configuration.GetSection(SystemConfig.Key).Bind(serviceOptions);
         builder.Configuration.GetSection(ServerConfig.Key).Bind(serverOptions);
-        switch (serviceOptions.Management) {
+        switch (serviceOptions.Web) {
             case false when serviceOptions.Api:
                 return builder;
             case true:
@@ -40,10 +40,10 @@ internal static class ServiceExtension {
 
     internal static WebApplication RegisterAppServices(this WebApplication app) {
         var logger = Initializer.GetLogger<WebApplication>();
-        var serviceOptions = new ServiceConfig();
-        app.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
+        var serviceOptions = new SystemConfig();
+        app.Configuration.GetSection(SystemConfig.Key).Bind(serviceOptions);
 
-        switch (serviceOptions.Management) {
+        switch (serviceOptions.Web) {
             case false when !serviceOptions.Api:
                 return app;
             case false:

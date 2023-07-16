@@ -6,10 +6,10 @@ namespace Proton.Frequency.Extensions;
 internal static class EndpointExtension {
     internal static WebApplication RegisterEndpoints(this WebApplication app) {
         var logger = Initializer.GetLogger<WebApplication>();
-        var serviceOptions = new ServiceConfig();
+        var serviceOptions = new SystemConfig();
         var serverOptions = new ServerConfig();
 
-        app.Configuration.GetSection(ServiceConfig.Key).Bind(serviceOptions);
+        app.Configuration.GetSection(SystemConfig.Key).Bind(serviceOptions);
         app.Configuration.GetSection(ServerConfig.Key).Bind(serverOptions);
         app.RegisterQueueEndpoints();
 

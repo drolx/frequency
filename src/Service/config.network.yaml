@@ -1,14 +1,13 @@
-﻿networks:
-  - name: reader-00
-    protocol: chafon
-    port: 1731
-  - name: reader-01
-    protocol: king-join
+﻿net-client:
+  - id: client-00
+    type: chafon
+    host: 192.168.0.201
+    port: 1730
+  - id: client-01
+    type: kjoin
+    host: 192.168.0.202
     port: 1732
-  - name: nfc-00
-    protocol: king-join
+  - id: client-02
+    type: kjoin
+    host: 192.168.0.203
     port: 1733
-  - name: client-00
-    protocol: custom-0
-    Port: 1734
-    server: true

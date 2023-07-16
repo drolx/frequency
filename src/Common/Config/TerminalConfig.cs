@@ -4,8 +4,8 @@ using Proton.Frequency.Common.Interfaces;
 
 namespace Proton.Frequency.Common.Config;
 
-public sealed class ProxyConfig : IConfig {
-    public const string Key = "proxy";
+public sealed class TerminalConfig : IConfig {
+    public const string Key = "terminal";
     public IPAddress Host { get; set; } = IPAddress.Any;
     
     [Range(0, 65535, ErrorMessage = "Port number invalid.")]

@@ -1,3 +1,3 @@
 namespace Proton.Frequency.Device.Channels;
 
-public sealed class QueueChannel : CoreChannel { }
+public sealed class QueueChannel : BaseChannel { }

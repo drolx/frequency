@@ -1,15 +1,21 @@
-service:
-  management: true
+allowedHosts: "*"
+system:
+  name: "Proton.Frequency"
+  web: true
   api: true
-  proxy: false
+  port: 7001
+  terminal: false
   network: false
   secret: secret
   event: true
+  resources: false
+  queue:
+    enable: true
+    port: 1883
 database:
   type: sqlite
   store: "Data Source=app.sqlite3;cache=shared"
-  persist: true
-  persistDuration: 86400
+  persist: 86400
 logging:
   logLevel:
     default: Information

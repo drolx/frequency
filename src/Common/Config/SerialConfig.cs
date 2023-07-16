@@ -2,9 +2,9 @@ using Proton.Frequency.Common.Interfaces;
 
 namespace Proton.Frequency.Common.Config;
 
-public class DeviceConfig : IConfig {
-    public const string Key = "devices";
-    public string Name { get; set; } = "node-00";
+public class SerialConfig : IConfig {
+    public const string Key = "serial";
+    public string Id { get; set; } = "serial-00";
     public string Port { get; set; } = "/dev/ttyUSB0";
     public int Rate { get; set; } = 9600;
     public int Bit { get; set; } = 8;
