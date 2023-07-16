@@ -1,8 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RootNameSpace>Proton.Frequency.Device</RootNameSpace>
-  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Frequency.Common.csproj" />
