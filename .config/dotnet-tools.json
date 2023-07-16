@@ -25,18 +25,6 @@
       "commands": [
         "r"
       ]
-    },
-    "csharpier": {
-      "version": "0.19.2",
-      "commands": [
-        "dotnet-csharpier"
-      ]
-    },
-    "husky": {
-      "version": "0.5.1",
-      "commands": [
-        "husky"
-      ]
     }
   }
 }

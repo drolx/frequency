@@ -1,0 +1,39 @@
+<Project>
+
+  <PropertyGroup>
+    <Title>Protton Frequency</Title>
+    <Version>0.0.3-alpha.1</Version>
+    <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
+    <Company>Proton.Frequency Communitity</Company>
+    <Product>Proton Frequency</Product>
+    <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
+    <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>© Proton Frequency Contributors. All rights reserved.</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IsPackable>true</IsPackable>
+    <Description>A UHF RFID daemon for IOT devices.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+    <StripSymbols>true</StripSymbols>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AxolotlVersion>8.0-preview.19</AxolotlVersion>
+    <AspCoreVersion>7.0.9</AspCoreVersion>
+    <Blazorise>1.2.4</Blazorise>
+    <DotnetVersion>7.0.9</DotnetVersion>
+    <EfcoreVersion>7.0.9</EfcoreVersion>
+    <NpgsqlVersion>7.0.4</NpgsqlVersion>
+    <SwashbuckleVersion>6.5.0</SwashbuckleVersion>
+    <MQTTnetVersion>4.2.1.781</MQTTnetVersion>
+  </PropertyGroup>
+
+</Project>
