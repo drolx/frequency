@@ -2,7 +2,7 @@ artifacts_folder = ".release"
 profile = "default"
 
 [msbuild]
-project = "src/Proton.Frequency/Proton.Frequency.csproj"
+project = "src/Service/Frequency.csproj"
 configuration = "Release"
 
 [msbuild.properties]
@@ -13,7 +13,7 @@ SelfContained = true
 
 [github]
 user = "gpproton"
-repo = "Proton.Frequency"
+repo = "Frequency"
 branches = ["main"]
 
 [nuget]

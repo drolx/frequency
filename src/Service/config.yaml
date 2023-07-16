@@ -1,6 +1,6 @@
 allowedHosts: "*"
 system:
-  name: "Proton.Frequency"
+  name: "Frequency"
   web: true
   api: true
   port: 7001
