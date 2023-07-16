@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Handler.Event;
+namespace Frequency.Handler.Event;
 
 internal sealed class CommandBaseEventHandler : BaseEventHandler {
     /* Terminal events - Clear,Restart,etc */

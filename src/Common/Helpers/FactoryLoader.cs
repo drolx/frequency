@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Common.Helpers;
+namespace Frequency.Common.Helpers;
 
 public static class FactoryLoader {
     public static IEnumerable<T> LoadClassInstance<T>() {

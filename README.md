@@ -14,21 +14,31 @@ NOTE: See product link or store url in docs folder.
 | Chafon              | CF-RU5102 | Serial      | 1731 | Pending | Shenzhen Chafon Tech | Folder |
 | Chinese (kjoin) | None      | Serial, TCP | 1732 | Pending | Shenzhen KingJoin    | Folder |
 
+## Type support
+
+More standard will be added later
+
+- [ ] 125KHZ
+- [ ] 13.56MHZ
+- [ ] EPC Gen2
+- [ ] ISO (Europe standard)
+
+
 ## Roadmap for Proton Frequqncy
 
-- [ ] IOT management UI initial version.
-- [ ] Complete v1 of API endpoints.
-- [ ] Complete current protocol implementation.
-- [ ] implementation of MQTT state synchronization.
-- [ ] Add proper documentation setup and usage.
-- [ ] Add script for Raspberry Pi and Orange Pi.
-- [ ] Add proper documentation for API endpoints.
-- [ ] Complete and documentation serial channel.
-- [ ] Complete network channel implementation.
+- [ ] Mmanagement UI initial version.
+- [ ] V1 of API endpoints.
+- [ ] Basic protocols implementation.
+- [ ] MQTT state synchronization.
+- [ ] Documentation setup and usage.
+- [ ] Raspberry Pi and Orange Pi.
+- [ ] PI endpoints.
+- [ ] Documentation serial channel.
+- [ ] Network channel implementation.
 
 ## License
 
-Copyright (c) 2022 <Godwin peter .O>me@godwin.dev
+Copyright (c) 2023 [Godwin peter .O](mailto:me@godwin.dev)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction

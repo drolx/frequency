@@ -1,6 +1,6 @@
 allowedHosts: "*"
 server:
-  name: "Proton.Frequency"
+  name: "Frequency"
   host: 127.0.0.1
   port: 7001
   resources: false

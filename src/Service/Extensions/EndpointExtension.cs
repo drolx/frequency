@@ -1,7 +1,7 @@
-using Proton.Frequency.Common.Config;
-using Proton.Frequency.Resources;
+using Frequency.Common.Config;
+using Frequency.Resources;
 
-namespace Proton.Frequency.Extensions;
+namespace Frequency.Extensions;
 
 internal static class EndpointExtension {
     internal static WebApplication RegisterEndpoints(this WebApplication app) {

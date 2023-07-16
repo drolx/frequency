@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Common.Shared;
+namespace Frequency.Common.Shared;
 
 public abstract class TimedEntity : BaseEntity {
     public DateTime CreatedAt { get; set; }

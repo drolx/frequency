@@ -1,6 +1,6 @@
-using Proton.Frequency.Workers;
+using Frequency.Workers;
 
-namespace Proton.Frequency.Extensions;
+namespace Frequency.Extensions;
 
 internal static class WorkerExtension {
     internal static IServiceCollection RegisterWorkersServices(this IServiceCollection services) {

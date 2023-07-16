@@ -3,7 +3,7 @@ using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Proton.Frequency.Client;
+using Frequency.Client;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 #if DEBUG
@@ -16,7 +16,7 @@ builder.Services
     .AddBootstrap5Providers()
     .AddFontAwesomeIcons();
 builder.Services.AddHttpClient(
-    "Proton.Frequency",
+    "Frequency",
     client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 );
 builder.Services.AddScoped(

@@ -1,4 +1,4 @@
-name: Publish Proton.Frequency
+name: Publish Frequency
 
 on:
   push:

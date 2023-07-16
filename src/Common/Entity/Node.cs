@@ -1,7 +1,7 @@
-using Proton.Frequency.Common.Enums;
-using Proton.Frequency.Common.Shared;
+using Frequency.Common.Enums;
+using Frequency.Common.Shared;
 
-namespace Proton.Frequency.Common.Entity;
+namespace Frequency.Common.Entity;
 
 public sealed class Node : TimedEntity {
     public string? Identifier { get; set; }
@@ -13,5 +13,5 @@ public sealed class Node : TimedEntity {
     public Guid? TerminalId { get; set; }
     public ICollection<ObjectLog>? Logs { get; set; }
     public string? Protocol { get; set; }
-    
+
 }

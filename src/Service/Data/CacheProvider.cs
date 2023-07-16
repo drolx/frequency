@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Caching.Memory;
-using Proton.Frequency.Common.Entity;
+using Frequency.Common.Entity;
 
-namespace Proton.Frequency.Data; 
+namespace Frequency.Data;
 
 public class CacheProvider : ICacheProvider {
     private static readonly SemaphoreSlim CategorySem = new SemaphoreSlim(1, 1);
@@ -15,11 +15,12 @@ public class CacheProvider : ICacheProvider {
     public async Task<IEnumerable<Category>?> GetCachedCategory() {
         try {
             return await GetCachedResponse(CacheKey.Category, CategorySem);
-        } catch {
+        }
+        catch {
             throw;
         }
     }
-    
+
     private async Task<IEnumerable<Category>?> GetCachedResponse(string cacheKey, SemaphoreSlim sem) {
         bool isAvailable = _cache.TryGetValue(cacheKey, out List<Category>? categories);
         if (isAvailable) return categories;
@@ -28,7 +29,7 @@ public class CacheProvider : ICacheProvider {
             await sem.WaitAsync();
             isAvailable = _cache.TryGetValue(cacheKey, out categories);
             if (isAvailable) return categories;
-            
+
             /* TODO: Cache sample responses
             categories = categoriesService.GetCategoriesDetailsFromDB();
             var cacheEntryOptions = new MemoryCacheEntryOptions {
@@ -38,13 +39,15 @@ public class CacheProvider : ICacheProvider {
             };
             _cache.Set(cacheKey, categories, cacheEntryOptions);
             */
-            
-        } catch {
+
+        }
+        catch {
             throw;
-        } finally {
+        }
+        finally {
             sem.Release();
         }
-        
+
         return categories;
     }
 }

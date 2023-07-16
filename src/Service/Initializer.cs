@@ -1,10 +1,10 @@
 using System.Net;
-using Proton.Frequency.Common.Config;
-using Proton.Frequency.Extensions;
+using Frequency.Common.Config;
+using Frequency.Extensions;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Proton.Frequency;
+namespace Frequency;
 
 internal static class Initializer {
     internal static ILogger GetLogger<T>() {
@@ -23,7 +23,8 @@ internal static class Initializer {
         files.ForEach(n => {
             try {
                 configs.AddYamlFile($"config.{n}.yaml", true, true);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.LogError("Configuration contains error: {error}", e);
                 throw;
             }

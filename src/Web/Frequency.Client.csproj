@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
+    <RootAssembly>Frequency.Client</RootAssembly>
     <EnablePreviewFeatures>True</EnablePreviewFeatures>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
@@ -28,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj" />
+    <ProjectReference Include="..\Common\Frequency.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-using Proton.Frequency.Common.Interfaces;
+using Frequency.Common.Interfaces;
 
-namespace Proton.Frequency.Common.Config;
+namespace Frequency.Common.Config;
 
 public class SerialConfig : IConfig {
     public const string Key = "serial";
@@ -8,7 +8,7 @@ public class SerialConfig : IConfig {
     public string Port { get; set; } = "/dev/ttyUSB0";
     public int Rate { get; set; } = 9600;
     public int Bit { get; set; } = 8;
-    
+
     // ReSharper disable once InvalidXmlDocComment
     /** Defaults for serial port
     public Parity Parity { get; set; } = Parity.None;

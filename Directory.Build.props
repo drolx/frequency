@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <Title>Protton Frequency</Title>
+    <Title>Proton Frequency</Title>
     <Version>0.0.3-alpha.1</Version>
     <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
-    <Company>Proton.Frequency Communitity</Company>
+    <Company>Frequency Communitity</Company>
     <Product>Proton Frequency</Product>
-    <PackageProjectUrl>https://github.com/gpproton/Proton.Frequency</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gpproton/Proton.Frequency</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/gpproton/Frequency</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gpproton/Frequency</RepositoryUrl>
     <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
     <RepositoryType>git</RepositoryType>
     <Copyright>© Proton Frequency Contributors. All rights reserved.</Copyright>

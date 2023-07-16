@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <RootNameSpace>Proton.Frequency</RootNameSpace>
     <AssemblyName>freq</AssemblyName>
     <PackRelease>true</PackRelease>
     <PublishSingleFile>true</PublishSingleFile>
@@ -49,9 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj" />
-    <ProjectReference Include="..\Device\Proton.Frequency.Device.csproj" />
-    <ProjectReference Include="..\Web\Proton.Frequency.Client.csproj" />
+    <ProjectReference Include="..\Common\Frequency.Common.csproj" />
+    <ProjectReference Include="..\Device\Frequency.Device.csproj" />
+    <ProjectReference Include="..\Web\Frequency.Client.csproj" />
   </ItemGroup>
 
 </Project>

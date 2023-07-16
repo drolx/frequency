@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Resources.Objects;
+namespace Frequency.Resources.Objects;
 
 public class ObjectsModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

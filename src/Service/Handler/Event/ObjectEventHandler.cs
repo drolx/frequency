@@ -1,3 +1,3 @@
-namespace Proton.Frequency.Handler.Event;
+namespace Frequency.Handler.Event;
 
 internal abstract class ObjectBaseEventHandler : BaseEventHandler { }

@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Workers;
+namespace Frequency.Workers;
 
 internal class MaintenanceWorker : BackgroundService {
     private readonly IConfiguration _configuration;

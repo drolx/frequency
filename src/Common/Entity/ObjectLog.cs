@@ -1,6 +1,6 @@
-using Proton.Frequency.Common.Shared;
+using Frequency.Common.Shared;
 
-namespace Proton.Frequency.Common.Entity;
+namespace Frequency.Common.Entity;
 
 public sealed class ObjectLog : TimedEntity {
     public DateTime Time { get; set; } = DateTime.Now;
