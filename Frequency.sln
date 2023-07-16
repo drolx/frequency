@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{296BE3B3-495
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency", "src\Service\Proton.Frequency.csproj", "{12303BC3-5244-446A-B2FF-2344B75521A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency.Client", "src\Web\Proton.Frequency.Client.csproj", "{C71A97F5-3248-45FC-8E4E-F3B4C62E99E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frequency.Client", "src\Web\Frequency.Client.csproj", "{C71A97F5-3248-45FC-8E4E-F3B4C62E99E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frequency.Common", "src\Common\Frequency.Common.csproj", "{1B4C7CFF-B1B9-4C91-B611-C200559047F9}"
 EndProject

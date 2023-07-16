@@ -51,7 +51,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Frequency.Common.csproj" />
     <ProjectReference Include="..\Device\Proton.Frequency.Device.csproj" />
-    <ProjectReference Include="..\Web\Proton.Frequency.Client.csproj" />
+    <ProjectReference Include="..\Web\Frequency.Client.csproj" />
   </ItemGroup>
 
 </Project>
