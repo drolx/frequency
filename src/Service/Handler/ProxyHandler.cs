@@ -1,3 +1,3 @@
-namespace Proton.Frequency.Handler; 
+namespace Proton.Frequency.Handler;
 
 internal sealed class ProxyHandler : DataHandler { }

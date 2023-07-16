@@ -13,5 +13,5 @@ public sealed class Node : TimedEntity {
     public Guid? TerminalId { get; set; }
     public ICollection<ObjectLog>? Logs { get; set; }
     public string? Protocol { get; set; }
-    
+
 }

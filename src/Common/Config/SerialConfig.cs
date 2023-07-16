@@ -8,7 +8,7 @@ public class SerialConfig : IConfig {
     public string Port { get; set; } = "/dev/ttyUSB0";
     public int Rate { get; set; } = 9600;
     public int Bit { get; set; } = 8;
-    
+
     // ReSharper disable once InvalidXmlDocComment
     /** Defaults for serial port
     public Parity Parity { get; set; } = Parity.None;

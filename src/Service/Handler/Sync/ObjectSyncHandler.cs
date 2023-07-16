@@ -1,5 +1,5 @@
-namespace Proton.Frequency.Handler.Sync; 
+namespace Proton.Frequency.Handler.Sync;
 
 internal sealed class ObjectSyncHandler : BaseSyncHandler {
-    
+
 }

@@ -23,7 +23,8 @@ internal static class Initializer {
         files.ForEach(n => {
             try {
                 configs.AddYamlFile($"config.{n}.yaml", true, true);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.LogError("Configuration contains error: {error}", e);
                 throw;
             }
