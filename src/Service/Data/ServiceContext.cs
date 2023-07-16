@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Proton.Frequency.Data;
+namespace Frequency.Data;
 
 public class ServiceContext : DbContext { }

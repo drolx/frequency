@@ -1,5 +1,5 @@
-using Proton.Frequency;
-using Proton.Frequency.Extensions;
+using Frequency;
+using Frequency.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.RegisterConfigurations();

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Frequency.Common.Entity;
 
-namespace Proton.Frequency.Data;
+namespace Frequency.Data;
 
 public class CacheProvider : ICacheProvider {
     private static readonly SemaphoreSlim CategorySem = new SemaphoreSlim(1, 1);

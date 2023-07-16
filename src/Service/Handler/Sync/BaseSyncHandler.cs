@@ -1,3 +1,3 @@
-namespace Proton.Frequency.Handler.Sync;
+namespace Frequency.Handler.Sync;
 
 internal abstract class BaseSyncHandler { }

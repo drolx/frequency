@@ -1,7 +1,7 @@
+using Frequency.Resources.Action.Endpoints;
 using Microsoft.AspNetCore.Mvc;
-using Proton.Frequency.Resources.Action.Endpoints;
 
-namespace Proton.Frequency.Resources.Action;
+namespace Frequency.Resources.Action;
 
 public class ActionModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

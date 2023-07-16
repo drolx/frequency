@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.32916.344
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{296BE3B3-4953-426D-8F3A-2522F540057A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Proton.Frequency", "src\Service\Proton.Frequency.csproj", "{12303BC3-5244-446A-B2FF-2344B75521A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frequency", "src\Service\Frequency.csproj", "{12303BC3-5244-446A-B2FF-2344B75521A1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frequency.Client", "src\Web\Frequency.Client.csproj", "{C71A97F5-3248-45FC-8E4E-F3B4C62E99E8}"
 EndProject

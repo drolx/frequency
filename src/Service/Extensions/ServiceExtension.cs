@@ -1,8 +1,8 @@
 using Microsoft.OpenApi.Models;
 using Frequency.Common.Config;
-using Proton.Frequency.Resources;
+using Frequency.Resources;
 
-namespace Proton.Frequency.Extensions;
+namespace Frequency.Extensions;
 
 internal static class ServiceExtension {
     internal static WebApplicationBuilder RegisterStandardServices(

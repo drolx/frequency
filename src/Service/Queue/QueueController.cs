@@ -1,6 +1,6 @@
 using MQTTnet.Server;
 
-namespace Proton.Frequency.Queue;
+namespace Frequency.Queue;
 
 internal class QueueController {
     public static QueueController CreateInstance() {

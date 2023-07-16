@@ -1,6 +1,6 @@
 using Frequency.Common.Entity;
 
-namespace Proton.Frequency.Data;
+namespace Frequency.Data;
 
 public interface ICacheProvider {
     Task<IEnumerable<Category>?> GetCachedCategory();

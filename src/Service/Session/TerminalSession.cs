@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Session;
+namespace Frequency.Session;
 
 public class TerminalSession {
 

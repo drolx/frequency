@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Session.State;
+namespace Frequency.Session.State;
 
 public class ObjectState {
 

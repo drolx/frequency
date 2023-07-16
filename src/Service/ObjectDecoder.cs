@@ -1,4 +1,4 @@
-namespace Proton.Frequency;
+namespace Frequency;
 
 internal abstract class ObjectDecoder {
     protected void Init() { }

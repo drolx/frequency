@@ -1,10 +1,10 @@
 using System.Net;
 using Frequency.Common.Config;
-using Proton.Frequency.Extensions;
+using Frequency.Extensions;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
-namespace Proton.Frequency;
+namespace Frequency;
 
 internal static class Initializer {
     internal static ILogger GetLogger<T>() {

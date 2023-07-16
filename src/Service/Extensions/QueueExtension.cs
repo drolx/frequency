@@ -1,8 +1,8 @@
 using MQTTnet.AspNetCore;
 using Frequency.Common.Config;
-using Proton.Frequency.Queue;
+using Frequency.Queue;
 
-namespace Proton.Frequency.Extensions;
+namespace Frequency.Extensions;
 
 internal static class QueueExtension {
     internal static WebApplicationBuilder RegisterQueueHost(this WebApplicationBuilder builder) {

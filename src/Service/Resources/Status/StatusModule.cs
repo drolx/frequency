@@ -1,4 +1,4 @@
-namespace Proton.Frequency.Resources.Status;
+namespace Frequency.Resources.Status;
 
 public class StatusModule : IModule {
     public IServiceCollection RegisterApiModule(IServiceCollection services) {

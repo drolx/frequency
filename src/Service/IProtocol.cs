@@ -1,4 +1,4 @@
-namespace Proton.Frequency;
+namespace Frequency;
 
 internal interface IProtocol {
     string GetName();
