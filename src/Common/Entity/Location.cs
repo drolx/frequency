@@ -1,4 +1,4 @@
-using Proton.Frequency.Common.Common;
+using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 

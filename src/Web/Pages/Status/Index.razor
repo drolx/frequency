@@ -12,20 +12,20 @@
 
 @code {
 
-    private record EventList(string Object, DateTime CreatedAt, EventType Type = EventType.LEFT, string Location = "Parking Hub");
+    private record EventList(string Object, DateTime CreatedAt, EventType Type = EventType.Left, string Location = "Parking Hub");
 
     private readonly List<EventList> _events = new() {
-        new EventList("AAA 767 XH", DateTime.Now, EventType.ENTERED, "Eric Moore"),
+        new EventList("AAA 767 XH", DateTime.Now, EventType.Entered, "Eric Moore"),
         new EventList("KJA 907 XE", DateTime.Now),
-        new EventList("KTU 205 XC", DateTime.Now, EventType.DOCKED, "Lagos Gate 01"),
-        new EventList("GGE 454 XF", DateTime.Now, EventType.PARKED)
+        new EventList("KTU 205 XC", DateTime.Now, EventType.Docked, "Lagos Gate 01"),
+        new EventList("GGE 454 XF", DateTime.Now, EventType.Parked)
     };
 
     static Color GetColor(EventType value) {
         return value switch
         {
-            EventType.ENTERED => Color.Success,
-            EventType.DOCKED => Color.Info,
+            EventType.Entered => Color.Success,
+            EventType.Docked => Color.Info,
             _ => Color.Secondary
             };
     }

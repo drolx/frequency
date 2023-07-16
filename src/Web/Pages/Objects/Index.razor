@@ -12,13 +12,13 @@
     [SupplyParameterFromQuery(Name = "id")]
     public Guid? ObjectId { get; set; }
 
-    private record ObjectList(string Name, DateTime Time, ObjectType Type = ObjectType.VEHICLE, EventType Event = EventType.LEFT, string Location = "[New Site] Logbara, Ogun", string Node = "Gate-01");
+    private record ObjectList(string Name, DateTime Time, ObjectType Type = ObjectType.Unknown, EventType Event = EventType.Left, string Location = "[New Site] Logbara, Ogun", string Node = "Gate-01");
 
     private readonly List<ObjectList> _objects = new() {
-        new ObjectList("AAA 767 XH", DateTime.Now, ObjectType.VEHICLE, EventType.ENTERED, "Eric Moore"),
+        new ObjectList("AAA 767 XH", DateTime.Now, ObjectType.Unknown, EventType.Entered, "Eric Moore"),
         new ObjectList("KJA 907 XE", DateTime.Now),
-        new ObjectList("KTU 205 XC", DateTime.Now, ObjectType.VEHICLE, EventType.DOCKED, "Lagos Gate 01"),
-        new ObjectList("GGE 454 XF", DateTime.Now, ObjectType.VEHICLE, EventType.PARKED)
+        new ObjectList("KTU 205 XC", DateTime.Now, ObjectType.Unknown, EventType.Docked, "Lagos Gate 01"),
+        new ObjectList("GGE 454 XF", DateTime.Now, ObjectType.Unknown, EventType.Parked)
     };
 
 }

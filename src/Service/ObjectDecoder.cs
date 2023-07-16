@@ -5,9 +5,7 @@ internal abstract class ObjectDecoder {
 
     protected void OnMessageEvent() { }
 
-    protected object HandleEmptyEvent() {
-        return null;
-    }
+    protected object HandleEmptyEvent() => new object();
 
     protected abstract object Decode(object msg);
 }

@@ -1,8 +1,8 @@
-using Proton.Frequency.Common.Common;
+using Proton.Frequency.Common.Shared;
 
 namespace Proton.Frequency.Common.Entity;
 
-public class Group : TimedEntity {
+public sealed class Group : TimedEntity {
     public bool Default { get; set; } = false;
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }

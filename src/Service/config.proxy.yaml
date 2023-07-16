@@ -1,4 +1,4 @@
-﻿proxy:
+﻿terminal:
   id: unit-default
   channel: default
   host: 127.0.0.1
@@ -12,19 +12,19 @@
     sync: true
     timeout: 3
     retry: 5
-devices:
-  - name: serial-00
-    protocol: chafon
+serial:
+  - id: serial-one
+    type: chafon
     port: /dev/ttyUSB0
     rate: 9600
     bits: 8
-  - name: reader-serial-01
-    protocol: king-join
-    port: /dev/ttyAMC0
+  - id: serial-two
+    type: kjoin
+    port: /dev/ttyUSB1
 tag:
   max: 256
   allowed:
     - EPC-GEN1
     - EPC-GEN2
-    - ISO1800-6B
+    - ISO1800
   

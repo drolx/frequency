@@ -42,39 +42,39 @@
     </PropertyGroup>
     <!-- Set HUSKY to 0 in CI/CD disable this -->
     <Target Name="husky" BeforeTargets="Restore;CollectPackageReferences" Condition="'$(HUSKY)' != 0">
-        <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High"/>
-        <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory="../../"/>
+        <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
+        <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High" WorkingDirectory="../../" />
     </Target>
     <!-- Application packages -->
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-rc.1.22426.7">
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.7.22376.2"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0-rc.1.22426.10"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0-rc.1.22427.2"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0-rc.1.22427.2"/>
-        <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-rc.1"/>
-        <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.7.22375.6"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-        <PackageReference Include="MQTTnet.AspNetCore" Version="4.1.0.247"/>
-        <PackageReference Include="Serilog.AspNetCore" Version="6.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0" />
+        <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.2.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="MQTTnet.AspNetCore" Version="4.1.4.563" />
+        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     </ItemGroup>
     <ItemGroup>
-        <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest"/>
-        <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest"/>
-        <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest"/>
-        <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest"/>
+        <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj"/>
-        <ProjectReference Include="..\Web\Proton.Frequency.Client.csproj"/>
+        <ProjectReference Include="..\Common\Proton.Frequency.Common.csproj" />
+        <ProjectReference Include="..\Device\Proton.Frequency.Device.csproj" />
+        <ProjectReference Include="..\Web\Proton.Frequency.Client.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Protocol"/>
-        <Folder Include="wwwroot\js\"/>
+        <Folder Include="wwwroot" />
     </ItemGroup>
 </Project>
