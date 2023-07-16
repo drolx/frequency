@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "github.vscode-github-actions",
+        "foxundermoon.shell-format",
+        "wayou.vscode-todo-highlight",
+        "redhat.vscode-yaml",
+        "editorconfig.editorconfig"
+    ]
+}
