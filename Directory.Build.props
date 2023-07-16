@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <Title>Protton Frequency</Title>
+    <Title>Proton Frequency</Title>
     <Version>0.0.3-alpha.1</Version>
     <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
     <Company>Proton.Frequency Communitity</Company>
