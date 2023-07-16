@@ -12,7 +12,7 @@ NOTE: See product link or store url in docs folder.
 | Name                | Model     | Channels    | Port | Status  | Manufacturer         | Docs   |
 | ------------------- | --------- | ----------- | ---- | ------- | -------------------- | ------ |
 | Chafon              | CF-RU5102 | Serial      | 1731 | Pending | Shenzhen Chafon Tech | Folder |
-| Generic (king-join) | None      | Serial, TCP | 1732 | Pending | Shenzhen KingJoin    | Folder |
+| Chinese (kjoin) | None      | Serial, TCP | 1732 | Pending | Shenzhen KingJoin    | Folder |
 
 ## Roadmap for Proton Frequqncy
 
