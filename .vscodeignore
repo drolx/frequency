@@ -1,5 +1,7 @@
 # Ignore everything
 *
+**/bin
+**/obj
 
 # Whitelist what you need
 !.vscodeignore
