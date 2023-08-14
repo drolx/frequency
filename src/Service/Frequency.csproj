@@ -44,6 +44,7 @@
     <ProjectReference Include="..\Common\Frequency.Common.csproj" />
     <ProjectReference Include="..\Components\Frequency.Components.csproj" />
     <ProjectReference Include="..\Device\Frequency.Device.csproj" />
+    <ProjectReference Include="..\Web\Frequency.Client.csproj" />
   </ItemGroup>
 
 </Project>

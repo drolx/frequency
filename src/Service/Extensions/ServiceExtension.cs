@@ -1,9 +1,5 @@
-using Blazorise;
-using Blazorise.Bootstrap5;
-using Blazorise.Icons.FontAwesome;
 using Microsoft.OpenApi.Models;
 using Frequency.Common.Config;
-using Frequency.Components;
 using Frequency.Resources;
 
 namespace Frequency.Extensions;
@@ -24,12 +20,13 @@ internal static class ServiceExtension {
             case true:
                 builder.Services.AddRazorPages();
                 builder.Services.AddControllersWithViews();
-                builder.Services.AddRazorComponents()
-                    .AddServerComponents()
-                    .AddWebAssemblyComponents();
-                builder.Services.AddBlazorise(options => { options.Immediate = true; })
-                    .AddBootstrap5Providers()
-                    .AddFontAwesomeIcons();
+                // TODO: Test after dotnet 8.0 release
+                // builder.Services.AddRazorComponents()
+                //     .AddServerComponents()
+                //     .AddWebAssemblyComponents();
+                // builder.Services.AddBlazorise(options => { options.Immediate = true; })
+                //     .AddBootstrap5Providers()
+                //     .AddFontAwesomeIcons();
                 break;
         }
 
@@ -71,23 +68,24 @@ internal static class ServiceExtension {
             app.RegisterEndpoints();
 
         logger.LogInformation("Starting web management UI...");
-        // app.UseBlazorFrameworkFiles();
+        app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
         app.MapRazorPages();
         app.MapControllers();
-        // app.MapFallbackToFile("index.html");
-        app.MapRazorComponents<Server>()
-            .AddServerRenderMode()
-            .AddWebAssemblyRenderMode();
+        app.MapFallbackToFile("index.html");
+        // TODO: Test after dotnet 8.0 release
+        // app.MapRazorComponents<Server>()
+        //     .AddServerRenderMode()
+        //     .AddWebAssemblyRenderMode();
 
         if (!app.Environment.IsDevelopment())
             return app;
-        // app.UseWebAssemblyDebugging();
+        app.UseWebAssemblyDebugging();
         app.UseExceptionHandler("/Error");
-        app.MapFallback( context => {
-            context.Response.Redirect("/404");
-            return Task.CompletedTask;
-        });
+        // app.MapFallback( context => {
+        //     context.Response.Redirect("/404");
+        //     return Task.CompletedTask;
+        // });
 
         return app;
     }
