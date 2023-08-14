@@ -10,6 +10,7 @@ public sealed class TerminalConfig : IConfig {
 
     [Range(0, 65535, ErrorMessage = "Port number invalid.")]
     public int Port { get; set; } = 8080;
+
     public bool Auto { get; set; } = false;
     public int Retries { get; set; } = 3;
     public int Timeout { get; set; } = 5;

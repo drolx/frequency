@@ -1,4 +1,5 @@
 @code{
+
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -12,6 +13,7 @@
         base.OnParametersSet();
         Content = ChildContent ?? Content;
     }
+
 }
 
 <PageTitle>@Content :: @AppTitle</PageTitle>

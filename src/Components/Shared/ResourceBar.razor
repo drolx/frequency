@@ -12,18 +12,14 @@
     [Parameter]
     public string Text { get; set; } = "Item";
 
-    private string Color {
-        get {
-            return Value switch
-            {
-                25 => "#198754",
-                > 26 and <= 55 => "steelblue",
-                > 56 and <= 75 => "ffc107",
-                > 76 => "#dc3545",
-                _ => "#7f7f7f"
-                };
-        }
-    }
+    private string Color => Value switch
+    {
+        25 => "#198754",
+        > 26 and <= 55 => "steelblue",
+        > 56 and <= 75 => "ffc107",
+        > 76 => "#dc3545",
+        _ => "#7f7f7f"
+        };
 
 }
 

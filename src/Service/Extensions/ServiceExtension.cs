@@ -30,8 +30,10 @@ internal static class ServiceExtension {
                 break;
         }
 
-        if (!serviceOptions.Api)
+        if (!serviceOptions.Api) {
             return builder;
+        }
+
         builder.Services.AddControllers();
         builder.Services.RegisterModules();
         builder.Services.AddEndpointsApiExplorer();
@@ -64,8 +66,9 @@ internal static class ServiceExtension {
         app.UseHttpsRedirection();
         app.UseAuthorization();
 
-        if (serviceOptions.Api)
+        if (serviceOptions.Api) {
             app.RegisterEndpoints();
+        }
 
         logger.LogInformation("Starting web management UI...");
         app.UseBlazorFrameworkFiles();
@@ -78,8 +81,10 @@ internal static class ServiceExtension {
         //     .AddServerRenderMode()
         //     .AddWebAssemblyRenderMode();
 
-        if (!app.Environment.IsDevelopment())
+        if (!app.Environment.IsDevelopment()) {
             return app;
+        }
+
         app.UseWebAssemblyDebugging();
         app.UseExceptionHandler("/Error");
         // app.MapFallback( context => {

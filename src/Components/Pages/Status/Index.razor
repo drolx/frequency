@@ -21,14 +21,12 @@
         new EventList("GGE 454 XF", DateTime.Now, EventType.Parked)
     };
 
-    static Color GetColor(EventType value) {
-        return value switch
-        {
-            EventType.Entered => Color.Success,
-            EventType.Docked => Color.Info,
-            _ => Color.Secondary
-            };
-    }
+    static Color GetColor(EventType value) => value switch
+    {
+        EventType.Entered => Color.Success,
+        EventType.Docked => Color.Info,
+        _ => Color.Secondary
+        };
 
 }
 

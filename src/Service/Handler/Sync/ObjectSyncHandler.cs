@@ -1,5 +1,3 @@
 namespace Frequency.Handler.Sync;
 
-internal sealed class ObjectSyncHandler : BaseSyncHandler {
-
-}
+internal sealed class ObjectSyncHandler : BaseSyncHandler { }

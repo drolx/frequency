@@ -5,7 +5,5 @@ using Frequency.Common.Dto;
 namespace Frequency;
 
 public class AutoMapperProfile : Profile {
-    public AutoMapperProfile() {
-        CreateMap<NetConfig, SampleDto>();
-    }
+    public AutoMapperProfile() => CreateMap<NetConfig, SampleDto>();
 }

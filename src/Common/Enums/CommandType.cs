@@ -4,5 +4,5 @@ internal enum CommandType {
     CheckTerminalStatus,
     CheckNodeStatus,
     ReadTag,
-    ReadMultipleTags,
+    ReadMultipleTags
 }

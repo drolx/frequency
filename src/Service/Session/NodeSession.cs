@@ -1,5 +1,3 @@
 namespace Frequency.Session;
 
-public class NodeSession {
-
-}
+public class NodeSession { }

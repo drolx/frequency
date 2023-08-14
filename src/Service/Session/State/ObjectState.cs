@@ -1,5 +1,3 @@
 namespace Frequency.Session.State;
 
-public class ObjectState {
-
-}
+public class ObjectState { }

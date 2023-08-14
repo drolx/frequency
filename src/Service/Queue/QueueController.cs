@@ -3,9 +3,7 @@ using MQTTnet.Server;
 namespace Frequency.Queue;
 
 internal class QueueController {
-    public static QueueController CreateInstance() {
-        return new QueueController();
-    }
+    public static QueueController CreateInstance() => new();
 
     internal static Task OnClientConnected(ClientConnectedEventArgs eventArgs) {
         var logger = Initializer.GetLogger<WebApplication>();

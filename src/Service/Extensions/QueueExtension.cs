@@ -13,8 +13,10 @@ internal static class QueueExtension {
         config.GetSection(QueueConfig.Key).Bind(configOptions);
         config.GetSection(ServerConfig.Key).Bind(serverOptions);
 
-        if (!configOptions.Enable)
+        if (!configOptions.Enable) {
             return builder;
+        }
+
         builder.Services
             .AddHostedMqttServer(options => {
                 options
@@ -36,8 +38,10 @@ internal static class QueueExtension {
         var configOptions = new QueueConfig();
         config.GetSection(QueueConfig.Key).Bind(configOptions);
 
-        if (!configOptions.Enable)
+        if (!configOptions.Enable) {
             return app;
+        }
+
         app.MapMqtt("/queue-server");
         app.UseMqttServer(server => {
             server.ValidatingConnectionAsync += QueueController.ValidateConnection;
