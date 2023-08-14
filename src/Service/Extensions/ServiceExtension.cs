@@ -84,6 +84,10 @@ internal static class ServiceExtension {
             return app;
         // app.UseWebAssemblyDebugging();
         app.UseExceptionHandler("/Error");
+        app.MapFallback( context => {
+            context.Response.Redirect("/404");
+            return Task.CompletedTask;
+        });
 
         return app;
     }
