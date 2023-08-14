@@ -3,7 +3,6 @@
   <PropertyGroup>
     <RootAssembly>Frequency.Client</RootAssembly>
     <WasmEnableWebcil>true</WasmEnableWebcil>
-    <!-- <RazorLangVersion>8.0</RazorLangVersion> -->
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 

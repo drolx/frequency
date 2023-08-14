@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootAssembly>Frequency.Components</RootAssembly>
-    <!-- <RazorLangVersion>8.0</RazorLangVersion> -->
+    <WasmEnableWebcil>true</WasmEnableWebcil>
   </PropertyGroup>
 
 
