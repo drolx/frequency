@@ -1,11 +1,11 @@
 <Project>
 
   <PropertyGroup>
-    <Title>Proton Frequency</Title>
+    <Title>Frequency</Title>
     <Version>0.0.3-alpha.1</Version>
     <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
     <Company>Frequency Communitity</Company>
-    <Product>Proton Frequency</Product>
+    <Product>Frequency</Product>
     <PackageProjectUrl>https://github.com/gpproton/Frequency</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gpproton/Frequency</RepositoryUrl>
     <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
