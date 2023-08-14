@@ -9,15 +9,15 @@
     private bool SideBar { get; set; } = true;
 
     readonly List<Link> _links = new() {
-        new Link("Users", "app/settings/users", "fa-solid fa-users", Permission.Admin),
-        new Link("Locations", "app/settings/locations", "fa-solid fa-location-dot"),
-        new Link("Channels", "app/settings/channels", "fa-solid fa-road", Permission.Admin),
-        new Link("Category", "app/settings/category", "fa-regular fa-object-group"),
-        new Link("Terminals", "app/settings/terminals", "fa-solid fa-terminal", Permission.Admin),
-        new Link("System", "app/settings/device", "fa-solid fa-server", Permission.System),
-        new Link("Services", "app/settings/services", "fa-solid fa-gears", Permission.System),
-        new Link("Logs", "app/settings/logs", "fa-regular fa-clipboard", Permission.System),
-        new Link("Reboot", "app/settings/reboot", "fa-solid fa-power-off", Permission.System)
+        new Link("Users", "settings/users", "fa-solid fa-users", Permission.Admin),
+        new Link("Locations", "settings/locations", "fa-solid fa-location-dot"),
+        new Link("Channels", "settings/channels", "fa-solid fa-road", Permission.Admin),
+        new Link("Category", "settings/category", "fa-regular fa-object-group"),
+        new Link("Terminals", "settings/terminals", "fa-solid fa-terminal", Permission.Admin),
+        new Link("System", "settings/device", "fa-solid fa-server", Permission.System),
+        new Link("Services", "settings/services", "fa-solid fa-gears", Permission.System),
+        new Link("Logs", "settings/logs", "fa-regular fa-clipboard", Permission.System),
+        new Link("Reboot", "settings/reboot", "fa-solid fa-power-off", Permission.System)
     };
 
 }
