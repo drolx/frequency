@@ -15,7 +15,7 @@
                     <DatePicker Placeholder="Select Range" @ref="@_datePicker" TValue="DateTime?" InputMode="DateInputMode.Date" SelectionMode="DateInputSelectionMode.Range" TimeAs24hr/>
                 </Addon>
                 <Addon AddonType="AddonType.End">
-                    <Button Color="Color.Secondary" Clicked="@(() => _datePicker.ToggleAsync())">
+                    <Button Color="Color.Secondary" Clicked="@(() => _datePicker!.ToggleAsync())">
                         <Icon Name="IconName.CalendarDay"/>
                     </Button>
                 </Addon>
