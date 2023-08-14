@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "dotnet-releaser": {
-      "version": "0.4.2",
+      "version": "0.6.3",
       "commands": [
         "dotnet-releaser"
       ]
@@ -15,13 +15,13 @@
       ]
     },
     "dotnet-ef": {
-      "version": "7.0.9",
+      "version": "8.0.0-preview.7.23375.4",
       "commands": [
         "dotnet-ef"
       ]
     },
     "run-script": {
-      "version": "0.4.0",
+      "version": "0.5.0",
       "commands": [
         "r"
       ]
