@@ -3,6 +3,11 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
+      "provider": "unpkg",
+      "library": "@fontsource/roboto@4.5.8",
+      "destination": "wwwroot/lib/roboto"
+    },
+    {
       "library": "font-awesome@6.2.0",
       "destination": "wwwroot/lib/font-awesome",
       "files": [
