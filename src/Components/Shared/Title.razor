@@ -1,5 +1,4 @@
 @code{
-
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
@@ -7,13 +6,12 @@
     public RenderFragment? Content { get; set; }
 
     [Parameter]
-    public string AppTitle { get; set; } = "Proton Frequency";
+    public string AppTitle { get; set; } = "Frequency";
 
     protected override void OnParametersSet() {
         base.OnParametersSet();
         Content = ChildContent ?? Content;
     }
-
 }
 
 <PageTitle>@Content :: @AppTitle</PageTitle>

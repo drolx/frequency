@@ -2,9 +2,8 @@
 
   <PropertyGroup>
     <RootAssembly>Frequency.Client</RootAssembly>
-    <EnablePreviewFeatures>True</EnablePreviewFeatures>
-<!--    <RazorLangVersion>8.0</RazorLangVersion>-->
     <WasmEnableWebcil>true</WasmEnableWebcil>
+    <!-- <RazorLangVersion>8.0</RazorLangVersion> -->
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
@@ -16,13 +15,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
       PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" />
-  </ItemGroup>
-
-  <!-- Development packages -->
-  <ItemGroup>
-    <PackageReference Include="AspNetCore.SassCompiler" />
-    <PackageReference Include="BuildBundlerMinifierPlus" />
-    <PackageReference Include="Microsoft.Web.LibraryManager.Build" />
   </ItemGroup>
 
   <ItemGroup>

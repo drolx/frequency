@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <RootAssembly>Frequency.Components</RootAssembly>
+    <!-- <RazorLangVersion>8.0</RazorLangVersion> -->
   </PropertyGroup>
 
 
