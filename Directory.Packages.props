@@ -10,10 +10,10 @@
   </ItemGroup>
 
   <ItemGroup Label="Dotnet">
-    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Systemd" Version="7.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageVersion Include="System.IO.Ports" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="$(DotnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Systemd" Version="$(DotnetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="$(DotnetVersion)" />
+    <PackageVersion Include="System.IO.Ports" Version="$(DotnetVersion)" />
   </ItemGroup>
 
   <ItemGroup Label="EFCore">
@@ -24,6 +24,7 @@
 
   <ItemGroup Label="Aspnet">
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(AspCoreVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Web" Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server"
       Version="$(AspCoreVersion)" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly"
