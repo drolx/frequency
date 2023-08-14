@@ -67,31 +67,34 @@ internal static class Initializer {
     }
 
     internal static WebApplicationBuilder RegisterHostOptions(this WebApplicationBuilder builder) {
-        var config = builder.Configuration;
-        var logger = GetLogger<WebApplicationBuilder>();
-        var defaultOptions = new SystemConfig();
-        var serverOptions = new ServerConfig();
-        var proxyOptions = new TerminalConfig();
-        var queueOptions = new QueueConfig();
+        // TODO: Clean up configs and options API usage
+        // var config = builder.Configuration;
+        //
+        // var defaultOptions = new SystemConfig();
+        // var serverOptions = new ServerConfig();
+        // var proxyOptions = new TerminalConfig();
+        // var queueOptions = new QueueConfig();
 
-        config.GetSection(SystemConfig.Key).Bind(defaultOptions);
-        config.GetSection(ServerConfig.Key).Bind(serverOptions);
-        config.GetSection(TerminalConfig.Key).Bind(proxyOptions);
-        config.GetSection(QueueConfig.Key).Bind(queueOptions);
+        // config.GetSection(SystemConfig.Key).Bind(defaultOptions);
+        // config.GetSection(ServerConfig.Key).Bind(serverOptions);
+        // config.GetSection(TerminalConfig.Key).Bind(proxyOptions);
+        // config.GetSection(QueueConfig.Key).Bind(queueOptions);
+        //
 
-        var proxy = defaultOptions!.Terminal;
-        var port = proxy ? proxyOptions.Port : serverOptions.Port;
-        var host = proxy ? proxyOptions.Host : serverOptions.Host;
+        // var logger = GetLogger<WebApplicationBuilder>();
+        // var proxy = defaultOptions!.Terminal;
+        // var port = proxy ? proxyOptions.Port : serverOptions.Port;
+        // var host = proxy ? proxyOptions.Host : serverOptions.Host;
 
-        logger.LogInformation("Setting up host options..");
-        builder.WebHost.UseKestrel(o => {
-            o.Limits.MaxConcurrentConnections = 1024;
-            o.Limits.MaxConcurrentUpgradedConnections = 1024;
-            o.Limits.MaxRequestBodySize = 52428800;
-            o.Listen(defaultOptions.Web ? host : IPAddress.None, port);
-        });
+        // logger.LogInformation("Setting up host options..");
+        // builder.WebHost.UseKestrel(o => {
+        //     o.Limits.MaxConcurrentConnections = 1024;
+        //     o.Limits.MaxConcurrentUpgradedConnections = 1024;
+        //     o.Limits.MaxRequestBodySize = 52428800;
+        //     o.Listen(defaultOptions.Web ? host : IPAddress.None, port);
+        // });
         builder.RegisterQueueHost();
-        builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(30));
+        // builder.Host.ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(30));
 
         return builder;
     }

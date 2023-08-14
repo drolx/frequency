@@ -15,7 +15,6 @@ internal static class QueueExtension {
 
         if (!configOptions.Enable)
             return builder;
-
         builder.Services
             .AddHostedMqttServer(options => {
                 options
@@ -26,7 +25,8 @@ internal static class QueueExtension {
             })
             .AddMqttConnectionHandler()
             .AddConnections();
-        builder.WebHost.UseKestrel(o => { o.Listen(serverOptions.Host, configOptions.Port, l => l.UseMqtt()); });
+        // TODO: Improve MQTT port allocation
+        // builder.WebHost.UseKestrel(o => { o.Listen(serverOptions.Host, configOptions.Port, l => l.UseMqtt()); });
 
         return builder;
     }
