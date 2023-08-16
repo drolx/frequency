@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.OpenApi.Models;
 using Frequency.Common.Config;
 using Frequency.Resources;
@@ -24,9 +27,9 @@ internal static class ServiceExtension {
                 // builder.Services.AddRazorComponents()
                 //     .AddServerComponents()
                 //     .AddWebAssemblyComponents();
-                // builder.Services.AddBlazorise(options => { options.Immediate = true; })
-                //     .AddBootstrap5Providers()
-                //     .AddFontAwesomeIcons();
+                builder.Services.AddBlazorise(options => { options.Immediate = true; })
+                    .AddBootstrap5Providers()
+                    .AddFontAwesomeIcons();
                 break;
         }
 
@@ -75,7 +78,7 @@ internal static class ServiceExtension {
         app.UseStaticFiles();
         app.MapRazorPages();
         app.MapControllers();
-        app.MapFallbackToFile("index.html");
+        app.MapFallbackToPage("/_Host");
         // TODO: Test after dotnet 8.0 release
         // app.MapRazorComponents<Server>()
         //     .AddServerRenderMode()
