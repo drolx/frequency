@@ -23,10 +23,6 @@ internal static class ServiceExtension {
             case true:
                 builder.Services.AddRazorPages();
                 builder.Services.AddControllersWithViews();
-                // TODO: Test after dotnet 8.0 release
-                // builder.Services.AddRazorComponents()
-                //     .AddServerComponents()
-                //     .AddWebAssemblyComponents();
                 builder.Services.AddBlazorise(options => { options.Immediate = true; })
                     .AddBootstrap5Providers()
                     .AddFontAwesomeIcons();
@@ -79,10 +75,6 @@ internal static class ServiceExtension {
         app.MapRazorPages();
         app.MapControllers();
         app.MapFallbackToPage("/_Host");
-        // TODO: Test after dotnet 8.0 release
-        // app.MapRazorComponents<Server>()
-        //     .AddServerRenderMode()
-        //     .AddWebAssemblyRenderMode();
 
         if (!app.Environment.IsDevelopment()) {
             return app;
@@ -90,10 +82,6 @@ internal static class ServiceExtension {
 
         app.UseWebAssemblyDebugging();
         app.UseExceptionHandler("/Error");
-        // app.MapFallback( context => {
-        //     context.Response.Redirect("/404");
-        //     return Task.CompletedTask;
-        // });
 
         return app;
     }
