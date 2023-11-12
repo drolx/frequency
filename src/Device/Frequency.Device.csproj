@@ -2,11 +2,11 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Frequency.Common.csproj" />
+    <ProjectReference Include="..\Common\Frequency.Common.csproj"/>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" />
+    <PackageReference Include="System.IO.Ports"/>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,12 @@
+@page "/settings"
+@inject NavigationManager Navigate
+
+<Title>Setting</Title>
+
+@functions{
+
+    protected override void OnInitialized() => Navigate.NavigateTo("settings/users");
+
+}
+
+<div>...</div>

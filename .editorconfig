@@ -12,73 +12,6 @@ insert_final_newline = true
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
-
-# Visual C++ Code Style settings
-
-cpp_generate_documentation_comments = xml
-
-# Visual C++ Formatting settings
-
-cpp_indent_braces = false
-cpp_indent_multi_line_relative_to = innermost_parenthesis
-cpp_indent_within_parentheses = indent
-cpp_indent_preserve_within_parentheses = true
-cpp_indent_case_contents = true
-cpp_indent_case_labels = false
-cpp_indent_case_contents_when_block = false
-cpp_indent_lambda_braces_when_parameter = true
-cpp_indent_goto_labels = one_left
-cpp_indent_preprocessor = leftmost_column
-cpp_indent_access_specifiers = false
-cpp_indent_namespace_contents = true
-cpp_indent_preserve_comments = false
-cpp_new_line_before_open_brace_namespace = ignore
-cpp_new_line_before_open_brace_type = ignore
-cpp_new_line_before_open_brace_function = ignore
-cpp_new_line_before_open_brace_block = ignore
-cpp_new_line_before_open_brace_lambda = ignore
-cpp_new_line_scope_braces_on_separate_lines = false
-cpp_new_line_close_brace_same_line_empty_type = false
-cpp_new_line_close_brace_same_line_empty_function = false
-cpp_new_line_before_catch = true
-cpp_new_line_before_else = true
-cpp_new_line_before_while_in_do_while = false
-cpp_space_before_function_open_parenthesis = remove
-cpp_space_within_parameter_list_parentheses = false
-cpp_space_between_empty_parameter_list_parentheses = false
-cpp_space_after_keywords_in_control_flow_statements = true
-cpp_space_within_control_flow_statement_parentheses = false
-cpp_space_before_lambda_open_parenthesis = false
-cpp_space_within_cast_parentheses = false
-cpp_space_after_cast_close_parenthesis = false
-cpp_space_within_expression_parentheses = false
-cpp_space_before_block_open_brace = true
-cpp_space_between_empty_braces = false
-cpp_space_before_initializer_list_open_brace = false
-cpp_space_within_initializer_list_braces = true
-cpp_space_preserve_in_initializer_list = true
-cpp_space_before_open_square_bracket = false
-cpp_space_within_square_brackets = false
-cpp_space_before_empty_square_brackets = false
-cpp_space_between_empty_square_brackets = false
-cpp_space_group_square_brackets = true
-cpp_space_within_lambda_brackets = false
-cpp_space_between_empty_lambda_brackets = false
-cpp_space_before_comma = false
-cpp_space_after_comma = true
-cpp_space_remove_around_member_operators = true
-cpp_space_before_inheritance_colon = true
-cpp_space_before_constructor_colon = true
-cpp_space_remove_before_semicolon = true
-cpp_space_after_semicolon = true
-cpp_space_remove_around_unary_operator = true
-cpp_space_around_binary_operator = insert
-cpp_space_around_assignment_operator = insert
-cpp_space_pointer_reference_alignment = left
-cpp_space_around_ternary_operator = insert
-cpp_wrap_preserve_blocks = one_liners
-
 [*.{cs,vb,razor}]
 #### Naming styles ####
 
@@ -170,14 +103,14 @@ csharp_prefer_braces = true:silent
 csharp_style_namespace_declarations = file_scoped:suggestion
 csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
-csharp_style_expression_bodied_methods = false:silent
-csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_methods = true:silent
+csharp_style_expression_bodied_constructors = true:silent
 csharp_style_expression_bodied_operators = false:silent
 csharp_style_expression_bodied_properties = true:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
-csharp_style_expression_bodied_local_functions = false:silent
+csharp_style_expression_bodied_local_functions = true:silent
 csharp_space_around_binary_operators = before_and_after
 csharp_style_throw_expression = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
@@ -206,7 +139,7 @@ csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
 csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
-csharp_style_var_for_built_in_types = false:silent
-csharp_style_var_when_type_is_apparent = false:silent
-csharp_style_var_elsewhere = false:silent
+csharp_style_var_for_built_in_types = true:silent
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = true:silent
 csharp_new_line_before_open_brace = none

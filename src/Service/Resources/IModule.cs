@@ -21,13 +21,12 @@ public static class ModuleExtensions {
     }
 
     public static WebApplication RegisterApiEndpoints(this WebApplication app) {
-        foreach (var module in RegisteredModules)
+        foreach (var module in RegisteredModules) {
             module.MapEndpoints(app);
+        }
 
         return app;
     }
 
-    private static IEnumerable<IModule> DiscoverModules() {
-        return FactoryLoader.LoadClassInstance<IModule>();
-    }
+    private static IEnumerable<IModule> DiscoverModules() => FactoryLoader.LoadClassInstance<IModule>();
 }

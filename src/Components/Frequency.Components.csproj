@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <RootAssembly>Frequency.Components</RootAssembly>
+    <WasmEnableWebcil>true</WasmEnableWebcil>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazorise.Bootstrap5"/>
+    <PackageReference Include="Blazorise.Charts"/>
+    <PackageReference Include="Blazorise.Icons.FontAwesome"/>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web"/>
+    <PackageReference Include="Microsoft.Extensions.Http"/>
+  </ItemGroup>
+
+  <!-- Development packages -->
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.SassCompiler"/>
+    <PackageReference Include="BuildBundlerMinifierPlus"/>
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Frequency.Common.csproj"/>
+  </ItemGroup>
+
+</Project>

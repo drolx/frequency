@@ -1,0 +1,16 @@
+@page "/"
+@layout EmptyLayout
+@inject NavigationManager Nav
+
+<Title>Status</Title>
+
+@functions{
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        Nav.NavigateTo("status");
+    }
+
+}
+
+<div>...</div>

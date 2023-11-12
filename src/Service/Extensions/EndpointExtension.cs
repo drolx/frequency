@@ -22,8 +22,10 @@ internal static class EndpointExtension {
         app.MapControllers();
         app.RegisterApiEndpoints();
 
-        if (!app.Environment.IsDevelopment())
+        if (!app.Environment.IsDevelopment()) {
             return app;
+        }
+
         app.UseSwagger();
         app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", $"{serverOptions.Name}"); });
 

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frequency.Common", "src\Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frequency.Device", "src\Device\Frequency.Device.csproj", "{7011E8BA-BBD6-44CA-9F7F-207D40475039}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frequency.Components", "src\Components\Frequency.Components.csproj", "{C08C2FA0-14D4-41EB-9EAC-268E3C3AFF9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{7011E8BA-BBD6-44CA-9F7F-207D40475039}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7011E8BA-BBD6-44CA-9F7F-207D40475039}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7011E8BA-BBD6-44CA-9F7F-207D40475039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C08C2FA0-14D4-41EB-9EAC-268E3C3AFF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C08C2FA0-14D4-41EB-9EAC-268E3C3AFF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C08C2FA0-14D4-41EB-9EAC-268E3C3AFF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C08C2FA0-14D4-41EB-9EAC-268E3C3AFF9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{C71A97F5-3248-45FC-8E4E-F3B4C62E99E8} = {296BE3B3-4953-426D-8F3A-2522F540057A}
 		{1B4C7CFF-B1B9-4C91-B611-C200559047F9} = {296BE3B3-4953-426D-8F3A-2522F540057A}
 		{7011E8BA-BBD6-44CA-9F7F-207D40475039} = {296BE3B3-4953-426D-8F3A-2522F540057A}
+		{C08C2FA0-14D4-41EB-9EAC-268E3C3AFF9A} = {296BE3B3-4953-426D-8F3A-2522F540057A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {298952B0-901A-410E-91DC-BCE1A5484A3C}

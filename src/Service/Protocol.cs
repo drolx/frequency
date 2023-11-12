@@ -5,19 +5,11 @@ internal abstract class Protocol : IProtocol {
 
     // SupportedCommands
 
-    internal Protocol() {
-        _name = GetName();
-    }
+    internal Protocol() => _name = GetName();
 
-    public string GetName() {
-        return _name;
-    }
+    public string GetName() => _name;
 
-    public IEnumerable<string> GetSupportedCommands() {
-        throw new NotImplementedException();
-    }
+    public IEnumerable<string> GetSupportedCommands() => throw new NotImplementedException();
 
-    public void SendCommands() {
-        throw new NotImplementedException();
-    }
+    public void SendCommands() => throw new NotImplementedException();
 }

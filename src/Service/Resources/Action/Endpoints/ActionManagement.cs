@@ -21,7 +21,5 @@ public class ActionManagement {
         return Results.Ok(Config.Select(test => Mapper.Map<SampleDto>(test)));
     }
 
-    public IResult GetById(int id) {
-        return Results.Ok(id);
-    }
+    public IResult GetById(int id) => Results.Ok(id);
 }

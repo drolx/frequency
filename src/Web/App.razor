@@ -1,16 +1,3 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
-        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
-    </Found>
-    <NotFound>
-        <Title>Not found</Title>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <NotFound></NotFound>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿@using Frequency.Components
 
-<MessageProvider/>
-<ModalProvider/>
-<PageProgressProvider/>
+<ClientApp/>

@@ -1,11 +1,11 @@
 <Project>
 
   <PropertyGroup>
-    <Title>Proton Frequency</Title>
+    <Title>Frequency</Title>
     <Version>0.0.3-alpha.1</Version>
     <LicenseFile>$(MSBuildThisFileDirectory)LICENSE</LicenseFile>
     <Company>Frequency Communitity</Company>
-    <Product>Proton Frequency</Product>
+    <Product>Frequency</Product>
     <PackageProjectUrl>https://github.com/gpproton/Frequency</PackageProjectUrl>
     <RepositoryUrl>https://github.com/gpproton/Frequency</RepositoryUrl>
     <PackageTags>Raspberry PI,RFID,UHF,IOT,TAGS</PackageTags>
@@ -17,21 +17,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <RazorLangVersion>8.0</RazorLangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>preview</LangVersion>
-    <StripSymbols>true</StripSymbols>
-    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <PropertyGroup>
     <AxolotlVersion>8.0-preview.19</AxolotlVersion>
-    <AspCoreVersion>7.0.9</AspCoreVersion>
-    <Blazorise>1.2.4</Blazorise>
-    <DotnetVersion>7.0.9</DotnetVersion>
-    <EfcoreVersion>7.0.9</EfcoreVersion>
-    <NpgsqlVersion>7.0.4</NpgsqlVersion>
+    <AspCoreVersion>8.0.0-preview.7.23375.9</AspCoreVersion>
+    <Blazorise>1.2.5</Blazorise>
+    <DotnetVersion>8.0.0-preview.7.23375.6</DotnetVersion>
+    <EfcoreVersion>8.0.0-preview.7.23375.4</EfcoreVersion>
+    <NpgsqlVersion>8.0.0-preview.4</NpgsqlVersion>
     <SwashbuckleVersion>6.5.0</SwashbuckleVersion>
     <MQTTnetVersion>4.2.1.781</MQTTnetVersion>
   </PropertyGroup>

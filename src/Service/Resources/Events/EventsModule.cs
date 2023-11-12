@@ -1,11 +1,7 @@
 namespace Frequency.Resources.Events;
 
 public class EventsModule : IModule {
-    public IServiceCollection RegisterApiModule(IServiceCollection services) {
-        return services;
-    }
+    public IServiceCollection RegisterApiModule(IServiceCollection services) => services;
 
-    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) {
-        return endpoints;
-    }
+    public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints) => endpoints;
 }

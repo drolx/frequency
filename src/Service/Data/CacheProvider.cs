@@ -4,12 +4,9 @@ using Frequency.Common.Entity;
 namespace Frequency.Data;
 
 public class CacheProvider : ICacheProvider {
-    private static readonly SemaphoreSlim CategorySem = new SemaphoreSlim(1, 1);
+    private static readonly SemaphoreSlim CategorySem = new(1, 1);
     private readonly IMemoryCache _cache;
-    public CacheProvider(IMemoryCache memoryCache) {
-        _cache = memoryCache;
-    }
-
+    public CacheProvider(IMemoryCache memoryCache) => _cache = memoryCache;
 
 
     public async Task<IEnumerable<Category>?> GetCachedCategory() {
@@ -22,13 +19,17 @@ public class CacheProvider : ICacheProvider {
     }
 
     private async Task<IEnumerable<Category>?> GetCachedResponse(string cacheKey, SemaphoreSlim sem) {
-        bool isAvailable = _cache.TryGetValue(cacheKey, out List<Category>? categories);
-        if (isAvailable) return categories;
+        var isAvailable = _cache.TryGetValue(cacheKey, out List<Category>? categories);
+        if (isAvailable) {
+            return categories;
+        }
 
         try {
             await sem.WaitAsync();
             isAvailable = _cache.TryGetValue(cacheKey, out categories);
-            if (isAvailable) return categories;
+            if (isAvailable) {
+                return categories;
+            }
 
             /* TODO: Cache sample responses
             categories = categoriesService.GetCategoriesDetailsFromDB();
@@ -39,7 +40,6 @@ public class CacheProvider : ICacheProvider {
             };
             _cache.Set(cacheKey, categories, cacheEntryOptions);
             */
-
         }
         catch {
             throw;

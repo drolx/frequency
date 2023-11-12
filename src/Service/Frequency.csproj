@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Windows'))">win-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx-x64</RuntimeIdentifier>
-    <RuntimeIdentifier Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux-x64</RuntimeIdentifier>
-    <RuntimeIdentifiers>linux-x64;linux-arm;linux-arm64;win-x64;win-arm;osx-x64;osx-arm64</RuntimeIdentifiers>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <PackAsTool>false</PackAsTool>
     <IsPackable>false</IsPackable>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -23,34 +16,36 @@
 
   <!-- Application packages -->
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
-    <PackageReference Include="NetEscapades.Configuration.Yaml" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="MQTTnet.AspNetCore" />
-    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite"/>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd"/>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server"/>
+    <PackageReference Include="NetEscapades.Configuration.Yaml"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    <PackageReference Include="Swashbuckle.AspNetCore"/>
+    <PackageReference Include="MQTTnet.AspNetCore"/>
+    <PackageReference Include="Serilog.AspNetCore"/>
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.yaml" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="config.proxy.yaml" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="config.server.yaml" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="config.network.yaml" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Frequency.Common.csproj" />
-    <ProjectReference Include="..\Device\Frequency.Device.csproj" />
-    <ProjectReference Include="..\Web\Frequency.Client.csproj" />
+    <ProjectReference Include="..\Common\Frequency.Common.csproj"/>
+    <ProjectReference Include="..\Components\Frequency.Components.csproj"/>
+    <ProjectReference Include="..\Device\Frequency.Device.csproj"/>
+    <ProjectReference Include="..\Web\Frequency.Client.csproj"/>
   </ItemGroup>
+
 
 </Project>

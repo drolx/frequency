@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bootstrap5;
+using Blazorise.Icons.FontAwesome;
 using Microsoft.OpenApi.Models;
 using Frequency.Common.Config;
 using Frequency.Resources;
@@ -15,15 +18,21 @@ internal static class ServiceExtension {
         builder.Configuration.GetSection(ServerConfig.Key).Bind(serverOptions);
         switch (serviceOptions.Web) {
             case false when serviceOptions.Api:
+                builder.Services.AddAntiforgery();
                 return builder;
             case true:
                 builder.Services.AddRazorPages();
                 builder.Services.AddControllersWithViews();
+                builder.Services.AddBlazorise(options => { options.Immediate = true; })
+                    .AddBootstrap5Providers()
+                    .AddFontAwesomeIcons();
                 break;
         }
 
-        if (!serviceOptions.Api)
+        if (!serviceOptions.Api) {
             return builder;
+        }
+
         builder.Services.AddControllers();
         builder.Services.RegisterModules();
         builder.Services.AddEndpointsApiExplorer();
@@ -52,21 +61,25 @@ internal static class ServiceExtension {
         }
 
         app.UseRouting();
+        app.UseAntiforgery();
         app.UseHttpsRedirection();
         app.UseAuthorization();
 
-        if (serviceOptions.Api)
+        if (serviceOptions.Api) {
             app.RegisterEndpoints();
+        }
 
         logger.LogInformation("Starting web management UI...");
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
         app.MapRazorPages();
         app.MapControllers();
-        app.MapFallbackToFile("index.html");
+        app.MapFallbackToPage("/_Host");
 
-        if (!app.Environment.IsDevelopment())
+        if (!app.Environment.IsDevelopment()) {
             return app;
+        }
+
         app.UseWebAssemblyDebugging();
         app.UseExceptionHandler("/Error");
 
